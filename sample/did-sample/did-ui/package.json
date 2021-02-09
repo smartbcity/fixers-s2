@@ -1,0 +1,5 @@
+{
+  "name": "did_ui",
+  "private": true,
+  "workspaces": ["kotlin/*", "packages/*"]
+}

@@ -1,0 +1,157 @@
+image: smartbcity/gitlab-ci-kotlin-all:latest
+
+stages:
+  - build
+  - verify
+  - version
+  - package
+  - push
+
+before_script:
+  - export GRADLE_USER_HOME="./.gradle"
+
+cache:
+  paths:
+    - ./.gradle
+
+variables:
+  BRANCH_VERSION: "-experimental-SNAPSHOT"
+  MASTER_VERSION: "-SNAPSHOT"
+  PROFILES_ACTIVE: "gitlab"
+
+.version-tag:
+  stage: version
+  image: smartbcity/gitlab-ci-semantic-versioning:master
+  script:
+    - make -f /opt/city.smartb/semantic-versioning/Makefile -e BRANCH_NAME=$CI_COMMIT_REF_NAME next_version >> version.build
+  artifacts:
+    paths:
+      - version*
+
+.version-next-tag:
+  stage: version
+  image: smartbcity/gitlab-ci-semantic-versioning:master
+  script:
+    - make -f /opt/city.smartb/semantic-versioning/Makefile -e BRANCH_NAME=$CI_COMMIT_REF_NAME next_tag_version >> version.build
+  artifacts:
+    paths:
+      - version*
+
+.verify:
+  stage: verify
+  before_script:
+    - cp $gradleproperties ./gradle.properties
+    - CONTAINER_NAME=$(docker ps --format '{{.Names}}' --filter name=$HOSTNAME*)
+    - echo $CONTAINER_NAME
+    - docker network connect bclannet-it $CONTAINER_NAME
+  script:
+    - make test
+  artifacts:
+    paths:
+      - ./**/build/test-results/test/TEST-*.xml
+    reports:
+      junit:
+        - ./**/build/test-results/test/TEST-*.xml
+
+.package:
+  stage: package
+  before_script:
+    - cp $gradleproperties ./gradle.properties
+  script:
+    - export VERSION_BUILD=$(cat version.build)
+    - make package -e VERSION=${VERSION_BUILD}
+  artifacts:
+    paths:
+      - ./**/build
+    reports:
+      junit:
+        - ./**/build/test-results/test/TEST-*.xml
+
+
+.push:
+  stage: push
+  before_script:
+    - cp $gradleproperties ./gradle.properties
+  script:
+    - export VERSION_BUILD=$(cat version.build)
+    - make push -e VERSION=${VERSION_BUILD}
+
+.onlyBranch: &onlyBranch
+  only:
+    refs:
+      - branches
+  except:
+    refs:
+      - master
+
+.onlyMaster: &onlyMaster
+  only:
+    refs:
+      - master
+
+version-branch:
+  <<: *onlyBranch
+  extends: .version-next-tag
+  after_script:
+    - echo $(cat version.build)$BRANCH_VERSION > version.build
+    - echo "//////////////////////////////"
+    - echo "Version is "+ $(cat version.build)
+    - echo "//////////////////////////////"
+
+#verify-branch:
+#  <<: *onlyBranch
+#  extends: .verify
+
+package-branch:
+  <<: *onlyBranch
+  extends: .package
+  artifacts:
+    paths:
+      - version*
+
+push-branch:
+  <<: *onlyBranch
+  extends: .push
+  when: manual
+
+version-master:
+  <<: *onlyMaster
+  extends: .version-next-tag
+  after_script:
+    - echo $(cat version.build)$MASTER_VERSION > version.build
+    - echo "//////////////////////////////"
+    - echo "Version is "+ $(cat version.build)
+    - echo "//////////////////////////////"
+
+#verify-master:
+#  <<: *onlyMaster
+#  extends: .verify
+
+package-master:
+  <<: *onlyMaster
+  extends: .package
+
+push-master:
+  <<: *onlyMaster
+  extends: .push
+  when: manual
+
+version-tags:
+  extends: .version-tag
+  only:
+    - tags
+
+#verify-tags:
+#  extends: .verify
+#  only:
+#    - tags
+
+package-tags:
+  extends: .package
+  only:
+    - tags
+
+push-tags:
+  extends: .push
+  only:
+    - tags

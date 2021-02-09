@@ -1,0 +1,11 @@
+###
+POST http://localhost:8080/createDid
+Content-Type: application/json
+
+[{"id":"test","type":{"value":"Create"}}]
+
+###
+POST http://localhost:8080/reverseString
+Content-Type: application/json
+
+Baeldung User

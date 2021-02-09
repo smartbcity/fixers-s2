@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://admin:admin@localhost/admin
+      auto-index-creation: true
+  rsocket:
+    server:
+      port: 7000
+      transport: websocket
+      mapping-path: /rsocket
+#debug: true
+logging:
+  level:
+    io.rsocket.FrameLogger: DEBUG
+    org.springframework.boot.rsocket: DEBUG
+#    org.springframework.messaging.rsocket: DEBUG
+#    root: DEBUG
+#    org.springframework: DEBUG
