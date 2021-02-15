@@ -27,7 +27,7 @@ open class S2AggregateSnapshotBase<STATE, ID, ENTITY>(
 		where STATE: S2State, ENTITY : WithS2State<STATE>, ENTITY: WithS2Id<ID> {
 
 	override suspend fun create(command: S2InitCommand, buildEntity: suspend () -> ENTITY): ENTITY {
-		publisher.publish(CommandInitSnapshotAppEvent(command))
+		publisher.publish(CommandSnapAppEvent(command))
 		val entity = buildEntity()
 		publisher.publish(StateSnapAppEvent(entity))
 		return entity

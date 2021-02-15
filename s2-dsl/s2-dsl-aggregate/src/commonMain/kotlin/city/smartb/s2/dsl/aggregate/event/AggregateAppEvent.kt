@@ -1,5 +1,6 @@
 package city.smartb.s2.dsl.aggregate.event
 
+import city.smartb.f2.dsl.cqrs.Command
 import city.smartb.s2.dsl.aggregate.entity.WithS2Id
 import city.smartb.s2.dsl.aggregate.entity.WithS2State
 import city.smartb.s2.dsl.automate.S2Command
@@ -8,11 +9,7 @@ import city.smartb.s2.dsl.automate.S2State
 
 sealed class AggregateAppEvent
 
-class CommandInitSnapshotAppEvent<COMMAND: S2InitCommand>(
-	val command: COMMAND
-): AggregateAppEvent()
-
-class CommandSnapAppEvent<COMMAND: S2Command<ID>, ID>(
+class CommandSnapAppEvent<COMMAND: Command>(
 	val command: COMMAND
 ): AggregateAppEvent()
 
