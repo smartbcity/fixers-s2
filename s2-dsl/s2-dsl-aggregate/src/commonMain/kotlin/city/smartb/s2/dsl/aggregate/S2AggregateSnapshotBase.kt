@@ -3,7 +3,6 @@ package city.smartb.s2.dsl.aggregate
 import city.smartb.s2.dsl.aggregate.entity.FindByIdFetcher
 import city.smartb.s2.dsl.aggregate.entity.WithS2Id
 import city.smartb.s2.dsl.aggregate.entity.WithS2State
-import city.smartb.s2.dsl.aggregate.event.CommandInitSnapshotAppEvent
 import city.smartb.s2.dsl.aggregate.event.CommandSnapAppEvent
 import city.smartb.s2.dsl.aggregate.event.StateSnapAppEvent
 import city.smartb.s2.dsl.aggregate.event.EventPublisher
@@ -38,10 +37,14 @@ open class S2AggregateSnapshotBase<STATE, ID, ENTITY>(
 	}
 
 	override suspend fun doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> ENTITY): ENTITY {
+		//CommandSnapEvent
 		publisher.publish(CommandSnapAppEvent(command))
 		val entity = getEntity(command.id)
+		//ContextEntrySnapEvent
 		command.checkTransition(entity, s2)
+		//ContextGuardSnapEvent
 		val entityUpdated = exec(entity)
+		//ContextExitSnapEvent
 		publisher.publish(StateSnapAppEvent(entityUpdated))
 		return entityUpdated
 	}
