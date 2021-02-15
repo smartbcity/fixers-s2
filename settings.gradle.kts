@@ -24,10 +24,6 @@ include(
 )
 
 include(
-	"s2-ssm:s2-ssm-client"
-)
-
-include(
 	"sample:did-sample",
 	"sample:did-sample:did-app",
 	"sample:did-sample:did-app-storming",

@@ -7,9 +7,11 @@ import kotlin.js.JsName
 
 @JsExport
 @JsName("S2Event")
-interface S2Event<out ACTION : S2State, ID> : Event<ACTION> {
+interface S2Event<out ACTION : S2State, ID> : Event {
 	@JsName("id")
 	val id: ID
+	@JsName("type")
+	val type: ACTION
 }
 
 @JsExport
@@ -17,21 +19,21 @@ interface S2Event<out ACTION : S2State, ID> : Event<ACTION> {
 class S2EventSuccess<out STATE : S2State, out COMMAND : Command, ID>(
 	@JsName("id")
 	val id: ID,
-	override val type: COMMAND,
+	val type: COMMAND,
 	@JsName("from")
 	val from: STATE,
 	@JsName("to")
 	val to: STATE,
-) : Event<COMMAND>
+) : Event
 
 @JsExport
 @JsName("S2EventError")
 class S2EventError<out STATE : S2State, out COMMAND : Command, ID>(
 	@JsName("id")
 	val id: ID,
-	override val type: COMMAND,
+	val type: COMMAND,
 	@JsName("from")
 	val from: STATE,
 	@JsName("to")
 	val to: STATE,
-) : Event<Command>
+) : Event
