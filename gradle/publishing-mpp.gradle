@@ -13,6 +13,19 @@ apply from: project.rootProject.file('gradle/pom.gradle')
 
 def isKotlin137x = VersionNumber.parse("1.4.0") <= VersionNumber.parse("1.3.79")
 
+def sonatypeUsername = System.getenv("sonatypeUsername") ?: ""
+def sonatypePassword = System.getenv("sonatypePassword") ?: ""
+def signingKey = System.getenv("signingKey") ?: ""
+def signingPassword = System.getenv("signingPassword") ?: ""
+def releasesRepoUrl =  mavenRepoReleases
+def snapshotsRepoUrl = mavenRepoSnapshots
+def repoUrl = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+println("///////////////////////////////////////////")
+println("Deploy to: $repoUrl with $sonatypeUsername" )
+println("///////////////////////////////////////////")
+
+
 task stubSources(type: Jar) {
     classifier = 'sources'
 }
@@ -35,9 +48,7 @@ afterEvaluate {
     publishing {
         repositories {
             maven {
-                def releasesRepoUrl = mavenRepoReleases
-                def snapshotsRepoUrl = mavenRepoSnapshots
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                url = repoUrl
                 credentials {
                     username sonatypeUsername
                     password sonatypePassword

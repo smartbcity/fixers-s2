@@ -13,6 +13,19 @@ apply plugin: 'signing'
 
 apply from: project.rootProject.file('gradle/pom.gradle')
 
+def sonatypeUsername = System.getenv("sonatypeUsername") ?: ""
+def sonatypePassword = System.getenv("sonatypePassword") ?: ""
+def signingKey = System.getenv("signingKey") ?: ""
+def signingPassword = System.getenv("signingPassword") ?: ""
+def releasesRepoUrl =  mavenRepoReleases
+def snapshotsRepoUrl = mavenRepoSnapshots
+def repoUrl = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+println("///////////////////////////////////////////")
+println("Deploy to: $repoUrl with $sonatypeUsername" )
+println("///////////////////////////////////////////")
+
+
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
     archiveClassifier = 'sources'
@@ -35,9 +48,7 @@ afterEvaluate { Project project ->
         }
         repositories {
             maven {
-                def releasesRepoUrl =  mavenRepoReleases
-                def snapshotsRepoUrl = mavenRepoSnapshots
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                url = repoUrl
                 credentials {
                     username sonatypeUsername
                     password sonatypePassword
