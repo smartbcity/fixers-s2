@@ -9,7 +9,6 @@ plugins {
 
 	id("org.sonarqube") version PluginVersions.sonarQube
 
-
 	id("lt.petuska.npm.publish") version PluginVersions.npmPublish apply false
 	id("com.moowork.node" ) version "1.2.0"
 

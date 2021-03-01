@@ -11,7 +11,7 @@ subprojects {
                 mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES) {
                     bomProperty("kotlin.version", PluginVersions.kotlin)
                 }
-                mavenBom("org.springframework.cloud:spring-cloud-dependencies:${PluginVersions.springCloudPom}")
+//                mavenBom("org.springframework.cloud:spring-cloud-dependencies:${PluginVersions.springCloudPom}")
             }
         }
     }

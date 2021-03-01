@@ -4,8 +4,8 @@ spring:
       uri: mongodb://admin:admin@localhost/admin
       auto-index-creation: true
 
-#debug: true
-#logging:
-#  level:
-#    root: DEBUG
-#    logging.level.org.springframework: DEBUG
+
+debug: true
+logging:
+  level:
+    root: DEBUG
