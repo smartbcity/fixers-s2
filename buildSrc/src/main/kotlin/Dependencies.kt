@@ -39,6 +39,9 @@ object Dependencies {
 	}
 
 	object common {
+		val coroutines = arrayOf(
+			"org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+		)
 		val kserialization = arrayOf(
 			"org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kserialization}",
 			"org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kserialization}"

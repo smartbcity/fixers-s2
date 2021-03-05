@@ -11,14 +11,14 @@ springBoot {
 
 dependencies {
 
-    implementation(project(":sample:did-sample:did-app-storming"))
+    implementation(project(":sample:did-sample:did-app"))
 
     implementation("city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    implementation( "com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation( "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}")
 
     testImplementation("org.testcontainers:junit-jupiter:${Versions.testcontainers}")
 

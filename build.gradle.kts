@@ -5,6 +5,7 @@ plugins {
 	kotlin("jvm") version PluginVersions.kotlin apply false
 	kotlin("plugin.spring") version PluginVersions.kotlin apply false
 	kotlin("plugin.serialization") version PluginVersions.kotlin apply false
+	kotlin("kapt") version PluginVersions.kotlin apply false
 	id("org.jetbrains.dokka") version PluginVersions.dokka
 
 	id("org.sonarqube") version PluginVersions.sonarQube
@@ -52,6 +53,7 @@ subprojects {
 			sourceSets {
 				val commonMain by getting {
 					dependencies {
+						Dependencies.common.coroutines.forEach { api(it) }
 						Dependencies.common.kserialization.forEach { api(it) }
 					}
 				}

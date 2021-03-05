@@ -8,13 +8,13 @@ dependencies {
 
     api(project(":sample:did-sample:did-domain"))
 
-    api(project(":s2-spring:aggregate:s2-spring-boot-starter-aggregate"))
+    api(project(":s2-spring:automate:s2-spring-boot-starter-automate"))
 
 
     api("city.smartb.f2:f2-spring-data-mongodb:${Versions.f2}")
     api("city.smartb.f2:f2-spring-boot-starter-function:${Versions.f2}")
 
-    api("city.smartb.f2:f2-feature-cloud-event-storming:${Versions.f2}")
+//    api("city.smartb.f2:f2-feature-cloud-event-storming:${Versions.f2}")
     api("city.smartb.f2:f2-feature-version:${Versions.f2}")
     api("city.smartb.f2:f2-feature-catalog:${Versions.f2}")
 
