@@ -26,6 +26,7 @@ object Versions {
 	const val testcontainers = "1.15.1"
 
 	const val f2 = "0.1.0-SNAPSHOT"
+	const val ssm = "0.1.0-SNAPSHOT"
 }
 
 object Dependencies {

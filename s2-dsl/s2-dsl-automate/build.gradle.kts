@@ -6,6 +6,7 @@ plugins {
 dependencies {
 
     commonMainApi("city.smartb.f2:f2-dsl-cqrs:${Versions.f2}")
+    commonMainApi("city.smartb.ssm:ssm-dsl:${Versions.ssm}")
 }
 
 apply(from = rootProject.file("gradle/publishing-mpp.gradle"))

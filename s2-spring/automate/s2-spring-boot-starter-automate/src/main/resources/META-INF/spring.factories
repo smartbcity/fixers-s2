@@ -1,1 +1,0 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=s2.spring.aggregate.config.StormingAutoconfiguration

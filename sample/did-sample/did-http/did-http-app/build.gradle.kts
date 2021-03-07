@@ -13,6 +13,9 @@ dependencies {
 
     implementation(project(":sample:did-sample:did-app"))
 
+    api("city.smartb.ssm:ssm-sdk-client:${Versions.ssm}")
+
+
     implementation("city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {

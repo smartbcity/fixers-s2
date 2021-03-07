@@ -66,8 +66,6 @@ subprojects {
 				val jvmMain by getting
 				val jvmTest by getting {
 					dependencies {
-						implementation(kotlin("reflect"))
-						Dependencies.jvm.coroutines.forEach { implementation(it) }
 					}
 				}
 				val jsMain by getting {

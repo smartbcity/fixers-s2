@@ -4,11 +4,27 @@ spring:
       uri: mongodb://admin:admin@localhost/admin
       auto-index-creation: true
 
+
 s2:
   storming:
     enable: false
+  ssm:
+    enable: true
+    name: test
+
+ssm:
+  f2:
+    baseUrl: http://localhost:9090
+    signer:
+      user:
+        name: adam
+        key: user/adam
+      admin:
+        name: ssm-admin
+        key: user/adam
 
 #debug: true
+
 #logging:
 #  level:
 #    root: DEBUG

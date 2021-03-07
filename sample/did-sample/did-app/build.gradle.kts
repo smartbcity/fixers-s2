@@ -8,7 +8,7 @@ dependencies {
 
     api(project(":sample:did-sample:did-domain"))
 
-    api(project(":s2-spring:automate:s2-spring-boot-starter-automate"))
+    api(project(":s2-spring:automate:s2-spring-boot-starter-automate-ssm"))
 
 
     api("city.smartb.f2:f2-spring-data-mongodb:${Versions.f2}")
