@@ -5,7 +5,7 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlin.reflect.KClass
 
-class S2AutomateBuilder<ID, STATE : S2State> {
+class S2AutomateBuilder<STATE : S2State, ID> {
 	lateinit var name: String
 	lateinit var init: S2InitTransition
 	var transactions: MutableList<S2Transition> = mutableListOf()
@@ -39,8 +39,8 @@ class S2AutomateBuilder<ID, STATE : S2State> {
 
 @JsExport
 @JsName("s2")
-fun <ID, STATE : S2State> s2(exec: S2AutomateBuilder<ID, STATE>.() -> Unit): S2Automate {
-	val builder = S2AutomateBuilder<ID, STATE>()
+fun <ID, STATE : S2State> s2(exec: S2AutomateBuilder<STATE, ID>.() -> Unit): S2Automate {
+	val builder = S2AutomateBuilder<STATE, ID>()
 	builder.exec()
 	return S2Automate(
 		name = builder.name,

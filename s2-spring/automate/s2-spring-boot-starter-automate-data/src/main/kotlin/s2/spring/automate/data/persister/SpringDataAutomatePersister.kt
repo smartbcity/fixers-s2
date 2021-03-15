@@ -1,9 +1,8 @@
-package s2.spring.automate.persister
+package s2.spring.automate.data.persister
 
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.awaitSingle
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import org.springframework.stereotype.Service
 import s2.automate.core.context.InitTransitionContext
 import s2.automate.core.context.TransitionContext
 import s2.dsl.automate.model.WithS2Id

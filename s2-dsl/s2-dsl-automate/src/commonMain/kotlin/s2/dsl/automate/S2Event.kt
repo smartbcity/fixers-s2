@@ -7,11 +7,11 @@ import kotlin.js.JsName
 
 @JsExport
 @JsName("S2Event")
-interface S2Event<out ACTION : S2State, ID> : Event {
+interface S2Event<out STATE : S2State, ID> : Event {
 	@JsName("id")
 	val id: ID
 	@JsName("type")
-	val type: ACTION
+	val type: STATE
 }
 
 @JsExport

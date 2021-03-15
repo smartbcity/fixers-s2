@@ -23,6 +23,9 @@ class S2ErrorBase(
 	override val payload: Map<String, String>
 ) : S2Error {
 
+	override fun toString(): String {
+		return "S2ErrorBase(severity=$severity, type='$type', description='$description', date='$date', payload=$payload)"
+	}
 }
 
 fun S2Error.Companion.error(code: String, description: String, payload: Map<String, String>): S2ErrorBase {

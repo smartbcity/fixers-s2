@@ -27,6 +27,11 @@ include(
 )
 
 include(
+	"sample:multiautomate",
+	"sample:multiautomate:multiautomate-app"
+)
+
+include(
 	"sample:did-sample",
 	"sample:did-sample:did-app",
 	"sample:did-sample:did-http:did-http-app",
