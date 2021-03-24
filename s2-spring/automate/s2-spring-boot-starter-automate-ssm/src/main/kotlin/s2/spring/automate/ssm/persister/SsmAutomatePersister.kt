@@ -2,30 +2,32 @@ package s2.spring.automate.ssm.persister
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import f2.function.spring.invokeSingle
-import org.springframework.stereotype.Service
 import s2.automate.core.context.InitTransitionContext
 import s2.automate.core.context.TransitionContext
-import s2.dsl.automate.model.WithS2Id
-import s2.dsl.automate.model.WithS2State
 import s2.automate.core.persist.AutotmatePersister
 import s2.dsl.automate.S2State
+import s2.dsl.automate.model.WithS2Id
+import s2.dsl.automate.model.WithS2State
+import s2.spring.automate.ssm.config.S2SsmProperties
+import ssm.client.domain.Signer
+import ssm.client.domain.SignerAdmin
 import ssm.dsl.SsmContext
 import ssm.dsl.SsmSession
-import ssm.dsl.command.SsmPerformCommand
-import ssm.dsl.command.SsmPerformFunction
-import ssm.dsl.command.SsmStartCommand
-import ssm.dsl.command.SsmStartFunction
-import ssm.dsl.query.GetSsmSessionFunction
-import ssm.dsl.query.GetSsmSessionQuery
-import ssm.client.domain.Signer
+import ssm.dsl.query.SsmGetSessionFunction
+import ssm.dsl.query.SsmGetSessionQuery
+import ssm.f2.SsmSessionPerformActionCommand
+import ssm.f2.SsmSessionPerformActionFunction
+import ssm.f2.SsmSessionStartCommand
+import ssm.f2.SsmSessionStartFunction
 
-@Service
 class SsmAutomatePersister<STATE, ID, ENTITY>(
-	private val start: SsmStartFunction,
-	private val perform: SsmPerformFunction,
-	private val getSsmSession: GetSsmSessionFunction,
+	private val ssmSessionStartFunction: SsmSessionStartFunction,
+	private val ssmSessionPerformActionFunction: SsmSessionPerformActionFunction,
+	private val ssmGetSessionFunction: SsmGetSessionFunction,
 	private val signer: Signer,
+	private val signerAdmin: SignerAdmin,
 	private val objectMapper: ObjectMapper,
+	private val config: S2SsmProperties
 ) : AutotmatePersister<STATE, ID, ENTITY> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
@@ -40,32 +42,46 @@ ENTITY : WithS2Id<ID> {
 		val sessionName = entity.s2Id().toString()
 		transitionContext.to
 		val iteration = getIteration(sessionName)
-		val context = SsmPerformCommand(
-			transitionContext.command::class.simpleName!!,
-			SsmContext(
+
+		val context = SsmSessionPerformActionCommand(
+			action = transitionContext.command::class.simpleName!!,
+			signer = signer,
+			baseUrl = config.ssm.baseUrl,
+			context = SsmContext(
 			session= entity.s2Id().toString(),
 			public = objectMapper.writeValueAsString(entity),
 			private = mapOf(),
 			iteration = iteration,
 		))
-		val event = perform.invokeSingle(context)
+		val event = ssmSessionPerformActionFunction.invokeSingle(context)
 		return entity
 	}
 
 	private suspend fun getIteration(sessionId: String): Int {
-		val session = getSsmSession.invokeSingle(GetSsmSessionQuery(sessionId)).session ?: return 0
+		val query = SsmGetSessionQuery(
+			baseUrl = config.ssm.baseUrl,
+			jwt = null,
+			sessionId
+		)
+		val session = ssmGetSessionFunction.invokeSingle(query).session ?: return 0
 		return session.iteration
 	}
 
-
 	override suspend fun load(id: ID): ENTITY? {
-		val session = getSsmSession.invokeSingle(GetSsmSessionQuery(id.toString())).session ?: return null
+		val query = SsmGetSessionQuery(
+			baseUrl = config.ssm.baseUrl,
+			jwt = null,
+			id.toString()
+		)
+		val session = ssmGetSessionFunction.invokeSingle(query).session ?: return null
 		return objectMapper.readValue(session.public, entityType)
 	}
 
 	override suspend fun persist(transitionContext: InitTransitionContext<STATE, ID, ENTITY>, entity: ENTITY): ENTITY {
 		val automate = transitionContext.automateContext.automate
-		val ssmStart = SsmStartCommand(
+		val ssmStart = SsmSessionStartCommand(
+			signerAdmin = signerAdmin,
+			baseUrl = config.ssm.baseUrl,
 			session = SsmSession(
 				ssm= automate.name,
 				session = entity.s2Id().toString(),
@@ -73,10 +89,8 @@ ENTITY : WithS2Id<ID> {
 				public = objectMapper.writeValueAsString(entity),
 				private = mapOf()
 		))
-		val event = start.invokeSingle(ssmStart)
+		val event = ssmSessionStartFunction.invokeSingle(ssmStart)
 		return entity
 	}
 
-
 }
-

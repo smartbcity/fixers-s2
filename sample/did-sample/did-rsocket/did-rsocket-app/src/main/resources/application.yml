@@ -8,11 +8,22 @@ spring:
       port: 7000
       transport: websocket
       mapping-path: /rsocket
-#debug: true
+
+s2:
+  storming:
+    enable: false
+  ssm:
+    enable: true
+    baseUrl: http://localhost:9090
+    signer:
+      user:
+        name: adam
+        key: user/adam
+      admin:
+        name: ssm-admin
+        key: user/adam
+
 logging:
   level:
     io.rsocket.FrameLogger: DEBUG
     org.springframework.boot.rsocket: DEBUG
-#    org.springframework.messaging.rsocket: DEBUG
-#    root: DEBUG
-#    org.springframework: DEBUG

@@ -3,7 +3,6 @@ STORYBOOK_NAME	   	 	:= smartbcity/s2-storybook
 STORYBOOK_IMG	    	:= ${STORYBOOK_NAME}:${VERSION}
 STORYBOOK_LATEST		:= ${STORYBOOK_NAME}:latest
 
-
 clean: clean-kotlin
 
 test: test-kotlin
@@ -18,7 +17,7 @@ clean-kotlin:
 	./gradlew clean
 
 package-kotlin:
-	./gradlew build
+	./gradlew build -x test
 
 push-kotlin:
 	./gradlew publish -P version=${VERSION} --info

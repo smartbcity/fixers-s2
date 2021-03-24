@@ -15,6 +15,8 @@ dependencies {
 
     api("city.smartb.ssm:ssm-sdk-client:${Versions.ssm}")
 
+    api("city.smartb.ssm:ssm-f2-query:${Versions.f2}")
+    api("city.smartb.ssm:ssm-f2-create-ssm:${Versions.f2}")
 
     implementation("city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}")
 
