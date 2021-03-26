@@ -16,11 +16,11 @@ import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.executer.S2AutomateExecuterSpring
 import s2.spring.automate.persister.SpringEventPublisher
 
-abstract class S2ConfigurerAdapter<STATE, ID, ENTITY, out AGGREGATE> : InitializingBean where
+abstract class S2ConfigurerAdapter<STATE, ID, ENTITY, out EXECUTER> : InitializingBean where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-AGGREGATE : S2AutomateExecuterSpring<STATE, ID, ENTITY> {
+EXECUTER : S2AutomateExecuterSpring<STATE, ID, ENTITY> {
 
 	@Autowired
 	private lateinit var eventPublisher: SpringEventPublisher;
@@ -51,13 +51,13 @@ AGGREGATE : S2AutomateExecuterSpring<STATE, ID, ENTITY> {
 
 	override fun afterPropertiesSet() {
 		val automateExecutor = aggregate()
-		val agg = s2SpringAggregate()
+		val agg = executer()
 		agg.withContext(automateExecutor, eventPublisher)
 	}
 
 	abstract fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY>
 
 	abstract fun automate(): S2Automate
-	abstract fun s2SpringAggregate(): AGGREGATE
+	abstract fun executer(): EXECUTER
 
 }

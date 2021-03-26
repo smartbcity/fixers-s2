@@ -27,7 +27,7 @@ class DidS2Config: S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggr
 	@Autowired
 	lateinit var didS2Aggregate: DidS2Aggregate
 
-	override fun s2SpringAggregate(): DidS2Aggregate = didS2Aggregate
+	override fun executer(): DidS2Aggregate = didS2Aggregate
 
 }
 

@@ -17,7 +17,7 @@ class ApplicationS2SpringDataConfigurerAdapter(
 	@Autowired
 	lateinit var infiniteLoopS2Aggregate: InfiniteLoopS2Aggregate
 
-	override fun s2SpringAggregate(): InfiniteLoopS2Aggregate = infiniteLoopS2Aggregate
+	override fun executer(): InfiniteLoopS2Aggregate = infiniteLoopS2Aggregate
 }
 
 @Service

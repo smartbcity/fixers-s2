@@ -17,7 +17,7 @@ class EndableLoopS2SpringDataConfigurerAdapter(
 	@Autowired
 	lateinit var endableLoopS2Aggregate: EndableLoopS2Aggregate
 
-	override fun s2SpringAggregate(): EndableLoopS2Aggregate = endableLoopS2Aggregate
+	override fun executer(): EndableLoopS2Aggregate = endableLoopS2Aggregate
 }
 
 @Service
