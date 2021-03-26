@@ -7,12 +7,12 @@ import s2.automate.core.context.InitTransitionContext
 import s2.automate.core.context.TransitionContext
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.automate.core.persist.AutotmatePersister
+import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2State
 
 class SpringDataAutomatePersister<STATE, ID, ENTITY>(
 	private val repository: ReactiveCrudRepository<ENTITY, ID>,
-) : AutotmatePersister<STATE, ID, ENTITY> where
+) : AutomatePersister<STATE, ID, ENTITY> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {

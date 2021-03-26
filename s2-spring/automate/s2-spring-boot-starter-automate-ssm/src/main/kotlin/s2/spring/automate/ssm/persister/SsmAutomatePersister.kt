@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import f2.function.spring.invokeSingle
 import s2.automate.core.context.InitTransitionContext
 import s2.automate.core.context.TransitionContext
-import s2.automate.core.persist.AutotmatePersister
+import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -28,7 +28,7 @@ class SsmAutomatePersister<STATE, ID, ENTITY>(
 	private val signerAdmin: SignerAdmin,
 	private val objectMapper: ObjectMapper,
 	private val config: S2SsmProperties
-) : AutotmatePersister<STATE, ID, ENTITY> where
+) : AutomatePersister<STATE, ID, ENTITY> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {

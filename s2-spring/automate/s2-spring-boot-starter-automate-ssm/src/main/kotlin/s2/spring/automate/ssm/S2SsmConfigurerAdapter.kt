@@ -5,12 +5,12 @@ import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
-import s2.automate.core.persist.AutotmatePersister
+import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.S2ConfigurerAdapter
-import s2.spring.automate.S2SpringAggregate
+import s2.spring.automate.executer.S2AutomateExecuterSpring
 import s2.spring.automate.ssm.config.S2SsmProperties
 import s2.spring.automate.ssm.persister.SsmAutomatePersister
 import ssm.client.domain.Signer
@@ -25,7 +25,7 @@ abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> : Initializi
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-AGGREGATE : S2SpringAggregate<STATE, ID, ENTITY> {
+AGGREGATE : S2AutomateExecuterSpring<STATE, ID, ENTITY> {
 
 	@Autowired
 	lateinit var ssmAutomatePersister: SsmAutomatePersister<STATE, ID, ENTITY>
@@ -53,7 +53,7 @@ AGGREGATE : S2SpringAggregate<STATE, ID, ENTITY> {
 		return SsmAutomatePersister<STATE, ID, ENTITY>(ssmSessionStartFunction, ssmSessionPerformActionFunction, ssmGetSessionFunction, signer, signerAdmin, objectMapper, config)
 	}
 
-	override fun aggregateRepository(): AutotmatePersister<STATE, ID, ENTITY> {
+	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY> {
 		return ssmAutomatePersister
 	}
 

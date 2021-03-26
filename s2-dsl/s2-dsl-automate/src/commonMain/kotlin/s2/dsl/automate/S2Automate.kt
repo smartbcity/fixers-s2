@@ -21,7 +21,6 @@ class S2Automate(
 	}
 
 	fun isAvailableInitTransition(currentState: S2State, command: S2InitCommand): Boolean {
-
 		return init.command == command::class
 	}
 
@@ -34,16 +33,3 @@ class S2Automate(
 	}
 
 }
-
-@JsExport
-@JsName("S2State")
-interface S2State {
-	val position: Int
-
-	@JsName("nodePosition")
-	fun nodePosition() = position
-}
-
-@JsExport
-@JsName("S2Role")
-interface S2Role

@@ -14,12 +14,12 @@ import s2.automate.core.error.AutomateException
 import s2.automate.core.error.ERROR_ENTITY_NOT_FOUND
 import s2.automate.core.error.asException
 import s2.automate.core.guard.GuardExecutorImpl
-import s2.automate.core.persist.AutotmatePersister
+import s2.automate.core.persist.AutomatePersister
 
 open class AutomateExecutorCore<STATE, ID, ENTITY>(
 	private val automateContext: AutomateContext<STATE, ID, ENTITY>,
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY>,
-	private val persister: AutotmatePersister<STATE, ID, ENTITY>,
+	private val persister: AutomatePersister<STATE, ID, ENTITY>,
 	private val publisher: AutomateAppEventPublisher<STATE, ID, ENTITY>,
 ) : AutomateExecutor<STATE, ID, ENTITY>
 where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {

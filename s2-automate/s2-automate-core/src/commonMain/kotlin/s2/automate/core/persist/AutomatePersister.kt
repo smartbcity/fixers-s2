@@ -6,7 +6,7 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.dsl.automate.S2State
 
-interface AutotmatePersister<STATE, ID, ENTITY> where
+interface AutomatePersister<STATE, ID, ENTITY> where
 	STATE : S2State,
 	ENTITY : WithS2State<STATE>,
 	ENTITY : WithS2Id<ID>

@@ -21,14 +21,14 @@ class S2AutomateBuilder<STATE : S2State, ID> {
 	}
 
 	fun <CMD : S2Command<ID>> transaction(
-		form: S2State? = null,
+		from: S2State? = null,
 		to: S2State? = null,
 		exec: S2TransitionBuilder<ID, CMD>.() -> Unit
 	) {
 		val builder = S2TransitionBuilder<ID, CMD>()
 		builder.exec()
 		val transition = S2Transition(
-			from = form ?: builder.form,
+			from = from ?: builder.from,
 			to = to ?: builder.to,
 			role = builder.role,
 			command = builder.cmd.simpleName!!,
@@ -52,7 +52,7 @@ fun <ID, STATE : S2State> s2(exec: S2AutomateBuilder<STATE, ID>.() -> Unit): S2A
 @JsExport
 @JsName("S2TransitionBuilder")
 class S2TransitionBuilder<ID, CMD : S2Command<ID>> {
-	lateinit var form: S2State
+	lateinit var from: S2State
 	lateinit var to: S2State
 	lateinit var role: S2Role
 	lateinit var cmd: KClass<out CMD>
