@@ -8,7 +8,7 @@ import s2.sample.did.app.entity.DidEntity
 import s2.sample.did.domain.DidId
 import s2.sample.did.domain.DidState
 import s2.sample.did.domain.didS2
-import s2.spring.automate.executer.S2AutomateExecuterSpring
+import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.ssm.S2SsmConfigurerAdapter
 
 @Configuration()
@@ -27,9 +27,9 @@ class DidS2Config: S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggr
 	@Autowired
 	lateinit var didS2Aggregate: DidS2Aggregate
 
-	override fun executer(): DidS2Aggregate = didS2Aggregate
+	override fun executor(): DidS2Aggregate = didS2Aggregate
 
 }
 
 @Service
-class DidS2Aggregate : S2AutomateExecuterSpring<DidState, DidId, DidEntity>()
+class DidS2Aggregate : S2AutomateExecutorSpring<DidState, DidId, DidEntity>()

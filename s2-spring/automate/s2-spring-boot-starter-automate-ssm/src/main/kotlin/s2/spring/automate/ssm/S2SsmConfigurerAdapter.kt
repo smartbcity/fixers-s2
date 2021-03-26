@@ -10,7 +10,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.S2ConfigurerAdapter
-import s2.spring.automate.executer.S2AutomateExecuterSpring
+import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.ssm.config.S2SsmProperties
 import s2.spring.automate.ssm.persister.SsmAutomatePersister
 import ssm.client.domain.Signer
@@ -25,7 +25,7 @@ abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> : Initializi
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-AGGREGATE : S2AutomateExecuterSpring<STATE, ID, ENTITY> {
+AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
 	@Autowired
 	lateinit var ssmAutomatePersister: SsmAutomatePersister<STATE, ID, ENTITY>

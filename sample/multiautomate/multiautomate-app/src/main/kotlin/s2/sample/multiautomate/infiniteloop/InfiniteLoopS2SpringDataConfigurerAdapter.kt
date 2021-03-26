@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopEntity
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopRepository
-import s2.spring.automate.executer.S2AutomateExecuterSpring
+import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.data.S2SpringDataConfigurerAdapter
 
 @Configuration
@@ -17,8 +17,8 @@ class ApplicationS2SpringDataConfigurerAdapter(
 	@Autowired
 	lateinit var infiniteLoopS2Aggregate: InfiniteLoopS2Aggregate
 
-	override fun executer(): InfiniteLoopS2Aggregate = infiniteLoopS2Aggregate
+	override fun executor(): InfiniteLoopS2Aggregate = infiniteLoopS2Aggregate
 }
 
 @Service
-class InfiniteLoopS2Aggregate : S2AutomateExecuterSpring<InfiniteLoopState, InfiniteLoopId, InfiniteLoopEntity>()
+class InfiniteLoopS2Aggregate : S2AutomateExecutorSpring<InfiniteLoopState, InfiniteLoopId, InfiniteLoopEntity>()
