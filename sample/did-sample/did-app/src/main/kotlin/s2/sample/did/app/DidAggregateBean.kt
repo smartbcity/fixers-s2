@@ -4,7 +4,6 @@ import f2.function.spring.adapter.f2Function
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import s2.sample.did.app.config.DidS2Aggregate
-import s2.sample.did.app.config.DidS2Config
 import s2.sample.did.app.entity.DidEntity
 import s2.sample.did.domain.DidAggregate
 import s2.sample.did.domain.DidState
@@ -35,13 +34,13 @@ class DidAggregateBean(
 		revoke(cmd)
 	}
 
-	override suspend fun createDid(cmd: DidCreateCommand): DidCreatedEvent = didS2Aggregate.createWithEvent(cmd, DidState.Created(),
+	override suspend fun createDid(cmd: DidCreateCommand): DidCreatedEvent = didS2Aggregate.createWithEvent(cmd,
 		{ DidCreatedEvent(s2Id(), DidState(this.state)) }
 	) {
 		DidEntity(id = cmd.id, state = DidState.Created().position)
 	}
 
-	override suspend fun addPublicKey(cmd: DidAddPublicKeyCommand): DidAddPublicKeyEvent = didS2Aggregate.doTransition(cmd, DidState.Actived()) {
+	override suspend fun addPublicKey(cmd: DidAddPublicKeyCommand): DidAddPublicKeyEvent = didS2Aggregate.doTransition(cmd) {
 		this.publicKeys.add(cmd.publicKey)
 		this.state = DidState.Actived().position
 		this to DidAddPublicKeyEvent(

@@ -2,8 +2,8 @@ package s2.spring.automate.ssm.persister
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import f2.function.spring.invokeSingle
-import s2.automate.core.context.InitTransitionContext
-import s2.automate.core.context.TransitionContext
+import s2.automate.core.context.InitTransitionAppliedContext
+import s2.automate.core.context.TransitionAppliedContext
 import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
@@ -36,11 +36,10 @@ ENTITY : WithS2Id<ID> {
 	lateinit var entityType: Class<ENTITY>
 
 	override suspend fun persist(
-		transitionContext: TransitionContext<STATE, ID, ENTITY>,
-		entity: ENTITY,
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY>,
 	): ENTITY {
+		val entity = transitionContext.entity
 		val sessionName = entity.s2Id().toString()
-		transitionContext.to
 		val iteration = getIteration(sessionName)
 
 		val context = SsmSessionPerformActionCommand(
@@ -53,7 +52,7 @@ ENTITY : WithS2Id<ID> {
 			private = mapOf(),
 			iteration = iteration,
 		))
-		val event = ssmSessionPerformActionFunction.invokeSingle(context)
+		ssmSessionPerformActionFunction.invokeSingle(context)
 		return entity
 	}
 
@@ -77,7 +76,8 @@ ENTITY : WithS2Id<ID> {
 		return objectMapper.readValue(session.public, entityType)
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionContext<STATE, ID, ENTITY>, entity: ENTITY): ENTITY {
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY>): ENTITY {
+		val entity = transitionContext.entity
 		val automate = transitionContext.automateContext.automate
 		val ssmStart = SsmSessionStartCommand(
 			signerAdmin = signerAdmin,
@@ -89,7 +89,7 @@ ENTITY : WithS2Id<ID> {
 				public = objectMapper.writeValueAsString(entity),
 				private = mapOf()
 		))
-		val event = ssmSessionStartFunction.invokeSingle(ssmStart)
+		ssmSessionStartFunction.invokeSingle(ssmStart)
 		return entity
 	}
 

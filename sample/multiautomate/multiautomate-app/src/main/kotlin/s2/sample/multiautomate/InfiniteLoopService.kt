@@ -16,7 +16,7 @@ class InfiniteLoopService(
 
     @Bean
     fun createInfinite() = f2Function<EndableCreateCommand, String> { command ->
-        aggregate.createWithEvent(command, InfiniteLoopState.Running) {
+        aggregate.createWithEvent(command) {
             val id = UUID.randomUUID().toString()
             InfiniteLoopEntity(id, 0, EndableLoopState.Running.position) to id
         }
@@ -24,7 +24,7 @@ class InfiniteLoopService(
 
     @Bean
     fun stepInfinite() = f2Function<EndableStepCommand, String> { command ->
-        aggregate.doTransition(command, InfiniteLoopState.Running) {
+        aggregate.doTransition(command) {
 //            this.copy(step = this.step + 1) to "${this.step}"
             this to "${this.step}"
         }

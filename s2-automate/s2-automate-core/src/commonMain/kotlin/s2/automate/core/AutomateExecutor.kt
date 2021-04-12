@@ -9,10 +9,10 @@ import kotlin.js.JsName
 @JsName("AutomateExecutor")
 interface AutomateExecutor<STATE: S2State, ID, ENTITY: WithS2State<STATE>> {
 
-	suspend fun create(command: S2InitCommand, to: STATE, buildEntity: suspend () -> ENTITY): ENTITY
+	suspend fun create(command: S2InitCommand, buildEntity: suspend () -> ENTITY): ENTITY
 
-	suspend fun doTransition(command: S2Command<ID>, to: STATE, exec: suspend ENTITY.() -> ENTITY): ENTITY
+	suspend fun doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> ENTITY): ENTITY
 
-	suspend fun <RESULT> doTransitionWithResult(command: S2Command<ID>, to: STATE, exec: suspend ENTITY.() -> Pair<ENTITY, RESULT>): RESULT
+	suspend fun <RESULT> doTransitionWithResult(command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, RESULT>): RESULT
 
 }

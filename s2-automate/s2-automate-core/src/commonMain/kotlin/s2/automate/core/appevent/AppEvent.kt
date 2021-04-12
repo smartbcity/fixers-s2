@@ -33,7 +33,6 @@ class AutomateStateExited(
  */
 class AutomateTransitionNotAccepted(
 	val from: S2State?,
-	val to: S2State,
 	val command: Command,
 ): AppEvent
 
@@ -43,7 +42,6 @@ class AutomateTransitionNotAccepted(
  * @param transition the transition
  */
 class AutomateInitTransitionStarted(
-	val to: S2State,
 	val command: Command,
 ): AppEvent
 
@@ -67,7 +65,6 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
  */
 class AutomateTransitionStarted(
 	val from: S2State,
-	val to: S2State,
 	val command: Command,
 ): AppEvent
 
@@ -92,7 +89,6 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
  */
 class AutomateTransitionError(
 	val command: Command,
-	val to: S2State,
 	val exception: Exception
 ): AppEvent
 

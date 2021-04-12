@@ -14,7 +14,7 @@ class EndableLoopService(
 
     @Bean
     fun createEndable() = f2Function<EndableCreateCommand, String> { command ->
-        endableLoopS2Aggregate.createWithEvent(command, EndableLoopState.Running) {
+        endableLoopS2Aggregate.createWithEvent(command) {
             val id = UUID.randomUUID().toString()
             EndableLoopEntity(id, 0, EndableLoopState.Running.position) to id
         }
@@ -22,7 +22,7 @@ class EndableLoopService(
 
     @Bean
     fun stepEndable() = f2Function<EndableStepCommand, String> { command ->
-        endableLoopS2Aggregate.doTransition(command, EndableLoopState.Running) {
+        endableLoopS2Aggregate.doTransition(command) {
             this.step = this.step + 1
            this to "${this.step}"
         }
@@ -30,7 +30,7 @@ class EndableLoopService(
 
     @Bean
     fun endEndable() = f2Function<EndableEndCommand, String> { command ->
-        endableLoopS2Aggregate.doTransition(command, EndableLoopState.Ended) {
+        endableLoopS2Aggregate.doTransition(command) {
             this.step = this.step + 1
             this.state = EndableLoopState.Ended.position
             this to "${this.step}"

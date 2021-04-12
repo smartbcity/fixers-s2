@@ -24,6 +24,6 @@ class TransitionStateGuard<STATE, ID, ENTITY> : GuardAdapter<STATE, ID, ENTITY>(
 				ERROR_INVALID_TRANSITION(state.toString(), command.toString())
 			)
 		}
-
 	}
+
 }

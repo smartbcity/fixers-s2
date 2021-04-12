@@ -9,7 +9,6 @@ class TransitionContext<STATE, ID, ENTITY>(
 	val automateContext: AutomateContext<STATE, ID, ENTITY>,
 	val from: STATE,
 	val command: S2Command<ID>,
-	val to: STATE,
 	val entity: ENTITY,
 ) where
 	STATE : S2State,

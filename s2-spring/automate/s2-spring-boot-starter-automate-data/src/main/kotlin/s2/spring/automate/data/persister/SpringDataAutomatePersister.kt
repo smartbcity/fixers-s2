@@ -3,12 +3,12 @@ package s2.spring.automate.data.persister
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.awaitSingle
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import s2.automate.core.context.InitTransitionContext
-import s2.automate.core.context.TransitionContext
-import s2.dsl.automate.model.WithS2Id
-import s2.dsl.automate.model.WithS2State
+import s2.automate.core.context.InitTransitionAppliedContext
+import s2.automate.core.context.TransitionAppliedContext
 import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2State
+import s2.dsl.automate.model.WithS2Id
+import s2.dsl.automate.model.WithS2State
 
 class SpringDataAutomatePersister<STATE, ID, ENTITY>(
 	private val repository: ReactiveCrudRepository<ENTITY, ID>,
@@ -18,18 +18,17 @@ ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
 	override suspend fun persist(
-		transitionContext: TransitionContext<STATE, ID, ENTITY>,
-		entity: ENTITY
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY>,
 	): ENTITY {
-		return repository.save(entity).awaitSingle()
+		return repository.save(transitionContext.entity).awaitSingle()
 	}
 
 	override suspend fun load(id: ID): ENTITY? {
 		return repository.findById(id).awaitFirstOrNull()
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionContext<STATE, ID, ENTITY>, entity: ENTITY): ENTITY {
-		return repository.save(entity).awaitSingle()
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY>): ENTITY {
+		return repository.save(transitionContext.entity).awaitSingle()
 	}
 
 }

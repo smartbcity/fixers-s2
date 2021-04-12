@@ -18,6 +18,7 @@ include(
 )
 include(
 	"s2-spring:automate:s2-spring-boot-starter-automate",
+//	"s2-spring:automate:s2-spring-boot-starter-automate-f2",
 	"s2-spring:automate:s2-spring-boot-starter-automate-ssm",
 	"s2-spring:automate:s2-spring-boot-starter-automate-data"
 )
