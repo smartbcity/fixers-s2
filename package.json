@@ -11,9 +11,9 @@
     "typescript": "^4.0.3"
   },
   "scripts": {
-    "docs": "start-storybook -p 6007 -s docs/public",
-    "storybook": "start-storybook -p 6007 -s docs/public",
-    "build-storybook": "build-storybook -s docs/public"
+    "docs": "start-storybook -p 6007 -c docs/.storybook -s docs/public",
+    "storybook": "start-storybook -p 6007 -c docs/.storybook -s docs/public",
+    "build-storybook": "build-storybook -c docs/.storybook -s docs/public"
   },
   "eslintConfig": {
     "extends": [

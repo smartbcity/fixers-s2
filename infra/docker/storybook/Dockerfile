@@ -4,7 +4,6 @@ FROM node:12.4.0 as build
 WORKDIR /app
 
 COPY package.json ./
-COPY .storybook ./.storybook
 COPY *.md ./
 COPY docs ./docs
 

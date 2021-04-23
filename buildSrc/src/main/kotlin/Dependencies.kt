@@ -1,6 +1,6 @@
 object PluginVersions {
 	const val springBoot = "2.4.1"
-	const val kotlin = "1.4.31"
+	const val kotlin = "1.4.32"
 	const val dokka = "1.4.20"
 	const val npmPublish = "1.0.4"
 	const val sonarQube = "3.0"
