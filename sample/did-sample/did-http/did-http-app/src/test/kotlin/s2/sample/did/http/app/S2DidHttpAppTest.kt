@@ -1,11 +1,10 @@
 package s2.sample.did.http.app
 
+import f2.client.executeInvoke
 import f2.client.ktor.HTTP
 import f2.client.ktor.http.httpClientBuilder
-import f2.function.spring.invokeSingle
-import s2.sample.did.domain.client.DidAggregateClient
-import s2.sample.did.domain.features.DidAddPublicKeyCommand
-import s2.sample.did.domain.features.DidCreateCommand
+import f2.dsl.fnc.invoke
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -18,16 +17,20 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.cloud.function.context.FunctionCatalog
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import s2.dsl.automate.S2Automate
 import s2.dsl.automate.ssm.toSsm
+import s2.sample.did.domain.client.DIDFunctionClient
+import s2.sample.did.domain.client.didClient
 import s2.sample.did.domain.didS2
-import ssm.client.asAgent
-import ssm.client.domain.Signer
-import ssm.client.domain.SignerAdmin
-import ssm.dsl.query.SsmListUserQuery
-import ssm.dsl.query.SsmListUserQueryFunction
-import ssm.f2.SsmCreateCommand
-import ssm.f2.SsmCreateFunction
+import s2.sample.did.domain.features.DidAddPublicKeyCommand
+import s2.sample.did.domain.features.DidCreateCommand
+import s2.sample.did.domain.features.DidCreatedEvent
+import ssm.chaincode.client.asAgent
+import ssm.chaincode.dsl.query.SsmListUserQuery
+import ssm.chaincode.dsl.query.SsmListUserQueryFunction
+import ssm.chaincode.f2.SsmCreateCommand
+import ssm.chaincode.f2.SsmCreateFunction
+import ssm.sdk.sign.model.Signer
+import ssm.sdk.sign.model.SignerAdmin
 import java.util.*
 import java.util.function.Function
 import java.util.function.Supplier
@@ -49,49 +52,60 @@ class S2DidHttpAppTest {
 
 	@Autowired
 	lateinit var signerAdmin: SignerAdmin
+
 	@Autowired
 	lateinit var signer: Signer
 
 	@BeforeEach
 	fun tt() = runBlocking<Unit> {
 		val ssm = didS2().toSsm()
-		val users = ssmListUserQueryFunction.invokeSingle(SsmListUserQuery(
-			"http://localhost:9090", null
-		))
-
-		val cmd = SsmCreateCommand(
-			baseUrl = "http://localhost:9090",
-			signerAdmin = signerAdmin,
-			ssm = ssm,
-			agent = signer.asAgent()
+		val users = ssmListUserQueryFunction.invoke(
+			SsmListUserQuery(
+				baseUrl = "http://localhost:9090",
+				channelId = null,
+				chaincodeId = null,
+				bearerToken = null,
+			)
 		)
-		ssmCreateFunction.invokeSingle(cmd)
+
+//		val cmd = SsmCreateCommand(
+//			baseUrl = "http://localhost:9090",
+//			signerAdmin = signerAdmin,
+//			ssm = ssm,
+//			agent = signer.asAgent(),
+//			channelId = null,
+//			bearerToken = null,
+//			chaincodeId = "sandbox_ssm",
+//		)
+//		ssmCreateFunction.invoke(cmd)
 	}
 
 	@Test
 	fun testBasicAggregateFnc() = runBlocking<Unit> {
 		val id = UUID.randomUUID().toString()
-		val client = httpClientBuilder().build("http", "localhost", port)
-		val result: String = client.invoke("createDid", "[{\"id\":\"${id}\"}]")
-		assertThat(result).isEqualTo("[{\"id\":\"${id}\",\"type\":{\"position\":0}}]")
+		val client = httpClientBuilder().build("http", "localhost", port, null)
+		val result: DidCreatedEvent = client.executeInvoke("createDid", DidCreateCommand(
+			id = id
+		))
+		assertThat(result.id).isEqualTo(id)
 	}
 
 	@Test
 	fun didAggregateClientTest() = runBlocking {
-		val didAggregateClient = DidAggregateClient.get(protocol = HTTP, "localhost", port)
+		val didAggregateClient = didClient(protocol = HTTP, "localhost", port)
 		val id = UUID.randomUUID().toString()
 		val cmd = DidCreateCommand(
 			id = id,
 		)
-		val created = didAggregateClient.createDid(cmd)
+		val created = didAggregateClient.invoke().first().createDid().invoke(cmd)
 
 		val addPublicKey = DidAddPublicKeyCommand(
 			id, "publickey-${UUID.randomUUID()}"
 		)
-		val added = didAggregateClient.addPublicKey(addPublicKey)
+		val added = didAggregateClient.invoke().first().addPublicKey().invoke(addPublicKey)
 
-		println(created)
-		println(added)
+//		println(created)
+//		println(added)
 	}
 
 	@Autowired

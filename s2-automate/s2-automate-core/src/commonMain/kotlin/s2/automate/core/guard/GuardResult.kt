@@ -5,8 +5,8 @@ import s2.dsl.automate.S2Error
 interface GuardResult {
 	companion object {
 		fun valid(): GuardResult = GuardResultBase(emptyList())
-		fun error(vararg erros: S2Error): GuardResult = GuardResultBase(erros.asList())
-		fun error(erros: List<S2Error>): GuardResult = GuardResultBase(erros)
+		fun error(vararg errors: S2Error): GuardResult = GuardResultBase(errors.asList())
+		fun error(errors: List<S2Error>): GuardResult = GuardResultBase(errors)
 	}
 	val errors: List<S2Error>
 	fun isValid(): Boolean

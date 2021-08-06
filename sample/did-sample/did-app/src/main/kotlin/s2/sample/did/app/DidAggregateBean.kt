@@ -1,6 +1,6 @@
 package s2.sample.did.app
 
-import f2.function.spring.adapter.f2Function
+import f2.dsl.fnc.f2Function
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import s2.sample.did.app.config.DidS2Aggregate
@@ -11,50 +11,41 @@ import s2.sample.did.domain.features.*
 
 @Service
 class DidAggregateBean(
-//	private val didS2Config: DidS2Config,
 	private val didS2Aggregate: DidS2Aggregate
 ): DidAggregate {
 
 	@Bean("createDid")
-	fun createDidFnc() = f2Function<DidCreateCommand, DidCreatedEvent> { cmd ->
+	override fun createDid() = f2Function<DidCreateCommand, DidCreatedEvent> { cmd ->
 		createDid(cmd)
 	}
 
 	@Bean("addPublicKey")
-	fun addPublicKeyFnc() = f2Function<DidAddPublicKeyCommand, DidAddPublicKeyEvent> { cmd ->
+	override fun addPublicKey() = f2Function<DidAddPublicKeyCommand, DidAddPublicKeyEvent> { cmd ->
 		addPublicKey(cmd)
 	}
 	@Bean("revokePublicKey")
-	fun revokePublicKey() = f2Function<DidRevokePublicKeyCommand, DidRevokedPublicKeyEvent> { cmd ->
-		revokePublicKey(cmd)
+	override fun revokePublicKey(): DidRevokeCommandFunction = f2Function { cmd ->
+		TODO("Not yet implemented")
 	}
 
 	@Bean("revoke")
-	fun revokeFnc() = f2Function<DidRevokeCommand, DidRevokedEvent> { cmd ->
-		revoke(cmd)
+	override fun revoke(): DidRevokePublicKeyCommandFunction = f2Function { cmd ->
+		TODO("Not yet implemented")
 	}
 
-	override suspend fun createDid(cmd: DidCreateCommand): DidCreatedEvent = didS2Aggregate.createWithEvent(cmd,
+	suspend fun createDid(cmd: DidCreateCommand): DidCreatedEvent = didS2Aggregate.createWithEvent(cmd,
 		{ DidCreatedEvent(s2Id(), DidState(this.state)) }
 	) {
 		DidEntity(id = cmd.id, state = DidState.Created().position)
 	}
 
-	override suspend fun addPublicKey(cmd: DidAddPublicKeyCommand): DidAddPublicKeyEvent = didS2Aggregate.doTransition(cmd) {
+	suspend fun addPublicKey(cmd: DidAddPublicKeyCommand): DidAddPublicKeyEvent = didS2Aggregate.doTransition(cmd) {
 		this.publicKeys.add(cmd.publicKey)
 		this.state = DidState.Actived().position
 		this to DidAddPublicKeyEvent(
 			id = cmd.id,
 			type = DidState(this.state)
 		)
-	}
-
-	override suspend fun revokePublicKey(cmd: DidRevokePublicKeyCommand): DidRevokedPublicKeyEvent {
-		TODO("Not yet implemented")
-	}
-
-	override suspend fun revoke(cmd: DidRevokeCommand): DidRevokedEvent {
-		TODO("Not yet implemented")
 	}
 
 }

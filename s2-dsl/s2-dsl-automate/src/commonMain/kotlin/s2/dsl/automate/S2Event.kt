@@ -5,12 +5,8 @@ import f2.dsl.cqrs.Event
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-@JsExport
-@JsName("S2Event")
-interface S2Event<out STATE : S2State, ID> : Event {
-	@JsName("id")
+expect interface S2Event<out STATE : S2State, ID> : Event {
 	val id: ID
-	@JsName("type")
 	val type: STATE
 }
 

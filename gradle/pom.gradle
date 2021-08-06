@@ -10,7 +10,7 @@ project.ext.pomConfig = {
         developer {
             id "SmartB"
             name "SmartB Team"
-            organization "JetBrains"
+            organization "SmartB"
             organizationUrl "https://www.smartb.city"
         }
     }

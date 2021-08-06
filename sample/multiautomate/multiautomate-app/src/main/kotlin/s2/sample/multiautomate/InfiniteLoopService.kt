@@ -1,6 +1,6 @@
 package s2.sample.multiautomate
 
-import f2.function.spring.adapter.f2Function
+import f2.dsl.fnc.f2Function
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.endable.*

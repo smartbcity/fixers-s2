@@ -1,16 +1,17 @@
 package s2.dsl.automate
 
-import f2.dsl.cqrs.Error
 import f2.dsl.cqrs.ErrorSeverity
 import f2.dsl.cqrs.ErrorSeverityError
 import f2.dsl.cqrs.ErrorSeverityWarning
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-@JsExport
-@JsName("S2Error")
-interface S2Error : Error<Map<String, String>> {
-	companion object
+expect interface S2Error {
+	val severity: ErrorSeverity
+	val type: String
+	val description: String
+	val date: String
+	val payload: Map<String, String>
 }
 
 @JsExport
@@ -28,7 +29,7 @@ class S2ErrorBase(
 	}
 }
 
-fun S2Error.Companion.error(code: String, description: String, payload: Map<String, String>): S2ErrorBase {
+fun s2error(code: String, description: String, payload: Map<String, String>): S2ErrorBase {
 	return S2ErrorBase(
 		severity = ErrorSeverityError(),
 		type = code,
@@ -38,7 +39,7 @@ fun S2Error.Companion.error(code: String, description: String, payload: Map<Stri
 	)
 }
 
-fun S2Error.Companion.warning(code: String, description: String, payload: Map<String, String>): S2ErrorBase {
+fun s2warning(code: String, description: String, payload: Map<String, String>): S2ErrorBase {
 	return S2ErrorBase(
 		severity = ErrorSeverityWarning(),
 		type = code,

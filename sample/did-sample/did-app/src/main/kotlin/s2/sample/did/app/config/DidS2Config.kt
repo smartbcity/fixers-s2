@@ -11,7 +11,7 @@ import s2.sample.did.domain.didS2
 import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.ssm.S2SsmConfigurerAdapter
 
-@Configuration()
+@Configuration
 class DidS2Config: S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggregate>() {
 
 //	@Bean

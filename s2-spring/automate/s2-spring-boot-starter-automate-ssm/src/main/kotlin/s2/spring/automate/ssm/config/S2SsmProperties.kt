@@ -2,8 +2,8 @@ package s2.spring.automate.ssm.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
-import ssm.client.domain.Signer
-import ssm.client.domain.SignerAdmin
+import ssm.sdk.sign.model.Signer
+import ssm.sdk.sign.model.SignerAdmin
 
 @ConstructorBinding
 @ConfigurationProperties("s2")

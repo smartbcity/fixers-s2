@@ -1,6 +1,6 @@
 object PluginVersions {
-	const val springBoot = "2.4.1"
-	const val kotlin = "1.4.32"
+	const val springBoot = "2.5.3"
+	const val kotlin = "1.5.21"
 	const val dokka = "1.4.20"
 	const val npmPublish = "1.0.4"
 	const val sonarQube = "3.0"
@@ -15,14 +15,14 @@ object Versions {
 	const val javaxPersistence = "2.2"
 	const val slf4j = "1.7.26"
 
-	const val coroutines = "1.4.2"
+	const val coroutines = "1.5.1"
 	const val kserialization = "1.1.0"
-	const val ktor = "1.5.1"
+	const val ktor = "1.6.1"
 	const val rsocket = "0.12.0"
 	const val testcontainers = "1.15.1"
 
-	const val f2 = "0.1.0-SNAPSHOT"
-	const val ssm = "0.1.0-SNAPSHOT"
+	const val f2 = "experimental-SNAPSHOT"
+	const val ssm = "experimental-SNAPSHOT"
 }
 
 object Dependencies {

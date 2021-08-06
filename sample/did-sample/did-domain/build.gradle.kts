@@ -12,8 +12,6 @@ kotlin {
 
                 api("city.smartb.f2:f2-dsl-function:${Versions.f2}")
                 api("city.smartb.f2:f2-client-ktor:${Versions.f2}")
-
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kserialization}")
             }
         }
         jsMain {

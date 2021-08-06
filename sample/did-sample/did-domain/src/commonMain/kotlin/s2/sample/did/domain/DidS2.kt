@@ -79,14 +79,14 @@ open class DidState(
 	}
 }
 
-@JsExport
+//@JsExport
 @JsName("DidInitCommand")
 interface DidInitCommand : S2InitCommand
 
-@JsExport
+//@JsExport
 @JsName("DidCommand")
 interface DidCommand: S2Command<DidId>
 
-@JsExport
+//@JsExport
 @JsName("DidEvent")
 interface DidEvent : S2Event<DidState, DidId>

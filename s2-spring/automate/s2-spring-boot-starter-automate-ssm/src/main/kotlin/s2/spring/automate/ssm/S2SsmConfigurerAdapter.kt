@@ -13,11 +13,11 @@ import s2.spring.automate.S2ConfigurerAdapter
 import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.ssm.config.S2SsmProperties
 import s2.spring.automate.ssm.persister.SsmAutomatePersister
-import ssm.client.domain.Signer
-import ssm.client.domain.SignerAdmin
-import ssm.dsl.query.SsmGetSessionFunction
-import ssm.f2.SsmSessionPerformActionFunction
-import ssm.f2.SsmSessionStartFunction
+import ssm.chaincode.dsl.query.SsmGetSessionQueryFunction
+import ssm.chaincode.f2.SsmSessionPerformActionFunction
+import ssm.chaincode.f2.SsmSessionStartFunction
+import ssm.sdk.sign.model.Signer
+import ssm.sdk.sign.model.SignerAdmin
 import java.lang.Exception
 
 @EnableConfigurationProperties(S2SsmProperties::class)
@@ -44,7 +44,7 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	open  fun ssmAutomatePersister(
 		ssmSessionStartFunction: SsmSessionStartFunction,
 		ssmSessionPerformActionFunction: SsmSessionPerformActionFunction,
-		ssmGetSessionFunction: SsmGetSessionFunction,
+		ssmGetSessionFunction: SsmGetSessionQueryFunction,
 		signer: Signer,
 		signerAdmin: SignerAdmin,
 		objectMapper: ObjectMapper,
