@@ -7,8 +7,8 @@ import s2.automate.core.appevent.publisher.AppEventPublisher
 
 @Component
 class SpringEventPublisher(
-		private val applicationEventPublisher: ApplicationEventPublisher
-): AppEventPublisher {
+	private val applicationEventPublisher: ApplicationEventPublisher,
+) : AppEventPublisher {
 	override fun <EVENT> publish(event: EVENT) {
 		applicationEventPublisher.publishEvent(PayloadApplicationEvent(this, event))
 	}

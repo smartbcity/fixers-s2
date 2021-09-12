@@ -18,10 +18,10 @@ import ssm.chaincode.f2.SsmSessionPerformActionFunction
 import ssm.chaincode.f2.SsmSessionStartFunction
 import ssm.sdk.sign.model.Signer
 import ssm.sdk.sign.model.SignerAdmin
-import java.lang.Exception
 
 @EnableConfigurationProperties(S2SsmProperties::class)
-abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> : InitializingBean, S2ConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>() where
+abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> : InitializingBean,
+	S2ConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
@@ -41,16 +41,22 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	}
 
 	@Bean
-	open  fun ssmAutomatePersister(
+	open fun ssmAutomatePersister(
 		ssmSessionStartFunction: SsmSessionStartFunction,
 		ssmSessionPerformActionFunction: SsmSessionPerformActionFunction,
 		ssmGetSessionFunction: SsmGetSessionQueryFunction,
 		signer: Signer,
 		signerAdmin: SignerAdmin,
 		objectMapper: ObjectMapper,
-		config: S2SsmProperties
+		config: S2SsmProperties,
 	): SsmAutomatePersister<*, *, *> {
-		return SsmAutomatePersister<STATE, ID, ENTITY>(ssmSessionStartFunction, ssmSessionPerformActionFunction, ssmGetSessionFunction, signer, signerAdmin, objectMapper, config)
+		return SsmAutomatePersister<STATE, ID, ENTITY>(ssmSessionStartFunction,
+			ssmSessionPerformActionFunction,
+			ssmGetSessionFunction,
+			signer,
+			signerAdmin,
+			objectMapper,
+			config)
 	}
 
 	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY> {
@@ -64,5 +70,4 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	}
 
 	abstract fun entityType(): Class<ENTITY>
-
 }

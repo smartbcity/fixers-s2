@@ -1,7 +1,12 @@
 package s2.sample.multiautomate.infiniteloop
 
+import s2.dsl.automate.S2Automate
+import s2.dsl.automate.S2Command
+import s2.dsl.automate.S2Event
+import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.S2Role
+import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2
-import s2.dsl.automate.*
 
 typealias InfiniteLoopId = String
 
@@ -31,8 +36,8 @@ sealed class InfiniteLoopRole : S2Role {
 }
 
 open class InfiniteLoopState(
-	override val position: Int
-	) : S2State {
+	override val position: Int,
+) : S2State {
 
 	object Running : InfiniteLoopState(0)
 
@@ -42,8 +47,8 @@ open class InfiniteLoopState(
 }
 
 interface InfiniteLoopInitCommand : S2InitCommand
-interface InfiniteLoopCommand: S2Command<InfiniteLoopId>
+interface InfiniteLoopCommand : S2Command<InfiniteLoopId>
 interface InfiniteLoopEvent : S2Event<InfiniteLoopState, InfiniteLoopId>
 
-class InfiniteCreateCommand(): InfiniteLoopInitCommand
-class InfiniteStepCommand(override val id: InfiniteLoopId): InfiniteLoopCommand
+class InfiniteCreateCommand : InfiniteLoopInitCommand
+class InfiniteStepCommand(override val id: InfiniteLoopId) : InfiniteLoopCommand

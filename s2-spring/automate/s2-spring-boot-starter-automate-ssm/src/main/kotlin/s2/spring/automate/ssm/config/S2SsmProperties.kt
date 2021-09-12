@@ -8,7 +8,7 @@ import ssm.sdk.sign.model.SignerAdmin
 @ConstructorBinding
 @ConfigurationProperties("s2")
 data class S2SsmProperties(
-	val ssm: S2SsmProperties
+	val ssm: S2SsmProperties,
 ) {
 
 	data class S2SsmProperties(

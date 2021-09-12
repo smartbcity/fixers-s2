@@ -10,8 +10,8 @@ import s2.spring.automate.data.S2SpringDataConfigurerAdapter
 
 @Configuration
 class EndableLoopS2SpringDataConfigurerAdapter(
-	repository: EndableLoopRepository
-): S2SpringDataConfigurerAdapter<EndableLoopState, EndableLoopId, EndableLoopEntity, EndableLoopS2Aggregate>(repository) {
+	repository: EndableLoopRepository,
+) : S2SpringDataConfigurerAdapter<EndableLoopState, EndableLoopId, EndableLoopEntity, EndableLoopS2Aggregate>(repository) {
 	override fun automate() = EndableLoopS2()
 
 	@Autowired

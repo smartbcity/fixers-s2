@@ -1,13 +1,22 @@
 package s2.automate.core.appevent.listener
 
-import s2.automate.core.appevent.*
+import s2.automate.core.appevent.AutomateInitTransitionEnded
+import s2.automate.core.appevent.AutomateInitTransitionStarted
+import s2.automate.core.appevent.AutomateSessionError
+import s2.automate.core.appevent.AutomateSessionStarted
+import s2.automate.core.appevent.AutomateSessionStopped
+import s2.automate.core.appevent.AutomateStateEntered
+import s2.automate.core.appevent.AutomateStateExited
+import s2.automate.core.appevent.AutomateTransitionEnded
+import s2.automate.core.appevent.AutomateTransitionError
+import s2.automate.core.appevent.AutomateTransitionNotAccepted
+import s2.automate.core.appevent.AutomateTransitionStarted
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 interface AutomateListener<STATE, ID, ENTITY>
-where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
-{
+		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	/**
 	 * Notified when state is entered.
@@ -23,14 +32,12 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
 	 */
 	fun automateStateExited(event: AutomateStateExited)
 
-
 	/**
 	 * Notified when event was not accepted.
 	 *
 	 * @param event the event
 	 */
 	fun automateTransitionNotAccepted(event: AutomateTransitionNotAccepted)
-
 
 	/**
 	 * Notified when init transition started.
@@ -46,7 +53,6 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
 	 */
 	fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>)
 
-
 	/**
 	 * Notified when transition started.
 	 *
@@ -54,14 +60,12 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
 	 */
 	fun automateTransitionStarted(event: AutomateTransitionStarted)
 
-
 	/**
 	 * Notified when transition ended.
 	 *
 	 * @param transition the transition
 	 */
 	fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ID, ENTITY>)
-
 
 	/**
 	 * Notified when transition happened.
@@ -91,5 +95,4 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
 	 * @param exception the exception
 	 */
 	fun automateSessionError(event: AutomateSessionError)
-
 }

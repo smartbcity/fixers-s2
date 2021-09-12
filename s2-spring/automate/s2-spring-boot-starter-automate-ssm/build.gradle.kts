@@ -1,5 +1,6 @@
 plugins {
-	kotlin("jvm")
+	id("city.smartb.fixers.gradle.kotlin.jvm")
+	id("city.smartb.fixers.gradle.publish")
 	kotlin("kapt")
 }
 
@@ -13,5 +14,3 @@ dependencies {
 	api("city.smartb.ssm:f2-session-perform-action:${Versions.ssm}")
 
 }
-
-apply(from = rootProject.file("gradle/publishing.gradle"))

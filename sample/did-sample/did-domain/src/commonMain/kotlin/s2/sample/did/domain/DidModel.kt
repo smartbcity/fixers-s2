@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DidModel(
 	val id: DidId,
-	val state: DidState
+	val state: DidState,
 ) : WithS2IdAndStatus<DidId, DidState> {
 	override fun s2Id() = id
 	override fun s2State() = state

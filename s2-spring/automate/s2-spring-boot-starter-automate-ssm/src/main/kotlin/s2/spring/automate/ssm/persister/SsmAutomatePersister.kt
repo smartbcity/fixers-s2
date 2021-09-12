@@ -9,6 +9,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.ssm.config.S2SsmProperties
+import ssm.chaincode.dsl.SsmChaincodeProperties
 import ssm.chaincode.dsl.SsmContext
 import ssm.chaincode.dsl.SsmSession
 import ssm.chaincode.dsl.query.SsmGetSessionQuery
@@ -43,17 +44,19 @@ ENTITY : WithS2Id<ID> {
 		val iteration = getIteration(sessionName)
 
 		val context = SsmSessionPerformActionCommand(
+			chaincode = SsmChaincodeProperties(
+				baseUrl = config.ssm.baseUrl,
+				channelId = null,
+				chaincodeId = null,
+			),
 			action = transitionContext.command::class.simpleName!!,
 			signer = signer,
-			baseUrl = config.ssm.baseUrl,
 			context = SsmContext(
 				session = entity.s2Id().toString(),
 				public = objectMapper.writeValueAsString(entity),
 				private = mapOf(),
 				iteration = iteration,
 			),
-			channelId = null,
-			chaincodeId = null,
 			bearerToken = null,
 		)
 		ssmSessionPerformActionFunction.invoke(context)
@@ -62,10 +65,12 @@ ENTITY : WithS2Id<ID> {
 
 	private suspend fun getIteration(sessionId: String): Int {
 		val query = SsmGetSessionQuery(
-			baseUrl = config.ssm.baseUrl,
+			chaincode = SsmChaincodeProperties(
+				baseUrl = config.ssm.baseUrl,
+				channelId = null,
+				chaincodeId = null,
+			),
 			bearerToken = null,
-			chaincodeId = null,
-			channelId = null,
 			name = sessionId
 		)
 		val session = ssmGetSessionFunction.invoke(query).session ?: return 0
@@ -74,10 +79,12 @@ ENTITY : WithS2Id<ID> {
 
 	override suspend fun load(id: ID): ENTITY? {
 		val query = SsmGetSessionQuery(
-			baseUrl = config.ssm.baseUrl,
+			chaincode = SsmChaincodeProperties(
+				baseUrl = config.ssm.baseUrl,
+				channelId = null,
+				chaincodeId = null,
+			),
 			bearerToken = null,
-			chaincodeId = null,
-			channelId = null,
 			name = id.toString()
 		)
 		val session = ssmGetSessionFunction.invoke(query).session ?: return null
@@ -88,8 +95,12 @@ ENTITY : WithS2Id<ID> {
 		val entity = transitionContext.entity
 		val automate = transitionContext.automateContext.automate
 		val ssmStart = SsmSessionStartCommand(
+			chaincode = SsmChaincodeProperties(
+				baseUrl = config.ssm.baseUrl,
+				channelId = null,
+				chaincodeId = null,
+			),
 			signerAdmin = signerAdmin,
-			baseUrl = config.ssm.baseUrl,
 			session = SsmSession(
 				ssm = automate.name,
 				session = entity.s2Id().toString(),
@@ -97,12 +108,9 @@ ENTITY : WithS2Id<ID> {
 				public = objectMapper.writeValueAsString(entity),
 				private = mapOf()
 			),
-			channelId = null,
-			chaincodeId = null,
 			bearerToken = null,
 		)
 		ssmSessionStartFunction.invoke(ssmStart)
 		return entity
 	}
-
 }

@@ -12,5 +12,4 @@ open class EventPublisherConfiguration {
 	open fun eventPublisher(publisher: ApplicationEventPublisher): SpringEventPublisher {
 		return SpringEventPublisher(publisher)
 	}
-
 }

@@ -8,7 +8,7 @@ import kotlin.js.JsName
 class S2Automate(
 	val name: String,
 	val init: S2InitTransition,
-	val transitions: Array<S2Transition>
+	val transitions: Array<S2Transition>,
 ) {
 	fun getAvailableTransition(state: S2State): List<S2Transition> {
 		return transitions.filter {
@@ -31,5 +31,4 @@ class S2Automate(
 	fun isSameState(from: S2State, to: S2State): Boolean {
 		return from.position == to.position
 	}
-
 }

@@ -7,14 +7,14 @@ import s2.automate.core.appevent.listener.AutomateListenerAdapter
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.spring.automate.storming.entity.StormingSnapEntity
 import s2.spring.automate.storming.entity.SnapEntityRepository
+import s2.spring.automate.storming.entity.StormingSnapEntity
 import s2.spring.automate.storming.entity.StormingSnapTransaction
 
 class StormingEventSink<STATE, ID, ENTITY>(
 	private val repo: SnapEntityRepository<STATE, ID, ENTITY>,
-): AutomateListenerAdapter<STATE, ID, ENTITY>()
-where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
+) : AutomateListenerAdapter<STATE, ID, ENTITY>()
+		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	@EventListener
 	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>) {
@@ -41,10 +41,9 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 	}
 
 	private fun saveSnap(entity: StormingSnapEntity<STATE, ID, ENTITY>) {
-		println("[${StormingEventSink::class.qualifiedName}] Start saving in database => ${entity}")
+		println("[${StormingEventSink::class.qualifiedName}] Start saving in database => $entity")
 		repo.save(entity).subscribe {
-			println("[${StormingEventSink::class.qualifiedName}] End saving entity => ${entity}")
+			println("[${StormingEventSink::class.qualifiedName}] End saving entity => $entity")
 		}
 	}
-
 }

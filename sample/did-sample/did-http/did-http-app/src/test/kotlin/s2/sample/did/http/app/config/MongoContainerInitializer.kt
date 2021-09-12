@@ -4,7 +4,7 @@ import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 
-class MongoContainerInitializer: ApplicationContextInitializer<ConfigurableApplicationContext> {
+class MongoContainerInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
 
 	override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
 		val container = MongodbContainer.getInstance()

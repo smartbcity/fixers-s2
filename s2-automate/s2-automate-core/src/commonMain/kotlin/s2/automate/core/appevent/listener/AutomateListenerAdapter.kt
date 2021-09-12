@@ -1,13 +1,22 @@
 package s2.automate.core.appevent.listener
 
-import s2.automate.core.appevent.*
+import s2.automate.core.appevent.AutomateInitTransitionEnded
+import s2.automate.core.appevent.AutomateInitTransitionStarted
+import s2.automate.core.appevent.AutomateSessionError
+import s2.automate.core.appevent.AutomateSessionStarted
+import s2.automate.core.appevent.AutomateSessionStopped
+import s2.automate.core.appevent.AutomateStateEntered
+import s2.automate.core.appevent.AutomateStateExited
+import s2.automate.core.appevent.AutomateTransitionEnded
+import s2.automate.core.appevent.AutomateTransitionError
+import s2.automate.core.appevent.AutomateTransitionNotAccepted
+import s2.automate.core.appevent.AutomateTransitionStarted
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 open class AutomateListenerAdapter<STATE, ID, ENTITY> : AutomateListener<STATE, ID, ENTITY>
-where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
-{
+		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	override fun automateStateEntered(event: AutomateStateEntered) {}
 
@@ -30,5 +39,4 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
 	override fun automateSessionStopped(event: AutomateSessionStopped) {}
 
 	override fun automateSessionError(event: AutomateSessionError) {}
-
 }

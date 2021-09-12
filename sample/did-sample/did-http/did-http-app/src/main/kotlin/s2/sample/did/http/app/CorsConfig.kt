@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration
 
 import org.springframework.web.cors.CorsConfiguration
 
-
 @Configuration
 class CorsConfig {
 	@Bean
@@ -23,11 +22,8 @@ class CorsConfig {
 		corsConfig.addAllowedHeader("Content-Length")
 		corsConfig.addAllowedHeader("X-Requested-With")
 
-//		corsConfig.allowCredentials = true
-
-		val source  = org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource()
+		val source = org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource()
 		source.registerCorsConfiguration("/**", corsConfig)
 		return source
 	}
-
 }

@@ -7,14 +7,14 @@ import {DidHttpClientProvider} from "./did/context/DidHttpClientProvider";
 import {DidRSocketClientProvider} from "./did/context/DidRSocketClientProvider";
 
 ReactDOM.render(
-  <React.StrictMode>
-      <DidRSocketClientProvider>
-          <DidHttpClientProvider>
-            <App />
-          </DidHttpClientProvider>
-      </DidRSocketClientProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <DidRSocketClientProvider>
+            <DidHttpClientProvider>
+                <App/>
+            </DidHttpClientProvider>
+        </DidRSocketClientProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

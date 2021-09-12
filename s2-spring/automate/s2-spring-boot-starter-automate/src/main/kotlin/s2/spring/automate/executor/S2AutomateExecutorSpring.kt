@@ -24,7 +24,7 @@ ENTITY : WithS2Id<ID> {
 	override suspend fun <EVENT> createWithEvent(
 		command: S2InitCommand,
 		buildEvent: suspend ENTITY.() -> EVENT,
-		buildEntity: suspend () -> ENTITY
+		buildEntity: suspend () -> ENTITY,
 	): EVENT {
 		val entity = automateExecutor.create(command, buildEntity)
 		val event = buildEvent(entity)
@@ -34,9 +34,9 @@ ENTITY : WithS2Id<ID> {
 
 	override suspend fun <EVENT> createWithEvent(
 		command: S2InitCommand,
-		build: suspend () -> Pair<ENTITY, EVENT>
+		build: suspend () -> Pair<ENTITY, EVENT>,
 	): EVENT {
-		val (entity, domainEvent) =  build()
+		val (entity, domainEvent) = build()
 		automateExecutor.create(command, { entity })
 		publisher.publish(domainEvent)
 		return domainEvent
@@ -44,7 +44,7 @@ ENTITY : WithS2Id<ID> {
 
 	override suspend fun <T> doTransition(
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, T>
+		exec: suspend ENTITY.() -> Pair<ENTITY, T>,
 	): T {
 		return doTransition(command.id, command, exec)
 	}
@@ -52,7 +52,7 @@ ENTITY : WithS2Id<ID> {
 	override suspend fun <T> doTransition(
 		id: ID,
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, T>
+		exec: suspend ENTITY.() -> Pair<ENTITY, T>,
 	): T {
 		val event: T = automateExecutor.doTransitionWithResult(command, exec)
 		publisher.publish(event)

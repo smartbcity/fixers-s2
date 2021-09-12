@@ -24,4 +24,4 @@ open class DidCreateCommand(
 class DidCreatedEvent(
 	override val id: String,
 	override val type: DidState,
-): DidEvent
+) : DidEvent

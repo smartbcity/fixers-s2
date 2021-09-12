@@ -1,13 +1,11 @@
 pluginManagement {
 	repositories {
 		gradlePluginPortal()
-		jcenter()
+		maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 	}
 }
 
 rootProject.name = "s2"
-
-enableFeaturePreview("GRADLE_METADATA")
 
 include(
 	"s2-dsl:s2-dsl-automate"

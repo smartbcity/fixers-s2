@@ -30,6 +30,4 @@ ENTITY : WithS2Id<ID> {
 	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY>): ENTITY {
 		return repository.save(transitionContext.entity).awaitSingle()
 	}
-
 }
-

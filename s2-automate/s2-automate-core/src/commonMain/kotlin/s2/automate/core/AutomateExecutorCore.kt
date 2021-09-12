@@ -1,18 +1,30 @@
 package s2.automate.core
 
-import s2.dsl.automate.model.WithS2Id
-import s2.dsl.automate.model.WithS2State
-import s2.dsl.automate.S2Command
-import s2.dsl.automate.S2InitCommand
-import s2.dsl.automate.S2State
-import s2.automate.core.appevent.*
+import s2.automate.core.appevent.AutomateInitTransitionEnded
+import s2.automate.core.appevent.AutomateInitTransitionStarted
+import s2.automate.core.appevent.AutomateSessionStarted
+import s2.automate.core.appevent.AutomateSessionStopped
+import s2.automate.core.appevent.AutomateStateEntered
+import s2.automate.core.appevent.AutomateStateExited
+import s2.automate.core.appevent.AutomateTransitionEnded
+import s2.automate.core.appevent.AutomateTransitionError
+import s2.automate.core.appevent.AutomateTransitionStarted
 import s2.automate.core.appevent.publisher.AutomateAppEventPublisher
-import s2.automate.core.context.*
+import s2.automate.core.context.AutomateContext
+import s2.automate.core.context.InitTransitionAppliedContext
+import s2.automate.core.context.InitTransitionContext
+import s2.automate.core.context.TransitionAppliedContext
+import s2.automate.core.context.TransitionContext
 import s2.automate.core.error.AutomateException
 import s2.automate.core.error.ERROR_ENTITY_NOT_FOUND
 import s2.automate.core.error.asException
 import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.core.persist.AutomatePersister
+import s2.dsl.automate.S2Command
+import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.S2State
+import s2.dsl.automate.model.WithS2Id
+import s2.dsl.automate.model.WithS2State
 
 open class AutomateExecutorCore<STATE, ID, ENTITY>(
 	private val automateContext: AutomateContext<STATE, ID, ENTITY>,
@@ -20,7 +32,7 @@ open class AutomateExecutorCore<STATE, ID, ENTITY>(
 	private val persister: AutomatePersister<STATE, ID, ENTITY>,
 	private val publisher: AutomateAppEventPublisher<STATE, ID, ENTITY>,
 ) : AutomateExecutor<STATE, ID, ENTITY>
-where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
+		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	override suspend fun create(command: S2InitCommand, buildEntity: suspend () -> ENTITY): ENTITY {
 		try {
@@ -136,7 +148,7 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 		to: STATE,
 		fromState: STATE,
 		command: S2Command<ID>,
-		entity: ENTITY
+		entity: ENTITY,
 	) {
 		publisher.automateTransitionEnded(
 			AutomateTransitionEnded(
@@ -165,7 +177,8 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 	private suspend fun loadTransitionContext(
 		command: S2Command<ID>,
 	): Pair<ENTITY, TransitionContext<STATE, ID, ENTITY>> {
-		val entity = persister.load(id = command.id) ?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
+		val entity =
+			persister.load(id = command.id) ?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
 		val transitionContext = TransitionContext(
 			automateContext = automateContext,
 			from = entity.s2State(),
@@ -180,5 +193,4 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 		)
 		return Pair(entity, transitionContext)
 	}
-
 }

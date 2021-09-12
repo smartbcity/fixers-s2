@@ -1,18 +1,20 @@
 package s2.automate.core
 
-import s2.dsl.automate.model.WithS2State
+import kotlin.js.JsName
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
-import kotlin.js.JsName
+import s2.dsl.automate.model.WithS2State
 
 @JsName("AutomateExecutor")
-interface AutomateExecutor<STATE: S2State, ID, ENTITY: WithS2State<STATE>> {
+interface AutomateExecutor<STATE : S2State, ID, ENTITY : WithS2State<STATE>> {
 
 	suspend fun create(command: S2InitCommand, buildEntity: suspend () -> ENTITY): ENTITY
 
 	suspend fun doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> ENTITY): ENTITY
 
-	suspend fun <RESULT> doTransitionWithResult(command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, RESULT>): RESULT
-
+	suspend fun <RESULT> doTransitionWithResult(
+		command: S2Command<ID>,
+		exec: suspend ENTITY.() -> Pair<ENTITY, RESULT>,
+	): RESULT
 }

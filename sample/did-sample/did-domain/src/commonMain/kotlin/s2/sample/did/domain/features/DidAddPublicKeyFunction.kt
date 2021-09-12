@@ -16,7 +16,7 @@ typealias DidAddPublicKeyCommandFunction = F2Function<DidAddPublicKeyCommand, Di
  */
 @JsExport
 @JsName("DidAddPublicKeyCommandPayload")
-class DidAddPublicKeyCommandPayload (
+class DidAddPublicKeyCommandPayload(
 	val id: DidId,
 )
 
@@ -28,7 +28,7 @@ class DidAddPublicKeyCommandPayload (
 @JsName("DidAddPublicKeyCommand")
 class DidAddPublicKeyCommand(
 	override val id: DidId,
-	val publicKey: String
+	val publicKey: String,
 ) : DidCommand
 
 /**

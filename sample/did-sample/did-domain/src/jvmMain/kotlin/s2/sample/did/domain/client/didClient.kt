@@ -3,9 +3,7 @@ package s2.sample.did.domain.client
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.Protocol
 import f2.client.ktor.get
-import f2.dsl.fnc.F2Consumer
 import f2.dsl.fnc.F2Supplier
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 actual fun didClient(

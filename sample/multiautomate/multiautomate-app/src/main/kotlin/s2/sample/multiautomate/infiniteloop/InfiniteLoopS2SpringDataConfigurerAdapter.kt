@@ -10,8 +10,9 @@ import s2.spring.automate.data.S2SpringDataConfigurerAdapter
 
 @Configuration
 class ApplicationS2SpringDataConfigurerAdapter(
-	repository: InfiniteLoopRepository
-): S2SpringDataConfigurerAdapter<InfiniteLoopState, InfiniteLoopId, InfiniteLoopEntity, InfiniteLoopS2Aggregate>(repository) {
+	repository: InfiniteLoopRepository,
+) : S2SpringDataConfigurerAdapter<InfiniteLoopState, InfiniteLoopId, InfiniteLoopEntity, InfiniteLoopS2Aggregate>(
+	repository) {
 	override fun automate() = InfiniteLoopS2()
 
 	@Autowired

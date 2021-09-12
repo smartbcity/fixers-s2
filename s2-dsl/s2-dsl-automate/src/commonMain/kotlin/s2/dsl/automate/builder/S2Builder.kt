@@ -1,9 +1,15 @@
 package s2.dsl.automate.builder
 
-import s2.dsl.automate.*
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlin.reflect.KClass
+import s2.dsl.automate.S2Automate
+import s2.dsl.automate.S2Command
+import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.S2InitTransition
+import s2.dsl.automate.S2Role
+import s2.dsl.automate.S2State
+import s2.dsl.automate.S2Transition
 
 class S2AutomateBuilder<STATE : S2State, ID> {
 	lateinit var name: String
@@ -23,7 +29,7 @@ class S2AutomateBuilder<STATE : S2State, ID> {
 	fun <CMD : S2Command<ID>> transaction(
 		from: S2State? = null,
 		to: S2State? = null,
-		exec: S2TransitionBuilder<ID, CMD>.() -> Unit
+		exec: S2TransitionBuilder<ID, CMD>.() -> Unit,
 	) {
 		val builder = S2TransitionBuilder<ID, CMD>()
 		builder.exec()

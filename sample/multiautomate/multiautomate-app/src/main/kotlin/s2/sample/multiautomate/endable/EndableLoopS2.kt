@@ -1,7 +1,12 @@
 package s2.sample.multiautomate.endable
 
+import s2.dsl.automate.S2Automate
+import s2.dsl.automate.S2Command
+import s2.dsl.automate.S2Event
+import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.S2Role
+import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2
-import s2.dsl.automate.*
 
 typealias EndableLoopId = String
 
@@ -51,9 +56,9 @@ interface EndableLoopInitCommand : S2InitCommand
 interface EndableLoopCommand : S2Command<EndableLoopId>
 interface EndableLoopEvent : S2Event<EndableLoopState, EndableLoopId>
 
-
 class EndableCreateCommand(
-	val tt: String
-): EndableLoopInitCommand
-class EndableStepCommand(override val id: EndableLoopId): EndableLoopCommand
-class EndableEndCommand(override val id: EndableLoopId): EndableLoopCommand
+	val tt: String,
+) : EndableLoopInitCommand
+
+class EndableStepCommand(override val id: EndableLoopId) : EndableLoopCommand
+class EndableEndCommand(override val id: EndableLoopId) : EndableLoopCommand

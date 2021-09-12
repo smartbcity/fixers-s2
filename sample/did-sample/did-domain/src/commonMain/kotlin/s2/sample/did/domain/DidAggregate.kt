@@ -1,6 +1,9 @@
 package s2.sample.did.domain
 
-import s2.sample.did.domain.features.*
+import s2.sample.did.domain.features.DidAddPublicKeyCommandFunction
+import s2.sample.did.domain.features.DidCreateCommandFunction
+import s2.sample.did.domain.features.DidRevokeCommandFunction
+import s2.sample.did.domain.features.DidRevokePublicKeyCommandFunction
 
 interface DidAggregate {
 	fun createDid(): DidCreateCommandFunction

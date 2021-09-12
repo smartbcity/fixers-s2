@@ -21,7 +21,7 @@ class S2ErrorBase(
 	override val type: String,
 	override val description: String,
 	override val date: String,
-	override val payload: Map<String, String>
+	override val payload: Map<String, String>,
 ) : S2Error {
 
 	override fun toString(): String {

@@ -1,18 +1,20 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("multiplatform") version PluginVersions.kotlin apply false
-	kotlin("jvm") version PluginVersions.kotlin apply false
 	kotlin("plugin.spring") version PluginVersions.kotlin apply false
 	kotlin("plugin.serialization") version PluginVersions.kotlin apply false
-	kotlin("kapt") version PluginVersions.kotlin apply false
-	id("org.jetbrains.dokka") version PluginVersions.dokka
 
-	id("org.sonarqube") version PluginVersions.sonarQube
+	kotlin("kapt") version PluginVersions.kotlin apply false
 
 	id("lt.petuska.npm.publish") version PluginVersions.npmPublish apply false
 	id("com.moowork.node" ) version "1.2.0"
 
+	id("city.smartb.fixers.gradle.config") version PluginVersions.fixers
+	id("city.smartb.fixers.gradle.sonar") version PluginVersions.fixers
+	id("city.smartb.fixers.gradle.d2") version PluginVersions.fixers
+
+	id("city.smartb.fixers.gradle.kotlin.mpp") version PluginVersions.fixers apply false
+	id("city.smartb.fixers.gradle.kotlin.jvm") version PluginVersions.fixers apply false
+	id("city.smartb.fixers.gradle.publish") version PluginVersions.fixers apply false
 }
 
 allprojects {
@@ -27,59 +29,16 @@ allprojects {
 	}
 }
 
-
+fixers {
+	bundle {
+		id = "s2"
+		name = "S2 "
+		description = "Wrapper around SSM"
+		url = "https://gitlab.smartb.city/fixers/s2"
+	}
+}
 
 subprojects {
-	plugins.withType(org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper::class.java).whenPluginAdded {
-		the<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>().apply {
-			jvm {
-				compilations.all {
-					kotlinOptions.jvmTarget = "11"
-				}
-			}
-			js(IR) {
-				binaries.library()
-				browser {
-					browser()
-					binaries.executable()
-
-					testTask {
-						useKarma {
-							useChromeHeadless()
-						}
-					}
-				}
-			}
-			sourceSets {
-				val commonMain by getting {
-					dependencies {
-						Dependencies.common.coroutines.forEach { api(it) }
-						Dependencies.common.kserialization.forEach { api(it) }
-					}
-				}
-				val commonTest by getting {
-					dependencies {
-						implementation(kotlin("test-common"))
-						implementation(kotlin("test-annotations-common"))
-					}
-				}
-				val jvmMain by getting
-				val jvmTest by getting {
-					dependencies {
-					}
-				}
-				val jsMain by getting {
-					dependencies {
-					}
-				}
-				val jsTest by getting {
-					dependencies {
-						implementation(kotlin("test-js"))
-					}
-				}
-			}
-		}
-	}
 	plugins.withType(lt.petuska.npm.publish.NpmPublishPlugin::class.java).whenPluginAdded {
 		the<lt.petuska.npm.publish.dsl.NpmPublishExtension>().apply {
 			organization = "smartb"
@@ -101,36 +60,9 @@ subprojects {
 
 		}
 	}
-	plugins.withType(JavaPlugin::class.java).whenPluginAdded {
-		tasks.withType<KotlinCompile>().configureEach {
-			println("Configuring $name in project ${project.name}...")
-			kotlinOptions {
-				freeCompilerArgs = listOf("-Xjsr305=strict")
-				jvmTarget = "11"
-			}
-		}
-		tasks.withType<JavaCompile> {
-			sourceCompatibility = JavaVersion.VERSION_11.toString()
-			targetCompatibility = JavaVersion.VERSION_11.toString()
-		}
-
-		tasks.withType<Test> {
-			useJUnitPlatform()
-		}
-
-		dependencies {
-			val implementation by configurations
-
-			implementation(kotlin("reflect"))
-			Dependencies.jvm.coroutines.forEach{implementation(it)}
-		}
-	}
-
-	plugins.apply("org.jetbrains.dokka")
 }
 
 tasks {
-
 	create<com.moowork.gradle.node.yarn.YarnTask>("installYarn") {
 		dependsOn("build")
 		args = listOf("install")
@@ -140,5 +72,4 @@ tasks {
 		dependsOn("yarn_install")
 		args = listOf("storybook")
 	}
-
 }

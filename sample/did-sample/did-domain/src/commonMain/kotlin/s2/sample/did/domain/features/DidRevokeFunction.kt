@@ -11,7 +11,7 @@ import kotlin.js.JsName
 
 typealias DidRevokeCommandFunction = F2Function<DidRevokeCommand, DidRevokedEvent>
 
-//@JsExport
+// @JsExport
 @JsName("DidRevokeCommandPayload")
 interface DidRevokeCommandPayload {
 	val id: DidId
@@ -30,4 +30,4 @@ class DidRevokeCommand(
 class DidRevokedEvent(
 	override val id: DidId,
 	override val type: DidState,
-): DidEvent
+) : DidEvent

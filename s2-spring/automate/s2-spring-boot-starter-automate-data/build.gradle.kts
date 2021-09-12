@@ -1,5 +1,6 @@
 plugins {
-	kotlin("jvm")
+	id("city.smartb.fixers.gradle.kotlin.jvm")
+	id("city.smartb.fixers.gradle.publish")
 	kotlin("kapt")
 }
 
@@ -12,5 +13,3 @@ dependencies {
 	implementation("org.springframework.data:spring-data-commons:${Versions.springData}")
 
 }
-
-apply(from = rootProject.file("gradle/publishing.gradle"))

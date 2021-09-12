@@ -2,9 +2,9 @@ package s2.sample.did.http.app.config
 
 import org.testcontainers.containers.GenericContainer
 
-open class MongodbContainer: GenericContainer<MongodbContainer>(IMAGE_VERSION) {
+open class MongodbContainer : GenericContainer<MongodbContainer>(IMAGE_VERSION) {
 
-	companion object{
+	companion object {
 		private val IMAGE_VERSION = "mongo:4.2.12-bionic"
 		private var container: MongodbContainer? = null
 
@@ -27,7 +27,7 @@ open class MongodbContainer: GenericContainer<MongodbContainer>(IMAGE_VERSION) {
 	private val MONGO_PORT = 27017
 
 	override fun start() {
-		if(!this.isRunning) {
+		if (!this.isRunning) {
 			super.start()
 		}
 

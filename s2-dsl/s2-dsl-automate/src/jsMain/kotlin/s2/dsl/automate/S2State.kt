@@ -5,5 +5,4 @@ package s2.dsl.automate
 actual external interface S2State {
 	@JsName("position")
 	actual val position: Int
-
 }

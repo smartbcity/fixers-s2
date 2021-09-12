@@ -20,6 +20,6 @@ fun main(args: Array<String>) {
 class Config {
 	@Bean
 	fun kotlinFunction(): java.util.function.Function<String, String> {
-		return java.util.function.Function { it.toLowerCase() }
+		return java.util.function.Function { it.lowercase() }
 	}
 }

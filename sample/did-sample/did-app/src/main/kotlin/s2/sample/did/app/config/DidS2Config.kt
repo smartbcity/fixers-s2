@@ -12,9 +12,8 @@ import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.ssm.S2SsmConfigurerAdapter
 
 @Configuration
-class DidS2Config: S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggregate>() {
+class DidS2Config : S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggregate>() {
 
-//	@Bean
 	override fun automate(): S2Automate {
 		return didS2()
 	}
@@ -23,12 +22,10 @@ class DidS2Config: S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggr
 		return DidEntity::class.java
 	}
 
-
 	@Autowired
 	lateinit var didS2Aggregate: DidS2Aggregate
 
 	override fun executor(): DidS2Aggregate = didS2Aggregate
-
 }
 
 @Service

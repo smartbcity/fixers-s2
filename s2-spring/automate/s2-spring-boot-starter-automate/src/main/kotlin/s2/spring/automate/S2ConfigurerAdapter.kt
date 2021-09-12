@@ -23,7 +23,7 @@ ENTITY : WithS2Id<ID>,
 EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
 	@Autowired
-	private lateinit var eventPublisher: SpringEventPublisher;
+	private lateinit var eventPublisher: SpringEventPublisher
 
 	open fun aggregate(): AutomateExecutor<STATE, ID, ENTITY> {
 		val automateContext = automateContext()
@@ -35,7 +35,9 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
 	protected open fun automateContext() = AutomateContext(automate(), guards())
 
-	protected open fun guardExecutor(automateAppEventPublisher: AutomateAppEventPublisher<STATE, ID, ENTITY>): GuardExecutorImpl<STATE, ID, ENTITY> {
+	protected open fun guardExecutor(
+		automateAppEventPublisher: AutomateAppEventPublisher<STATE, ID, ENTITY>
+	): GuardExecutorImpl<STATE, ID, ENTITY> {
 		return GuardExecutorImpl(
 			guards = guards(),
 			publisher = automateAppEventPublisher
@@ -59,5 +61,4 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
 	abstract fun automate(): S2Automate
 	abstract fun executor(): EXECUTER
-
 }

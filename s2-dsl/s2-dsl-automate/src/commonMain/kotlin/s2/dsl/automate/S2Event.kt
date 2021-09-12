@@ -32,5 +32,5 @@ class S2EventError<out STATE : S2State, out COMMAND : Command, ID>(
 	val from: STATE,
 	@JsName("to")
 	val to: STATE,
-	val error: S2Error
+	val error: S2Error,
 ) : Event

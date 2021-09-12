@@ -7,12 +7,17 @@ import s2.sample.did.app.config.DidS2Aggregate
 import s2.sample.did.app.entity.DidEntity
 import s2.sample.did.domain.DidAggregate
 import s2.sample.did.domain.DidState
-import s2.sample.did.domain.features.*
+import s2.sample.did.domain.features.DidAddPublicKeyCommand
+import s2.sample.did.domain.features.DidAddPublicKeyEvent
+import s2.sample.did.domain.features.DidCreateCommand
+import s2.sample.did.domain.features.DidCreatedEvent
+import s2.sample.did.domain.features.DidRevokeCommandFunction
+import s2.sample.did.domain.features.DidRevokePublicKeyCommandFunction
 
 @Service
 class DidAggregateBean(
-	private val didS2Aggregate: DidS2Aggregate
-): DidAggregate {
+	private val didS2Aggregate: DidS2Aggregate,
+) : DidAggregate {
 
 	@Bean("createDid")
 	override fun createDid() = f2Function<DidCreateCommand, DidCreatedEvent> { cmd ->
@@ -23,6 +28,7 @@ class DidAggregateBean(
 	override fun addPublicKey() = f2Function<DidAddPublicKeyCommand, DidAddPublicKeyEvent> { cmd ->
 		addPublicKey(cmd)
 	}
+
 	@Bean("revokePublicKey")
 	override fun revokePublicKey(): DidRevokeCommandFunction = f2Function { cmd ->
 		TODO("Not yet implemented")
@@ -47,5 +53,4 @@ class DidAggregateBean(
 			type = DidState(this.state)
 		)
 	}
-
 }

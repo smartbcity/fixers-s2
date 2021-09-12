@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories
 
-
 @EntityScan("s2.sample.multiautomate")
 @EnableReactiveMongoRepositories("s2.sample.multiautomate")
 @SpringBootApplication(scanBasePackages = ["s2.sample.multiautomate"])
