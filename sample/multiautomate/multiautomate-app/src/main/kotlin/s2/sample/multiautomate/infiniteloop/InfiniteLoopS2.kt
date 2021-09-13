@@ -10,7 +10,7 @@ import s2.dsl.automate.builder.s2
 
 typealias InfiniteLoopId = String
 
-fun InfiniteLoopS2(): S2Automate {
+fun infiniteLoopS2(): S2Automate {
 	return s2<InfiniteLoopId, InfiniteLoopState> {
 		name = "InfiniteLoopS2"
 		init<InfiniteLoopInitCommand> {

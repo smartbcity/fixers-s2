@@ -12,5 +12,4 @@ dependencies {
 	api("city.smartb.ssm:ssm-sdk-sign:${Versions.ssm}")
 	api("city.smartb.ssm:f2-session-start:${Versions.ssm}")
 	api("city.smartb.ssm:f2-session-perform-action:${Versions.ssm}")
-
 }

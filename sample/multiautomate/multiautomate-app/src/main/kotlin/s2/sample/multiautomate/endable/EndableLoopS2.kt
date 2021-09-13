@@ -10,7 +10,7 @@ import s2.dsl.automate.builder.s2
 
 typealias EndableLoopId = String
 
-fun EndableLoopS2(): S2Automate {
+fun endableLoopS2(): S2Automate {
 	return s2<EndableLoopId, EndableLoopState> {
 		name = "EndableLoopS2"
 		init<EndableCreateCommand> {

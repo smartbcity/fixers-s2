@@ -36,7 +36,7 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	protected open fun automateContext() = AutomateContext(automate(), guards())
 
 	protected open fun guardExecutor(
-		automateAppEventPublisher: AutomateAppEventPublisher<STATE, ID, ENTITY>
+		automateAppEventPublisher: AutomateAppEventPublisher<STATE, ID, ENTITY>,
 	): GuardExecutorImpl<STATE, ID, ENTITY> {
 		return GuardExecutorImpl(
 			guards = guards(),
@@ -44,7 +44,8 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 		)
 	}
 
-	protected open fun automateAppEventPublisher(eventPublisher: SpringEventPublisher): AutomateAppEventPublisher<STATE, ID, ENTITY> {
+	protected open fun automateAppEventPublisher(eventPublisher: SpringEventPublisher)
+			: AutomateAppEventPublisher<STATE, ID, ENTITY> {
 		return AutomateAppEventPublisher(eventPublisher)
 	}
 

@@ -15,7 +15,6 @@ dependencies {
 
 	implementation("city.smartb.f2:f2-spring-boot-starter-function-rsocket:${Versions.f2}")
 
-
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}

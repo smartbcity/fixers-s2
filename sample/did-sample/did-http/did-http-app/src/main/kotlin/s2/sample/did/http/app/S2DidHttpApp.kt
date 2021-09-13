@@ -5,9 +5,11 @@ import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories
 
-@EntityScan("s2.sample")
-@EnableReactiveMongoRepositories("s2.sample")
-@SpringBootApplication(scanBasePackages = ["s2.sample"])
+const val PACKAGE = "s2.sample"
+
+@EntityScan(PACKAGE)
+@EnableReactiveMongoRepositories(PACKAGE)
+@SpringBootApplication(scanBasePackages = [PACKAGE])
 class S2DidHttpApp
 
 fun main(args: Array<String>) {

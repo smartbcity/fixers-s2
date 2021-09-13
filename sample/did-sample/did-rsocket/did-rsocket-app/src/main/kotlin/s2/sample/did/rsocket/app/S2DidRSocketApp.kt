@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories
 
-@EntityScan("s2.sample.did")
-@EnableReactiveMongoRepositories("s2.sample.did")
-@SpringBootApplication(scanBasePackages = ["s2.sample.did"])
+const val PACKAGE = "s2.sample.did"
+
+@EntityScan(PACKAGE)
+@EnableReactiveMongoRepositories(PACKAGE)
+@SpringBootApplication(scanBasePackages = [PACKAGE])
 class S2DidRSocketApp
 
 fun main(args: Array<String>) {

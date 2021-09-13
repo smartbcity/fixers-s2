@@ -13,7 +13,7 @@ class ApplicationS2SpringDataConfigurerAdapter(
 	repository: InfiniteLoopRepository,
 ) : S2SpringDataConfigurerAdapter<InfiniteLoopState, InfiniteLoopId, InfiniteLoopEntity, InfiniteLoopS2Aggregate>(
 	repository) {
-	override fun automate() = InfiniteLoopS2()
+	override fun automate() = infiniteLoopS2()
 
 	@Autowired
 	lateinit var infiniteLoopS2Aggregate: InfiniteLoopS2Aggregate

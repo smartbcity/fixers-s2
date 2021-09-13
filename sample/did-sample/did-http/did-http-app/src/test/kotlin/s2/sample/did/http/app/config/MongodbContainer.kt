@@ -5,7 +5,7 @@ import org.testcontainers.containers.GenericContainer
 open class MongodbContainer : GenericContainer<MongodbContainer>(IMAGE_VERSION) {
 
 	companion object {
-		private val IMAGE_VERSION = "mongo:4.2.12-bionic"
+		private const val IMAGE_VERSION = "mongo:4.2.12-bionic"
 		private var container: MongodbContainer? = null
 
 		fun getInstance(): MongodbContainer {
