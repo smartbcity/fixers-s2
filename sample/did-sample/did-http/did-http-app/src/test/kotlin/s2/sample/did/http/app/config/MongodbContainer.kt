@@ -30,7 +30,6 @@ open class MongodbContainer : GenericContainer<MongodbContainer>(IMAGE_VERSION) 
 		if (!this.isRunning) {
 			super.start()
 		}
-
 	}
 
 	fun getUrl(): String {
