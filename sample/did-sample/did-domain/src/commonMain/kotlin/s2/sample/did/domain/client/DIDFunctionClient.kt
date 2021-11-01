@@ -10,7 +10,7 @@ import s2.sample.did.domain.features.DidCreateCommandFunction
 import s2.sample.did.domain.features.DidRevokeCommandFunction
 import s2.sample.did.domain.features.DidRevokePublicKeyCommandFunction
 
-expect fun didClient(protocol: Protocol, host: String, port: Int, path: String? = null): F2Supplier<DIDFunctionClient>
+//expect fun didClient(protocol: Protocol, host: String, port: Int, path: String? = null): F2Supplier<DIDFunctionClient>
 
 open class DIDFunctionClient constructor(private val client: F2Client) : DidAggregate {
 

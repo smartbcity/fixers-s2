@@ -16,6 +16,6 @@ object Versions {
 
 	const val testcontainers = "1.15.1"
 
-	const val f2 = "experimental-SNAPSHOT"
+	const val f2 = "next-SNAPSHOT"
 	const val ssm = "experimental-SNAPSHOT"
 }

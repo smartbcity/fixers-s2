@@ -8,12 +8,12 @@ import kotlin.js.Promise
 
 // @JsName("didClient")
 // @JsExport
-actual fun didClient(protocol: Protocol, host: String, port: Int, path: String?): F2Supplier<DIDFunctionClient> {
-	return object : F2Supplier<DIDFunctionClient> {
-		override fun invoke(): Promise<List<DIDFunctionClient>> {
-			return F2ClientBuilder.get(protocol, host, port, path).then { s2Client ->
-				listOf(DIDFunctionClient(s2Client))
-			}
-		}
-	}
-}
+//actual fun didClient(protocol: Protocol, host: String, port: Int, path: String?): F2Supplier<DIDFunctionClient> {
+//	return object : F2Supplier<DIDFunctionClient> {
+//		override fun invoke(): Promise<List<DIDFunctionClient>> {
+//			return F2ClientBuilder.get(protocol, host, port, path).then { s2Client ->
+//				listOf(DIDFunctionClient(s2Client))
+//			}
+//		}
+//	}
+//}
