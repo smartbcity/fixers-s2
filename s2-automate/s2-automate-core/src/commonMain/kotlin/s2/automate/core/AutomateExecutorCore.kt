@@ -9,7 +9,7 @@ import s2.automate.core.appevent.AutomateStateExited
 import s2.automate.core.appevent.AutomateTransitionEnded
 import s2.automate.core.appevent.AutomateTransitionError
 import s2.automate.core.appevent.AutomateTransitionStarted
-import s2.automate.core.appevent.publisher.AutomateAppEventPublisher
+import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
 import s2.automate.core.context.InitTransitionAppliedContext
 import s2.automate.core.context.InitTransitionContext
@@ -30,7 +30,7 @@ open class AutomateExecutorCore<STATE, ID, ENTITY>(
 	private val automateContext: AutomateContext<STATE, ID, ENTITY>,
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY>,
 	private val persister: AutomatePersister<STATE, ID, ENTITY>,
-	private val publisher: AutomateAppEventPublisher<STATE, ID, ENTITY>,
+	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY>,
 ) : AutomateExecutor<STATE, ID, ENTITY>
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
@@ -178,7 +178,7 @@ open class AutomateExecutorCore<STATE, ID, ENTITY>(
 		command: S2Command<ID>,
 	): Pair<ENTITY, TransitionContext<STATE, ID, ENTITY>> {
 		val entity =
-			persister.load(id = command.id) ?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
+			persister.load(automateContext, id = command.id) ?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
 		val transitionContext = TransitionContext(
 			automateContext = automateContext,
 			from = entity.s2State(),

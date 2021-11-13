@@ -16,10 +16,10 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class AutomateAppEventPublisher<STATE, ID, ENTITY>(
-	private val publisher: AppEventPublisher,
-) : AutomateListener<STATE, ID, ENTITY>
-		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
+class AutomateEventPublisher<STATE, ID, ENTITY>(
+	private val publisher: AppEventPublisher
+): AutomateListener<STATE, ID, ENTITY>
+where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	override fun automateStateEntered(event: AutomateStateEntered) {
 		publisher.publish(event)

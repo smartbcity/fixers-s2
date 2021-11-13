@@ -1,11 +1,11 @@
 package s2.dsl.automate
 
-import kotlin.js.JsExport
-import kotlin.js.JsName
-import kotlin.reflect.KClass
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.serializer
+import kotlin.js.JsExport
+import kotlin.js.JsName
+import kotlin.reflect.KClass
 
 @JsExport
 @JsName("S2InitTransition")

@@ -2,8 +2,8 @@ package s2.dsl.automate.ssm
 
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2Transition
-import ssm.chaincode.dsl.Ssm
-import ssm.chaincode.dsl.SsmTransition
+import ssm.chaincode.dsl.model.Ssm
+import ssm.chaincode.dsl.model.SsmTransition
 
 fun S2Automate.toSsm() = Ssm(
 	name = this.name,

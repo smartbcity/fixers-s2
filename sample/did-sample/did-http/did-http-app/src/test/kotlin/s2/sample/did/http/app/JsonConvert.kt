@@ -2,12 +2,12 @@ package s2.sample.did.http.app
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import s2.sample.did.domain.features.DidAddPublicKeyCommand
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import s2.sample.did.domain.features.DidAddPublicKeyCommand
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest

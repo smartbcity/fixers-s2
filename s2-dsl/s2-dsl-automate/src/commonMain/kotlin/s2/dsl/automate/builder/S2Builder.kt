@@ -1,8 +1,5 @@
 package s2.dsl.automate.builder
 
-import kotlin.js.JsExport
-import kotlin.js.JsName
-import kotlin.reflect.KClass
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -10,6 +7,9 @@ import s2.dsl.automate.S2InitTransition
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.S2Transition
+import kotlin.js.JsExport
+import kotlin.js.JsName
+import kotlin.reflect.KClass
 
 class S2AutomateBuilder<STATE : S2State, ID> {
 	lateinit var name: String

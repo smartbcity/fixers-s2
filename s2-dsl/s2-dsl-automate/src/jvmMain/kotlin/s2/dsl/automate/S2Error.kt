@@ -1,6 +1,6 @@
 package s2.dsl.automate
 
-import f2.dsl.cqrs.ErrorSeverity
+import f2.dsl.cqrs.error.ErrorSeverity
 
 actual interface S2Error {
 	actual val severity: ErrorSeverity

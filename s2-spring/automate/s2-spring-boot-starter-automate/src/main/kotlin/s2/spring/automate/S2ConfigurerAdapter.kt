@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import s2.automate.core.AutomateExecutor
 import s2.automate.core.AutomateExecutorCore
 import s2.automate.core.TransitionStateGuard
-import s2.automate.core.appevent.publisher.AutomateAppEventPublisher
+import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
 import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.core.persist.AutomatePersister
@@ -36,7 +36,7 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	protected open fun automateContext() = AutomateContext(automate(), guards())
 
 	protected open fun guardExecutor(
-		automateAppEventPublisher: AutomateAppEventPublisher<STATE, ID, ENTITY>,
+		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY>,
 	): GuardExecutorImpl<STATE, ID, ENTITY> {
 		return GuardExecutorImpl(
 			guards = guards(),
@@ -45,8 +45,8 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	}
 
 	protected open fun automateAppEventPublisher(eventPublisher: SpringEventPublisher)
-			: AutomateAppEventPublisher<STATE, ID, ENTITY> {
-		return AutomateAppEventPublisher(eventPublisher)
+			: AutomateEventPublisher<STATE, ID, ENTITY> {
+		return AutomateEventPublisher(eventPublisher)
 	}
 
 	protected open fun guards() =
@@ -59,7 +59,6 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	}
 
 	abstract fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY>
-
 	abstract fun automate(): S2Automate
 	abstract fun executor(): EXECUTER
 }

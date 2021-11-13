@@ -1,6 +1,6 @@
 object PluginVersions {
 	const val springBoot = "2.5.3"
-	const val kotlin = "1.5.30"
+	const val kotlin = "1.6.0-RC2"
 	const val npmPublish = "1.0.4"
 	const val fixers = "experimental-SNAPSHOT"
 }
@@ -16,6 +16,6 @@ object Versions {
 
 	const val testcontainers = "1.15.1"
 
-	const val f2 = "next-SNAPSHOT"
+	const val f2 = "experimental-SNAPSHOT"
 	const val ssm = "experimental-SNAPSHOT"
 }

@@ -26,7 +26,7 @@ class DidAddPublicKeyCommandPayload(
 @Serializable
 @JsExport
 @JsName("DidAddPublicKeyCommand")
-class DidAddPublicKeyCommand(
+data class DidAddPublicKeyCommand(
 	override val id: DidId,
 	val publicKey: String,
 ) : DidCommand

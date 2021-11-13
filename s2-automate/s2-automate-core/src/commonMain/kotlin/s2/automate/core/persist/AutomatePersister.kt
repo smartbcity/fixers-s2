@@ -1,5 +1,6 @@
 package s2.automate.core.persist
 
+import s2.automate.core.context.AutomateContext
 import s2.automate.core.context.InitTransitionAppliedContext
 import s2.automate.core.context.TransitionAppliedContext
 import s2.dsl.automate.S2State
@@ -12,5 +13,5 @@ ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 	suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY>): ENTITY
 	suspend fun persist(transitionContext: TransitionAppliedContext<STATE, ID, ENTITY>): ENTITY
-	suspend fun load(id: ID): ENTITY?
+	suspend fun load(automateContext: AutomateContext<STATE, ID, ENTITY>, id: ID): ENTITY?
 }

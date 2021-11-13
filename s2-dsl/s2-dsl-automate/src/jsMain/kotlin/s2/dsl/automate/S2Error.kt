@@ -1,6 +1,7 @@
 package s2.dsl.automate
 
-import f2.dsl.cqrs.ErrorSeverity
+import f2.dsl.cqrs.error.ErrorSeverity
+
 
 @JsExport
 @JsName("S2Error")

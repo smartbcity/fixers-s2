@@ -1,12 +1,12 @@
 package s2.spring.automate.storming.entity
 
 import f2.dsl.cqrs.Command
-import javax.persistence.Entity
 import org.springframework.data.annotation.Id
 import s2.automate.core.appevent.AppEvent
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import javax.persistence.Entity
 
 @Entity
 class StormingSnapEntity<STATE, ID, ENTITY>(
