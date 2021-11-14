@@ -8,15 +8,11 @@ pluginManagement {
 rootProject.name = "s2"
 
 include(
-	"s2-dsl:s2-dsl-automate"
-)
-
-include(
-	"s2-automate:s2-automate-core"
+	"s2-automate:s2-automate-core",
+	"s2-automate:s2-automate-dsl"
 )
 include(
 	"s2-spring:automate:s2-spring-boot-starter-automate",
-//	"s2-spring:automate:s2-spring-boot-starter-automate-f2",
 	"s2-spring:automate:s2-spring-boot-starter-automate-ssm",
 	"s2-spring:automate:s2-spring-boot-starter-automate-data"
 )
