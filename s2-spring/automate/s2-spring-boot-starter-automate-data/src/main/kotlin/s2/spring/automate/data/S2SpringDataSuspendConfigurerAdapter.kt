@@ -1,5 +1,6 @@
 package s2.spring.automate.data
 
+import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2State
@@ -17,6 +18,7 @@ ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
+	@Bean
 	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY> {
 		return SpringDataAutomateCoroutinePersister(
 			aggregateRepository

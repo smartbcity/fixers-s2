@@ -10,4 +10,5 @@ dependencies {
 
 	api("city.smartb.ssm:ssm-data-spring-boot-starter:${Versions.ssm}")
 	api("city.smartb.ssm:ssm-tx-spring-boot-starter:${Versions.ssm}")
+	api("city.smartb.ssm:ssm-tx-init-ssm-spring-boot-starter:${Versions.ssm}")
 }

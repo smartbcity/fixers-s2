@@ -11,9 +11,10 @@ import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.S2ConfigurerAdapter
 import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.ssm.persister.SsmAutomatePersister
+import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.data.dsl.features.query.DataSsmSessionGetQueryFunction
-import ssm.sdk.sign.SignerUserProvider
+import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
@@ -29,18 +30,18 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
 	@Bean
 	open fun ssmAutomatePersister(
+		ssmTxInitFunction: SsmTxInitFunction,
 		ssmSessionStartFunction: SsmTxSessionStartFunction,
 		ssmSessionPerformActionFunction: SsmTxSessionPerformActionFunction,
 		dataSsmSessionGetQueryFunction: DataSsmSessionGetQueryFunction,
-		signerUserProvider: SignerUserProvider,
 		objectMapper: ObjectMapper,
 	): SsmAutomatePersister<STATE, ID, ENTITY> {
 		return SsmAutomatePersister(
+			ssmTxInitFunction = ssmTxInitFunction,
 			ssmSessionStartFunction = ssmSessionStartFunction,
 			ssmSessionPerformActionFunction = ssmSessionPerformActionFunction,
 			objectMapper = objectMapper,
 			dataSsmSessionGetQueryFunction = dataSsmSessionGetQueryFunction,
-			signerUserProvider = signerUserProvider,
 		)
 	}
 
@@ -53,8 +54,10 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 		super.afterPropertiesSet()
 		ssmAutomatePersister.entityType = entityType()
 		ssmAutomatePersister.chaincodeUri = chaincodeUri()
+		ssmAutomatePersister.agentSigner = signerAgent()
 	}
 
 	abstract fun entityType(): Class<ENTITY>
 	abstract fun chaincodeUri(): ChaincodeUri
+	abstract fun signerAgent(): Agent
 }

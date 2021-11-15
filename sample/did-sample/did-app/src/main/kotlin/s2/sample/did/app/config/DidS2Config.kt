@@ -10,9 +10,12 @@ import s2.sample.did.domain.DidState
 import s2.sample.did.domain.didS2
 import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.ssm.S2SsmConfigurerAdapter
+import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.ChaincodeUriBurst
 import ssm.chaincode.dsl.model.uri.compact
+import ssm.sdk.dsl.SignerName
+import ssm.sdk.sign.extention.loadFromFile
 
 @Configuration
 class DidS2Config : S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggregate>() {
@@ -34,6 +37,10 @@ class DidS2Config : S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Agg
 			channelId = "sandbox",
 			chaincodeId = "ssm",
 		).compact()
+	}
+
+	override fun signerAgent(): Agent {
+		return loadFromFile("user/ssm-admin")
 	}
 }
 

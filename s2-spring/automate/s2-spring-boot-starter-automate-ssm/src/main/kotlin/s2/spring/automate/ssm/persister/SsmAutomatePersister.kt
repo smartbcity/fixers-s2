@@ -10,6 +10,8 @@ import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.dsl.automate.ssm.toSsm
+import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.SessionName
 import ssm.chaincode.dsl.model.SsmContext
 import ssm.chaincode.dsl.model.SsmSession
@@ -17,17 +19,20 @@ import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.toSsmUri
 import ssm.data.dsl.features.query.DataSsmSessionGetQuery
 import ssm.data.dsl.features.query.DataSsmSessionGetQueryFunction
-import ssm.sdk.sign.SignerUserProvider
+import ssm.sdk.dsl.SignerName
+import ssm.tx.dsl.features.ssm.SsmInitCommand
 import ssm.tx.dsl.features.ssm.SsmSessionPerformActionCommand
 import ssm.tx.dsl.features.ssm.SsmSessionStartCommand
+import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
 class SsmAutomatePersister<STATE, ID, ENTITY>(
+	private val ssmTxInitFunction: SsmTxInitFunction,
 	private val ssmSessionStartFunction: SsmTxSessionStartFunction,
 	private val ssmSessionPerformActionFunction: SsmTxSessionPerformActionFunction,
 	private val dataSsmSessionGetQueryFunction: DataSsmSessionGetQueryFunction,
-	private val signerUserProvider: SignerUserProvider,
+
 	private val objectMapper: ObjectMapper,
 
 ) : AutomatePersister<STATE, ID, ENTITY> where
@@ -37,6 +42,7 @@ ENTITY : WithS2Id<ID> {
 
 	lateinit var chaincodeUri: ChaincodeUri
 	lateinit var entityType: Class<ENTITY>
+	lateinit var agentSigner: Agent
 
 	override suspend fun persist(
 		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY>,
@@ -44,7 +50,11 @@ ENTITY : WithS2Id<ID> {
 		val entity = transitionContext.entity
 		val sessionName = entity.s2Id().toString()
 		val iteration = getIteration(transitionContext.automateContext, sessionName)
-
+		ssmTxInitFunction.invoke(SsmInitCommand(
+			signerName = agentSigner.name,
+			ssm = transitionContext.automateContext.automate.toSsm(),
+			agent = agentSigner
+		))
 		val context = SsmSessionPerformActionCommand(
 			action = transitionContext.command::class.simpleName!!,
 			context = SsmContext(
@@ -53,6 +63,7 @@ ENTITY : WithS2Id<ID> {
 				private = mapOf(),
 				iteration = iteration,
 			),
+			signerName = agentSigner.name
 		)
 		ssmSessionPerformActionFunction.invoke(context)
 		return entity
@@ -66,14 +77,16 @@ ENTITY : WithS2Id<ID> {
 	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY>): ENTITY {
 		val entity = transitionContext.entity
 		val automate = transitionContext.automateContext.automate
+
 		val ssmStart = SsmSessionStartCommand(
 			session = SsmSession(
 				ssm = automate.name,
 				session = entity.s2Id().toString(),
-				roles = mapOf(signerUserProvider.get().name to automate.transitions.get(0).role::class.simpleName!!),
+				roles = mapOf(agentSigner.name to automate.transitions.get(0).role::class.simpleName!!),
 				public = objectMapper.writeValueAsString(entity),
 				private = mapOf()
 			),
+			signerName = agentSigner.name
 		)
 		ssmSessionStartFunction.invoke(ssmStart)
 		return entity
