@@ -7,6 +7,7 @@ import s2.automate.core.AutomateExecutorCore
 import s2.automate.core.TransitionStateGuard
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
+import s2.automate.core.guard.GuardAdapter
 import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2Automate
@@ -49,8 +50,8 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 		return AutomateEventPublisher(eventPublisher)
 	}
 
-	protected open fun guards() =
-		listOf(TransitionStateGuard<STATE, ID, ENTITY>())
+	protected open fun guards(): List<GuardAdapter<STATE, ID, ENTITY>> =
+		listOf(TransitionStateGuard())
 
 	override fun afterPropertiesSet() {
 		val automateExecutor = aggregate()
