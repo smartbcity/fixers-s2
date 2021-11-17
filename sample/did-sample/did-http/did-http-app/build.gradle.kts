@@ -10,7 +10,6 @@ springBoot {
 }
 
 dependencies {
-
 	implementation(project(":sample:did-sample:did-app"))
 
 	implementation("city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}")
