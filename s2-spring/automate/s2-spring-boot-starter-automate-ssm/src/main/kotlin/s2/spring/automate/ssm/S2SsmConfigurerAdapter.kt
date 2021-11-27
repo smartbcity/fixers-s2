@@ -1,7 +1,6 @@
 package s2.spring.automate.ssm
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import s2.automate.core.persist.AutomatePersister
@@ -18,7 +17,7 @@ import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
-abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> : InitializingBean,
+abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> :
 	S2ConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
@@ -26,35 +25,32 @@ ENTITY : WithS2Id<ID>,
 AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
 	@Autowired
-	lateinit var ssmAutomatePersister: SsmAutomatePersister<STATE, ID, ENTITY>
+	lateinit var ssmTxInitFunction: SsmTxInitFunction
 
-	@Bean
-	open fun ssmAutomatePersister(
-		ssmTxInitFunction: SsmTxInitFunction,
-		ssmSessionStartFunction: SsmTxSessionStartFunction,
-		ssmSessionPerformActionFunction: SsmTxSessionPerformActionFunction,
-		dataSsmSessionGetQueryFunction: DataSsmSessionGetQueryFunction,
-		objectMapper: ObjectMapper,
-	): SsmAutomatePersister<STATE, ID, ENTITY> {
-		return SsmAutomatePersister(
-			ssmTxInitFunction = ssmTxInitFunction,
-			ssmSessionStartFunction = ssmSessionStartFunction,
-			ssmSessionPerformActionFunction = ssmSessionPerformActionFunction,
-			objectMapper = objectMapper,
-			dataSsmSessionGetQueryFunction = dataSsmSessionGetQueryFunction,
-		)
-	}
+	@Autowired
+	lateinit var ssmSessionStartFunction: SsmTxSessionStartFunction
 
+	@Autowired
+	lateinit var ssmSessionPerformActionFunction: SsmTxSessionPerformActionFunction
+
+	@Autowired
+	lateinit var dataSsmSessionGetQueryFunction: DataSsmSessionGetQueryFunction
+
+	@Autowired
+	lateinit var objectMapper: ObjectMapper
+
+//	@Bean
 	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY> {
-		return ssmAutomatePersister
-	}
-
-	@Throws(Exception::class)
-	override fun afterPropertiesSet() {
-		super.afterPropertiesSet()
-		ssmAutomatePersister.entityType = entityType()
-		ssmAutomatePersister.chaincodeUri = chaincodeUri()
-		ssmAutomatePersister.agentSigner = signerAgent()
+		return SsmAutomatePersister<STATE, ID, ENTITY>().also {
+			it.ssmTxInitFunction = ssmTxInitFunction
+			it.ssmSessionStartFunction = ssmSessionStartFunction
+			it.ssmSessionPerformActionFunction = ssmSessionPerformActionFunction
+			it.objectMapper = objectMapper
+			it.dataSsmSessionGetQueryFunction = dataSsmSessionGetQueryFunction
+			it.entityType = entityType()
+			it.chaincodeUri = chaincodeUri()
+			it.agentSigner = signerAgent()
+		}
 	}
 
 	abstract fun entityType(): Class<ENTITY>

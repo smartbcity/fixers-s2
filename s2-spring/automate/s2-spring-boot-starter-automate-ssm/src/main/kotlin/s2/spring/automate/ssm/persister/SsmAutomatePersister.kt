@@ -19,7 +19,6 @@ import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.toSsmUri
 import ssm.data.dsl.features.query.DataSsmSessionGetQuery
 import ssm.data.dsl.features.query.DataSsmSessionGetQueryFunction
-import ssm.sdk.dsl.SignerName
 import ssm.tx.dsl.features.ssm.SsmInitCommand
 import ssm.tx.dsl.features.ssm.SsmSessionPerformActionCommand
 import ssm.tx.dsl.features.ssm.SsmSessionStartCommand
@@ -27,22 +26,22 @@ import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
-class SsmAutomatePersister<STATE, ID, ENTITY>(
-	private val ssmTxInitFunction: SsmTxInitFunction,
-	private val ssmSessionStartFunction: SsmTxSessionStartFunction,
-	private val ssmSessionPerformActionFunction: SsmTxSessionPerformActionFunction,
-	private val dataSsmSessionGetQueryFunction: DataSsmSessionGetQueryFunction,
-
-	private val objectMapper: ObjectMapper,
-
-) : AutomatePersister<STATE, ID, ENTITY> where
+class SsmAutomatePersister<STATE, ID, ENTITY> : AutomatePersister<STATE, ID, ENTITY> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	lateinit var chaincodeUri: ChaincodeUri
-	lateinit var entityType: Class<ENTITY>
-	lateinit var agentSigner: Agent
+	internal lateinit var ssmTxInitFunction: SsmTxInitFunction
+	internal lateinit var ssmSessionStartFunction: SsmTxSessionStartFunction
+	internal lateinit var ssmSessionPerformActionFunction: SsmTxSessionPerformActionFunction
+	internal lateinit var dataSsmSessionGetQueryFunction: DataSsmSessionGetQueryFunction
+
+	internal lateinit var chaincodeUri: ChaincodeUri
+	internal lateinit var entityType: Class<ENTITY>
+	internal lateinit var agentSigner: Agent
+	internal lateinit var objectMapper: ObjectMapper
+
+
 
 	override suspend fun persist(
 		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY>,
@@ -102,6 +101,6 @@ ENTITY : WithS2Id<ID> {
 		automateContext: AutomateContext<STATE, ID, ENTITY>
 	) = DataSsmSessionGetQuery(
 		sessionName = sessionId,
-		ssm = chaincodeUri.toSsmUri(automateContext.automate.name)
+		ssmUri = chaincodeUri.toSsmUri(automateContext.automate.name)
 	).invokeWith(dataSsmSessionGetQueryFunction)
 }

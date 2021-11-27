@@ -22,4 +22,5 @@ class JsonConvert {
 		val obj = objectMapper.readValue<DidAddPublicKeyCommand>(json)
 		println(obj)
 	}
+
 }

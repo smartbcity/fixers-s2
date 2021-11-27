@@ -21,10 +21,9 @@ allprojects {
 	group = "city.smartb.s2"
 	version = System.getenv("VERSION") ?: "latest"
 	repositories {
+		mavenLocal()
 		mavenCentral()
 		maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-//		maven("https://repo.spring.io/snapshot")
-//		maven("https://repo.spring.io/milestone")
 	}
 }
 
