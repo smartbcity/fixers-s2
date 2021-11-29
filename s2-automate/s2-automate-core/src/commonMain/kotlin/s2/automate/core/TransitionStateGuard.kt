@@ -13,7 +13,7 @@ STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	override fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>): GuardResult {
+	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>): GuardResult {
 		val state = context.entity.s2State()
 		val command = context.command
 		val isValid = context.automateContext.automate.isAvailableTransition(state, command)

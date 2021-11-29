@@ -12,8 +12,8 @@ interface GuardExecutor<STATE, ID, ENTITY> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
-	fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>)
-	fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>)
-	fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>)
-	fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>)
+	suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>)
+	suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>)
+	suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>)
+	suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>)
 }

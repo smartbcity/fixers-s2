@@ -21,12 +21,12 @@ class GuardExecutorImpl<STATE, ID, ENTITY>(
 	ENTITY : WithS2State<STATE>,
 	ENTITY : WithS2Id<ID> {
 
-	override fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>) {
+	override suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>) {
 		val result = guards.map { it.evaluateInit(context) }.flatten()
 		handleResult(result, context.command)
 	}
 
-	override fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>) {
+	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>) {
 		val result = guards.map { it.evaluateTransition(context) }.flatten()
 		handleResult(result, context.command, context.from)
 	}
@@ -36,12 +36,12 @@ class GuardExecutorImpl<STATE, ID, ENTITY>(
 		return GuardResult.error(errors.toList())
 	}
 
-	override fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>) {
+	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>) {
 		val result = guards.map { it.verifyInitTransition(context) }.flatten()
 		handleResult(result, context.command)
 	}
 
-	override fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>) {
+	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>) {
 		val result = guards.map { it.verifyTransition(context) }.flatten()
 		handleResult(result, context.command, context.from)
 	}

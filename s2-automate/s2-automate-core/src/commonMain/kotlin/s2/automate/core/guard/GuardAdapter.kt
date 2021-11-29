@@ -13,10 +13,10 @@ STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	override fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>) = GuardResult.valid()
+	override suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>) = GuardResult.valid()
 
-	override fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>) = GuardResult.valid()
+	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>) = GuardResult.valid()
 
-	override fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>) = GuardResult.valid()
-	override fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>) = GuardResult.valid()
+	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>) = GuardResult.valid()
+	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>) = GuardResult.valid()
 }
