@@ -1,0 +1,29 @@
+{
+  "name": "storybook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@material-ui/core": "^4.11.3",
+    "@smartb/archetypes-ui-documentation": "^0.1.46",
+    "@smartb/archetypes-ui-s2": "^0.1.46",
+    "@smartb/archetypes-ui-themes": "^0.1.46",
+    "@storybook/addon-actions": "6.3.6",
+    "@storybook/addon-docs": "6.3.6",
+    "@storybook/addon-essentials": "6.3.6",
+    "@storybook/addon-links": "6.3.6",
+    "@storybook/react": "6.3.6",
+    "@types/react": "^16.9.27",
+    "babel-loader": "^8.2.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "react-syntax-highlighter": "^15.4.4"
+  }
+}
