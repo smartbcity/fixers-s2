@@ -3,7 +3,7 @@ STORYBOOK_NAME	   	 	:= smartbcity/s2-storybook
 STORYBOOK_IMG	    	:= ${STORYBOOK_NAME}:${VERSION}
 STORYBOOK_LATEST		:= ${STORYBOOK_NAME}:latest
 
-packages: package-kotlin
+libs: package-kotlin
 docs: package-storybook
 
 package-kotlin:
