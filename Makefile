@@ -7,7 +7,7 @@ libs: package-kotlin
 docs: package-storybook
 
 package-kotlin:
-	@gradle clean build publish -x test
+	@gradle clean build publish
 
 package-storybook:
 	@docker build -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
