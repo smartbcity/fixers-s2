@@ -1,5 +1,5 @@
 #### Stage 1: Build the react application
-FROM node:12.4.0 as build
+FROM node:lts as build
 
 WORKDIR /app
 
