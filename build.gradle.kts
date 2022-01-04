@@ -28,16 +28,18 @@ allprojects {
 	}
 }
 
-fixers {
-	bundle {
-		id = "s2"
-		name = "S2"
-		description = "Wrapper around SSM"
-		url = "https://gitlab.smartb.city/fixers/s2"
-	}
-}
 
 subprojects {
+	plugins.withType(city.smartb.fixers.gradle.config.ConfigPlugin::class.java).whenPluginAdded {
+		fixers {
+			bundle {
+				id = "s2"
+				name = "S2"
+				description = "Wrapper around SSM"
+				url = "https://gitlab.smartb.city/fixers/s2"
+			}
+		}
+	}
 	plugins.withType(lt.petuska.npm.publish.NpmPublishPlugin::class.java).whenPluginAdded {
 		the<lt.petuska.npm.publish.dsl.NpmPublishExtension>().apply {
 			organization = "smartb"
