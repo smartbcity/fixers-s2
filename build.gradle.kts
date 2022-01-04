@@ -10,7 +10,7 @@ plugins {
 
 	id("city.smartb.fixers.gradle.config") version PluginVersions.fixers
 	id("city.smartb.fixers.gradle.sonar") version PluginVersions.fixers
-	id("city.smartb.fixers.gradle.d2") version PluginVersions.fixers
+	id("city.smartb.fixers.gradle.d2") version PluginVersions.d2
 
 	id("city.smartb.fixers.gradle.kotlin.mpp") version PluginVersions.fixers apply false
 	id("city.smartb.fixers.gradle.kotlin.jvm") version PluginVersions.fixers apply false
@@ -23,6 +23,7 @@ allprojects {
 	repositories {
 		mavenLocal()
 		mavenCentral()
+		maven { url = uri("https://oss.sonatype.org/service/local/repositories/releases/content") }
 		maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 	}
 }
@@ -30,7 +31,7 @@ allprojects {
 fixers {
 	bundle {
 		id = "s2"
-		name = "S2 "
+		name = "S2"
 		description = "Wrapper around SSM"
 		url = "https://gitlab.smartb.city/fixers/s2"
 	}
