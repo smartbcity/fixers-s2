@@ -10,6 +10,7 @@ object PluginVersions {
 
 object Versions {
 	const val springFramework = "5.3.14"
+	const val springDataCommons = "2.6.0"
 	const val jacksonKotlin = "2.13.0"
 	const val javaxPersistence = "2.2"
 

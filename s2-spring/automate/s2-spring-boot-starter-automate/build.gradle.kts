@@ -16,5 +16,5 @@ dependencies {
 
 	api("javax.persistence:javax.persistence-api:${Versions.javaxPersistence}")
 	api("org.springframework:spring-context:${Versions.springFramework}")
-	api("org.springframework.data:spring-data-commons:${FixersVersions.Spring.data}")
+	api("org.springframework.data:spring-data-commons:${Versions.springDataCommons}")
 }

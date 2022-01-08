@@ -1,5 +1,3 @@
-import city.smartb.gradle.dependencies.FixersVersions
-
 plugins {
 	id("city.smartb.fixers.gradle.kotlin.jvm")
 	id("city.smartb.fixers.gradle.publish")
@@ -12,5 +10,5 @@ dependencies {
 
 	api("javax.persistence:javax.persistence-api:${Versions.javaxPersistence}")
 	api("org.springframework:spring-context:${Versions.springFramework}")
-	implementation("org.springframework.data:spring-data-commons:${FixersVersions.Spring.data}")
+	implementation("org.springframework.data:spring-data-commons:${Versions.springDataCommons}")
 }
