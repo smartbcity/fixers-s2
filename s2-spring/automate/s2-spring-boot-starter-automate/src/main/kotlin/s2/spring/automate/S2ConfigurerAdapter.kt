@@ -60,6 +60,6 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	}
 
 	abstract fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY>
-	abstract fun automate(): S2Automate
+	abstract fun automate(): S2Automate<ID>
 	abstract fun executor(): EXECUTER
 }

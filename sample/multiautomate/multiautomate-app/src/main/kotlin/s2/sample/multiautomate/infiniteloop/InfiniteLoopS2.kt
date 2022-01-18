@@ -10,19 +10,17 @@ import s2.dsl.automate.builder.s2
 
 typealias InfiniteLoopId = String
 
-fun infiniteLoopS2(): S2Automate {
+fun infiniteLoopS2(): S2Automate<InfiniteLoopId> {
 	return s2<InfiniteLoopId, InfiniteLoopState> {
 		name = "InfiniteLoopS2"
-		init<InfiniteLoopInitCommand> {
+		init<InfiniteCreateCommand> {
 			to = InfiniteLoopState.Running
 			role = InfiniteLoopRole.User()
-			cmd = InfiniteCreateCommand::class
 		}
-		transaction<InfiniteLoopCommand> {
+		transaction<InfiniteStepCommand> {
 			from = InfiniteLoopState.Running
 			to = InfiniteLoopState.Running
 			role = InfiniteLoopRole.User()
-			cmd = InfiniteStepCommand::class
 		}
 	}
 }
