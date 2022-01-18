@@ -31,6 +31,10 @@ interface OrderBookBuyCommand: S2Command<OrderBookId>
 interface OrderBookSellCommand: S2Command<OrderBookId>
 interface OrderBookBurnCommand: S2Command<OrderBookId>
 interface OrderBookCloseCommand: S2Command<OrderBookId>
+interface OrderBookUpdatePriceCommand: S2Command<OrderBookId>
+
+val decidingPriceAutomate = s2<String, S2State> {}
+val orderAutomate = s2<String, S2State> {}
 
 val withTransactions = s2<OrderBookId, OrderBookState> {
     name = "WithTransactions"
@@ -78,15 +82,31 @@ val withTransactions = s2<OrderBookId, OrderBookState> {
         to = OrderBookState.Closed
         role = Role
     }
+    submachine {
+        automate = orderAutomate
+        autostart = false
+        singleton = false // maybe unnecessary, indicate that there can be multiple instances (ex: multiple orders for same orderbook)
+        startsOn = listOf( // OrderAutomate would need at least one initial state configured (maybe with init function?)
+            OrderBookBuyCommand::class,
+            OrderBookSellCommand::class,
+            OrderBookBurnCommand::class
+        )
+        endsOn = listOf(OrderBookCloseCommand::class) // OrderAutomate would need at least one final state configured
+        /*
+         * "startsOn" and "endsOn" could also be defined directly in the related transactions instead of here
+         * ex: transaction<OrderBookBuyCommand> { starts = OrderAutomate }
+         * ex: transaction<OrderBookCloseCommand> { ends = OrderAutomate }
+         */
+    }
 }
 
-val withSteps = s22<OrderBookId, OrderBookState> {
-    name = "WithSteps"
+val withNodes = s2<OrderBookId, OrderBookState> {
+    name = "WithNodes"
     init<OrderBookCreateCommand> {
         to = OrderBookState.Created
         role = Role
     }
-    step {
+    node {
         state = OrderBookState.Created
 
         transaction<OrderBookMergeCommand> {
@@ -103,14 +123,8 @@ val withSteps = s22<OrderBookId, OrderBookState> {
             to = OrderBookState.Closed
             role = Role
         }
-
-        automate {
-            config = DecidingPriceAutomate // automate with some validation and stuff
-            autostart = true // DecidingPriceAutomate would need at least one initial state configured
-            blocking = true // DecidingPriceAutomate would need at least one final state configured
-        }
     }
-    step {
+    node {
         state = OrderBookState.Published
 
         transaction<OrderBookBuyCommand> {
@@ -129,29 +143,31 @@ val withSteps = s22<OrderBookId, OrderBookState> {
             to = OrderBookState.Closed
             role = Role
         }
-
-        automate {
-            config = OrderAutomate
-            autostart = false
-            singleton = false // maybe unnecessary, indicate that there can be multiple instances (ex: multiple orders for same orderbook)
-            startsOn = listOf( // OrderAutomate would need at least one initial state configured (maybe with init function?)
-                OrderBookBuyCommand::class, OrderBookSellCommand::class, OrderBookBurnCommand::class
-            )
-            endsOn = listOf(OrderBookCloseCommand::class) // OrderAutomate would need at least one final state configured
-            /*
-             * "startsOn" and “endsOn" could also be defined directly in the related transactions instead of here
-             * ex: transaction<OrderBookBuyCommand> { starts = OrderAutomate }
-             * ex: transaction<OrderBookCloseCommand> { ends = OrderAutomate }
-             */
-        }
-        automate {
-            config = DecidingPriceAutomate
-            autostart = false
-            startsOn = listOf(OrderBookUpdatePriceCommand::class)
-            endsOn = listOf(OrderBookCloseCommand::class)
-        }
     }
-    final { // could use "step" with a param "final = true"
+    node { // unnecessary if empty
         state = OrderBookState.Closed
+    }
+    submachine {
+        automate = orderAutomate
+        autostart = false
+        singleton = false // maybe unnecessary, indicate that there can be multiple instances (ex: multiple orders for same orderbook)
+        startsOn = listOf( // OrderAutomate would need at least one initial state configured (maybe with init function?)
+            OrderBookBuyCommand::class,
+            OrderBookSellCommand::class,
+            OrderBookBurnCommand::class
+        )
+        endsOn = listOf(OrderBookCloseCommand::class) // OrderAutomate would need at least one final state configured
+        /*
+         * "startsOn" and "endsOn" could also be defined directly in the related transactions instead of here
+         * ex: transaction<OrderBookBuyCommand> { starts = OrderAutomate }
+         * ex: transaction<OrderBookCloseCommand> { ends = OrderAutomate }
+         */
+    }
+    submachine {
+        automate = decidingPriceAutomate
+        autostart = false
+        blocking = true
+        startsOn = listOf(OrderBookUpdatePriceCommand::class)
+        endsOn = listOf(OrderBookCloseCommand::class)
     }
 }

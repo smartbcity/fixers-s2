@@ -4,68 +4,68 @@ import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2InitTransition
-import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
+import s2.dsl.automate.S2SubMachine
 import s2.dsl.automate.S2Transition
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlin.reflect.KClass
 
-class S2AutomateBuilder<STATE : S2State, ID> {
+class S2AutomateBuilder<STATE: S2State, ID> {
 	lateinit var name: String
 	lateinit var init: S2InitTransition
-	var transactions: MutableList<S2Transition> = mutableListOf()
+	val transactions = mutableListOf<S2Transition<ID>>()
+	val subMachines = mutableListOf<S2SubMachine<ID>>()
 
-	fun <CMD : S2InitCommand> init(to: S2State? = null, exec: S2InitTransitionBuilder<CMD, STATE>.() -> Unit) {
-		val builder = S2InitTransitionBuilder<CMD, STATE>()
+	inline fun <reified CMD: S2InitCommand> init(exec: S2InitTransitionBuilder<STATE>.() -> Unit) {
+		val builder = S2InitTransitionBuilder<STATE>()
 		builder.exec()
 		init = S2InitTransition(
-			to = to ?: builder.to,
+			to = builder.to,
 			role = builder.role,
-			command = builder.cmd,
+			command = CMD::class,
 		)
 	}
 
-	fun <CMD : S2Command<ID>> transaction(
-		from: S2State? = null,
-		to: S2State? = null,
-		exec: S2TransitionBuilder<ID, CMD>.() -> Unit,
-	) {
-		val builder = S2TransitionBuilder<ID, CMD>()
+	inline fun <reified CMD: S2Command<ID>> transaction(exec: S2TransitionBuilder.() -> Unit) {
+		val builder = S2TransitionBuilder()
 		builder.exec()
-		val transition = S2Transition(
-			from = from ?: builder.from,
-			to = to ?: builder.to,
+		S2Transition(
+			from = builder.from,
+			to = builder.to,
 			role = builder.role,
-			command = builder.cmd.simpleName!!,
-		)
-		transactions.add(transition)
+			command = CMD::class,
+		).let(transactions::add)
+	}
+
+	fun node(exec: S2NodeBuilder<ID>.() -> Unit) {
+		val builder = S2NodeBuilder<ID>()
+		builder.exec()
+		transactions.addAll(builder.transactions)
+	}
+
+	fun submachine(exec: S2SubMachineBuilder<ID>.() -> Unit) {
+		val builder = S2SubMachineBuilder<ID>()
+		builder.exec()
+		S2SubMachine(
+			automate = builder.automate,
+			startsOn = builder.startsOn,
+			endsOn = builder.endsOn,
+			autostart = builder.autostart,
+			blocking = builder.blocking,
+			singleton = builder.singleton
+		).let(subMachines::add)
 	}
 }
 
 @JsExport
 @JsName("s2")
-fun <ID, STATE : S2State> s2(exec: S2AutomateBuilder<STATE, ID>.() -> Unit): S2Automate {
+fun <ID, STATE: S2State> s2(exec: S2AutomateBuilder<STATE, ID>.() -> Unit): S2Automate<ID> {
 	val builder = S2AutomateBuilder<STATE, ID>()
 	builder.exec()
 	return S2Automate(
 		name = builder.name,
 		init = builder.init,
-		transitions = builder.transactions.toTypedArray()
+		transitions = builder.transactions.toTypedArray(),
+		subMachines = builder.subMachines.toTypedArray()
 	)
-}
-
-@JsExport
-@JsName("S2TransitionBuilder")
-class S2TransitionBuilder<ID, CMD : S2Command<ID>> {
-	lateinit var from: S2State
-	lateinit var to: S2State
-	lateinit var role: S2Role
-	lateinit var cmd: KClass<out CMD>
-}
-
-class S2InitTransitionBuilder<CMD : S2InitCommand, STATE : S2State> {
-	lateinit var to: STATE
-	lateinit var role: S2Role
-	lateinit var cmd: KClass<out CMD>
 }
