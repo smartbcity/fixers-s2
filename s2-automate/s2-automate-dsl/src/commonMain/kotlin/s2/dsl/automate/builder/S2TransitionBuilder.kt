@@ -14,6 +14,11 @@ class S2NodeTransitionBuilder {
 	lateinit var role: S2Role
 }
 
+class S2SelfTransitionBuilder {
+	val states = mutableListOf<S2State>()
+	lateinit var role: S2Role
+}
+
 class S2InitTransitionBuilder<STATE: S2State> {
 	lateinit var to: STATE
 	lateinit var role: S2Role

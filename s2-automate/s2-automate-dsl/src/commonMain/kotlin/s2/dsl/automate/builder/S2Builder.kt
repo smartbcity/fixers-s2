@@ -37,6 +37,19 @@ class S2AutomateBuilder<STATE: S2State, ID> {
 		).let(transactions::add)
 	}
 
+	inline fun <reified CMD: S2Command<ID>> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
+		val builder = S2SelfTransitionBuilder()
+		builder.exec()
+		builder.states.map { state ->
+			S2Transition(
+				from = state,
+				to = state,
+				role = builder.role,
+				command = CMD::class,
+			)
+		}.forEach(transactions::add)
+	}
+
 	fun node(exec: S2NodeBuilder<ID>.() -> Unit) {
 		val builder = S2NodeBuilder<ID>()
 		builder.exec()

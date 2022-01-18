@@ -42,14 +42,12 @@ val withTransactions = s2<OrderBookId, OrderBookState> {
         to = OrderBookState.Created
         role = Role
     }
-    transaction<OrderBookMergeCommand> {
-        from = OrderBookState.Created
-        to = OrderBookState.Created
+    selfTransaction<OrderBookMergeCommand> {
+        states += OrderBookState.Created
         role = Role
     }
-    transaction<OrderBookUpdateCommand> {
-        from = OrderBookState.Created
-        to = OrderBookState.Created
+    selfTransaction<OrderBookUpdateCommand> {
+        states += OrderBookState.Created
         role = Role
     }
     transaction<OrderBookPublishCommand> {
@@ -57,19 +55,16 @@ val withTransactions = s2<OrderBookId, OrderBookState> {
         to = OrderBookState.Published
         role = Role
     }
-    transaction<OrderBookBuyCommand> {
-        from = OrderBookState.Published
-        to = OrderBookState.Published
+    selfTransaction<OrderBookBuyCommand> {
+        states += OrderBookState.Published
         role = Role
     }
-    transaction<OrderBookSellCommand> {
-        from = OrderBookState.Published
-        to = OrderBookState.Published
+    selfTransaction<OrderBookSellCommand> {
+        states += OrderBookState.Published
         role = Role
     }
-    transaction<OrderBookBurnCommand> {
-        from = OrderBookState.Published
-        to = OrderBookState.Published
+    selfTransaction<OrderBookBurnCommand> {
+        states += OrderBookState.Published
         role = Role
     }
     transaction<OrderBookCloseCommand> {
