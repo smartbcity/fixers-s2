@@ -9,12 +9,19 @@ rootProject.name = "s2"
 
 include(
 	"s2-automate:s2-automate-core",
-	"s2-automate:s2-automate-dsl"
+	"s2-automate:s2-automate-dsl",
+	"s2-automate:s2-automate-storming",
+	"s2-automate:s2-automate-storming-dsl"
 )
 include(
 	"s2-spring:automate:s2-spring-boot-starter-automate",
 	"s2-spring:automate:s2-spring-boot-starter-automate-ssm",
 	"s2-spring:automate:s2-spring-boot-starter-automate-data"
+)
+
+include(
+	"s2-spring:storming:s2-spring-boot-starter-storming",
+	"s2-spring:storming:s2-spring-boot-starter-storming-data",
 )
 
 include(
@@ -24,6 +31,10 @@ include(
 include(
 	"sample:multiautomate",
 	"sample:multiautomate:multiautomate-app"
+)
+
+include(
+	"sample:subautomate:subautomate-app"
 )
 
 //include(
