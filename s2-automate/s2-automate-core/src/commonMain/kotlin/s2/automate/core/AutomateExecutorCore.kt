@@ -20,6 +20,7 @@ import s2.automate.core.error.ERROR_ENTITY_NOT_FOUND
 import s2.automate.core.error.asException
 import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.core.persist.AutomatePersister
+import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
@@ -27,10 +28,10 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 open class AutomateExecutorCore<STATE, ID, ENTITY>(
-	private val automateContext: AutomateContext<STATE, ID, ENTITY>,
-	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY>,
-	private val persister: AutomatePersister<STATE, ID, ENTITY>,
-	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY>,
+	private val automateContext: AutomateContext<STATE, ID, ENTITY, S2Automate<ID>>,
+	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate<ID>>,
+	private val persister: AutomatePersister<STATE, ID, ENTITY, S2Automate<ID>>,
+	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate<ID>>,
 ) : AutomateExecutor<STATE, ID, ENTITY>
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
@@ -111,7 +112,7 @@ open class AutomateExecutorCore<STATE, ID, ENTITY>(
 
 	private fun initTransitionContext(
 		command: S2InitCommand,
-	): InitTransitionContext<STATE, ID, ENTITY> {
+	): InitTransitionContext<STATE, ID, ENTITY, S2Automate<ID>> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,
 			command = command,
@@ -176,7 +177,7 @@ open class AutomateExecutorCore<STATE, ID, ENTITY>(
 
 	private suspend fun loadTransitionContext(
 		command: S2Command<ID>,
-	): Pair<ENTITY, TransitionContext<STATE, ID, ENTITY>> {
+	): Pair<ENTITY, TransitionContext<STATE, ID, ENTITY, S2Automate<ID>>> {
 		val entity =
 			persister.load(automateContext, id = command.id) ?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
 		val transitionContext = TransitionContext(

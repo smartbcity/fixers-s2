@@ -1,12 +1,17 @@
 package s2.dsl.automate.builder
 
+import s2.dsl.automate.S2Command
+import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
+import kotlin.reflect.KClass
 
 class S2TransitionBuilder {
-	lateinit var from: S2State
+	var from: S2State? = null
 	lateinit var to: S2State
 	lateinit var role: S2Role
+	@Deprecated("Useless, you can remove this line.")
+	var cmd: KClass<out S2Command<*>>? = null
 }
 
 class S2NodeTransitionBuilder {
@@ -22,4 +27,6 @@ class S2SelfTransitionBuilder {
 class S2InitTransitionBuilder<STATE: S2State> {
 	lateinit var to: STATE
 	lateinit var role: S2Role
+	@Deprecated("Useless, you can remove this line.")
+	var cmd: KClass<out S2InitCommand>? = null
 }

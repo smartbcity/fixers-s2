@@ -95,8 +95,8 @@ class AutomateTransitionError(
  *
  * @param automate the automate
  */
-class AutomateSessionStarted(
-	val automate: S2Automate<*>,
+class AutomateSessionStarted<AUTOMATE>(
+	val automate: AUTOMATE,
 ) : AppEvent
 
 /**
@@ -104,8 +104,8 @@ class AutomateSessionStarted(
  *
  * @param automate the automate
  */
-class AutomateSessionStopped(
-	val automate: S2Automate<*>,
+class AutomateSessionStopped<AUTOMATE>(
+	val automate: AUTOMATE,
 ) : AppEvent
 
 /**
@@ -114,7 +114,7 @@ class AutomateSessionStopped(
  * @param automate the automate
  * @param exception the exception
  */
-class AutomateSessionError(
+class AutomateSessionError<AUTOMATE>(
 	val automate: S2Automate<*>,
 	val exception: Exception?,
 ) : AppEvent

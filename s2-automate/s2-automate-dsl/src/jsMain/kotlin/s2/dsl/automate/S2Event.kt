@@ -4,9 +4,8 @@ import f2.dsl.cqrs.Event
 
 @JsExport
 @JsName("S2Event")
-actual external interface S2Event<out STATE : S2State, ID> : Event {
-	@JsName("id")
-	actual val id: ID
+actual external interface S2Event<out STATE : S2State, ID> : Event,  WithId<ID> {
+	actual override val id: ID
 
 	@JsName("type")
 	actual val type: STATE

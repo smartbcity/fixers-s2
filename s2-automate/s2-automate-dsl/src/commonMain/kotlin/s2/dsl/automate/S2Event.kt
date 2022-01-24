@@ -5,8 +5,8 @@ import f2.dsl.cqrs.Event
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-expect interface S2Event<out STATE : S2State, ID> : Event {
-	val id: ID
+expect interface S2Event<out STATE : S2State, ID> : Event, WithId<ID> {
+	override val id: ID
 	val type: STATE
 }
 

@@ -13,20 +13,20 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class GuardExecutorImpl<STATE, ID, ENTITY>(
-	private val guards: List<Guard<STATE, ID, ENTITY>>,
-	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY>,
-): GuardExecutor<STATE, ID, ENTITY> where
+class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
+	private val guards: List<Guard<STATE, ID, ENTITY, AUTOMATE>>,
+	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, AUTOMATE>,
+): GuardExecutor<STATE, ID, ENTITY, AUTOMATE> where
 	STATE : S2State,
 	ENTITY : WithS2State<STATE>,
 	ENTITY : WithS2Id<ID> {
 
-	override suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>) {
+	override suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.evaluateInit(context) }.flatten()
 		handleResult(result, context.command)
 	}
 
-	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>) {
+	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.evaluateTransition(context) }.flatten()
 		handleResult(result, context.command, context.from)
 	}
@@ -36,12 +36,12 @@ class GuardExecutorImpl<STATE, ID, ENTITY>(
 		return GuardResult.error(errors.toList())
 	}
 
-	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>) {
+	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.verifyInitTransition(context) }.flatten()
 		handleResult(result, context.command)
 	}
 
-	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>) {
+	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.verifyTransition(context) }.flatten()
 		handleResult(result, context.command, context.from)
 	}

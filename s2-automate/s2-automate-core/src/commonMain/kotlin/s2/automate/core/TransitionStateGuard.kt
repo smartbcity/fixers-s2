@@ -4,16 +4,17 @@ import s2.automate.core.context.TransitionContext
 import s2.automate.core.error.ERROR_INVALID_TRANSITION
 import s2.automate.core.guard.GuardAdapter
 import s2.automate.core.guard.GuardResult
+import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class TransitionStateGuard<STATE, ID, ENTITY> : GuardAdapter<STATE, ID, ENTITY>() where
+class TransitionStateGuard<STATE, ID, ENTITY> : GuardAdapter<STATE, ID, ENTITY, S2Automate<ID>>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>): GuardResult {
+	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, S2Automate<ID>>): GuardResult {
 		val state = context.entity.s2State()
 		val command = context.command
 		val isValid = context.automateContext.automate.isAvailableTransition(state, command)

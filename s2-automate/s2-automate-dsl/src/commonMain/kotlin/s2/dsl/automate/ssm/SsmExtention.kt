@@ -10,10 +10,10 @@ fun S2Automate<*>.toSsm() = Ssm(
 	transitions = this.transitions.toSsmTransitions()
 )
 
-fun Array<out S2Transition<*>>.toSsmTransitions() = map { it.toSsmTransition() }
+fun Array<out S2Transition<*>>.toSsmTransitions() =filter { it.from != null }. map { it.toSsmTransition() }
 
 fun S2Transition<*>.toSsmTransition() = SsmTransition(
-	from = this.from.position,
+	from = this.from!!.position,
 	to = this.to.position,
 	role = this.role::class.simpleName!!,
 	action = this.command.simpleName!!

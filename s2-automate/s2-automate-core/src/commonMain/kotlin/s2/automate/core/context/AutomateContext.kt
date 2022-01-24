@@ -6,9 +6,9 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class AutomateContext<STATE, ID, ENTITY>(
-	val automate: S2Automate<ID>,
-	val guards: List<Guard<STATE, ID, ENTITY>>,
+class AutomateContext<STATE, ID, ENTITY, AUTOMATE>(
+	val automate: AUTOMATE,
+	val guards: List<Guard<STATE, ID, ENTITY, AUTOMATE>>,
 ) where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,

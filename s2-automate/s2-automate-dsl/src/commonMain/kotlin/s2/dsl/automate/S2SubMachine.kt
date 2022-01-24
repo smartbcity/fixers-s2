@@ -8,9 +8,9 @@ import kotlin.reflect.KClass
 @JsName("S2SubMachine")
 open class S2SubMachine<ID>(
     open val automate: S2Automate<ID>,
-    open val startsOn: List<KClass<out S2Command<ID>>>,
-    open val endsOn: List<KClass<out S2Command<ID>>>,
-    open val autostart: Boolean,
-    open val blocking: Boolean,
-    open val singleton: Boolean
+    open val startsOn: List<KClass<out S2Command<ID>>> = emptyList(),
+    open val endsOn: List<KClass<out S2Command<ID>>> = emptyList(),
+    open val autostart: Boolean = false,
+    open val blocking: Boolean = false,
+    open val singleton: Boolean = false
 )

@@ -27,7 +27,7 @@ class S2Automate<ID>(
 		return getAvailableTransitions(state).isEmpty()
 	}
 
-	fun isSameState(from: S2State, to: S2State): Boolean {
-		return from.position == to.position
+	fun isSameState(from: S2State?, to: S2State): Boolean {
+		return from?.position == to.position
 	}
 }
