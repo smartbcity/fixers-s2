@@ -1,6 +1,6 @@
 package s2.sample.subautomate.domain.order
 
-import s2.automate.storming.Decide
+import s2.dsl.automate.event.storming.Decide
 import s2.dsl.automate.WithId
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2Event

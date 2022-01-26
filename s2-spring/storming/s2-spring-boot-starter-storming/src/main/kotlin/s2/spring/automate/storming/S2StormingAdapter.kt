@@ -1,7 +1,7 @@
 package s2.spring.automate.storming
 
+import f2.dsl.cqrs.Event
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
@@ -12,28 +12,26 @@ import s2.automate.storming.AutomateStormingExecutorImpl
 import s2.automate.storming.AutomateStormingExecutor
 import s2.automate.storming.event.EventPersister
 import s2.automate.storming.event.StormingProjectionBuilder
-import s2.dsl.automate.S2Event
 import s2.dsl.automate.S2State
-import s2.dsl.automate.event.S2StormingAutomate
+import s2.dsl.automate.event.storming.automate.S2StormingAutomate
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.persister.SpringEventPublisher
 
-abstract class S2StormingAdapter<STATE, ID, ENTITY, EXECUTER, EVENT> where
+abstract class S2StormingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-EVENT: S2Event<STATE, ID>,
-EXECUTER : S2AutomateEvolverSpring<STATE, ID, ENTITY, EVENT> {
-
-	@Autowired
-	private lateinit var eventPublisher: SpringEventPublisher
+EVENT: Event,
+EVENT: WithS2Id<ID>,
+EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Bean
 	open fun aggregate(
+		eventPublisher: SpringEventPublisher,
 		eventStore: EventPersister<EVENT, ID>,
-		projectionBuilder: StormingProjectionBuilder<ENTITY, EVENT, STATE, ID>
-	): AutomateStormingExecutor<STATE, ID, ENTITY, EVENT> {
+		projectionBuilder: StormingProjectionBuilder<ENTITY, STATE, EVENT, ID>
+	): AutomateStormingExecutor<ENTITY, STATE, EVENT, ID> {
 		val automateContext = automateContext()
 		val publisher = automateAppEventPublisher(eventPublisher)
 		val guardExecutor = guardExecutor(publisher)
@@ -68,7 +66,7 @@ EXECUTER : S2AutomateEvolverSpring<STATE, ID, ENTITY, EVENT> {
 
 	@Configuration
 	open inner class InitBean(
-		private val automateStormingExecutor: AutomateStormingExecutor<STATE, ID, ENTITY, EVENT>
+		private val automateStormingExecutor: AutomateStormingExecutor<ENTITY, STATE, EVENT, ID>
 	): InitializingBean{
 		override fun afterPropertiesSet() {
 			val agg = executor()

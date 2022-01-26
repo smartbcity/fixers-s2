@@ -15,13 +15,14 @@ include(
 )
 include(
 	"s2-spring:automate:s2-spring-boot-starter-automate",
-	"s2-spring:automate:s2-spring-boot-starter-automate-ssm",
-	"s2-spring:automate:s2-spring-boot-starter-automate-data"
+	"s2-spring:automate:s2-spring-boot-starter-automate-data",
+	"s2-spring:automate:s2-spring-boot-starter-automate-ssm"
 )
 
 include(
 	"s2-spring:storming:s2-spring-boot-starter-storming",
 	"s2-spring:storming:s2-spring-boot-starter-storming-data",
+	"s2-spring:storming:s2-spring-boot-starter-storming-ssm",
 )
 
 include(
@@ -31,6 +32,13 @@ include(
 include(
 	"sample:multiautomate",
 	"sample:multiautomate:multiautomate-app"
+)
+
+include(
+	"sample:orderbook-storming",
+	"sample:orderbook-storming:orderbook-storming-app-mongodb",
+	"sample:orderbook-storming:orderbook-storming-app-ssm",
+	"sample:orderbook-storming:orderbook-storming-domain"
 )
 
 include(

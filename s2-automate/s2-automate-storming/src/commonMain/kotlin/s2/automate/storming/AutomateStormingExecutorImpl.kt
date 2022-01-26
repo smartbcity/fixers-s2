@@ -1,5 +1,6 @@
 package s2.automate.storming
 
+import f2.dsl.cqrs.Event
 import kotlinx.coroutines.flow.flowOf
 import s2.automate.core.appevent.AutomateInitTransitionEnded
 import s2.automate.core.appevent.AutomateInitTransitionStarted
@@ -23,10 +24,9 @@ import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.storming.event.EventPersister
 import s2.automate.storming.event.StormingProjectionBuilder
 import s2.dsl.automate.S2Command
-import s2.dsl.automate.S2Event
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
-import s2.dsl.automate.event.S2StormingAutomate
+import s2.dsl.automate.event.storming.automate.S2StormingAutomate
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
@@ -34,11 +34,15 @@ open class AutomateStormingExecutorImpl<STATE, ID, ENTITY, EVENT>(
 	private val automateContext: AutomateContext<STATE, ID, ENTITY, S2StormingAutomate<ID>>,
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2StormingAutomate<ID>>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2StormingAutomate<ID>>,
-	private val projectionBuilder: StormingProjectionBuilder<ENTITY, EVENT, STATE, ID>,
+	private val projectionBuilder: StormingProjectionBuilder<ENTITY, STATE, EVENT, ID>,
 	private val eventStore: EventPersister<EVENT, ID>,
 //	private val persister: AutomatePersister<STATE, ID, ENTITY, S2AutomateEvent<ID>>,
-): AutomateStormingExecutor<STATE, ID, ENTITY, EVENT>
-		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>, EVENT: S2Event<STATE, ID> {
+): AutomateStormingExecutor<ENTITY, STATE, EVENT, ID> where
+STATE : S2State,
+ENTITY : WithS2State<STATE>,
+ENTITY : WithS2Id<ID>,
+EVENT: Event,
+EVENT :  WithS2Id<ID> {
 
 
 	@Suppress("ThrowsCount")
@@ -48,7 +52,7 @@ open class AutomateStormingExecutorImpl<STATE, ID, ENTITY, EVENT>(
 			guardExecutor.evaluateInit(initTransitionContext)
 			val event = toEvent()
 			val entity = projectionBuilder.replay(flowOf(event))
-				?: throw ERROR_ENTITY_NOT_FOUND(event.id.toString()).asException()
+				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 			persist(command, entity, event)
 			sentEndCreateEvent(command, entity)
 			return event
@@ -88,7 +92,7 @@ open class AutomateStormingExecutorImpl<STATE, ID, ENTITY, EVENT>(
 
 			val event = exec(transitionContext.entity)
 			val entityMutated = projectionBuilder.replayAndEvolve(command.id, flowOf(event))
-				?: throw ERROR_ENTITY_NOT_FOUND(event.id.toString()).asException()
+				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 			persist(fromState, command, entityMutated, event)
 			sendEndDoTransitionEvent(entityMutated.s2State(), transitionContext.from, command, transitionContext.entity)
 			return event

@@ -23,11 +23,11 @@ class OrderBookModelEvolver: Evolver<OrderBook, OrderBookEvent> {
 	}
 
 	private fun closed(entity: OrderBook?, event: OrderBookClosedEvent): OrderBook? = entity?.let { current ->
-		OrderBook.status.set(current, event.type)
+		OrderBook.status.set(current, event.state)
 	}
 
 	private fun published(entity: OrderBook?, event: OrderBookPublishedEvent): OrderBook? = entity?.let { current ->
-		OrderBook.status.set(current, event.type)
+		OrderBook.status.set(current, event.state)
 	}
 
 	private fun updated(entity: OrderBook?, event: OrderBookUpdatedEvent): OrderBook? = entity?.let { current ->

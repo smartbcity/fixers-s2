@@ -1,8 +1,11 @@
 package s2.sample.subautomate.domain
 
+import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
-import s2.dsl.automate.event.builder.s2Storming
+import s2.dsl.automate.event.storming.builder.s2Storming
+import s2.sample.subautomate.domain.model.OrderBookId
+import s2.sample.subautomate.domain.model.OrderId
 import s2.sample.subautomate.domain.order.OrderBoughtEvent
 import s2.sample.subautomate.domain.order.OrderBurnedEvent
 import s2.sample.subautomate.domain.order.OrderSoldEvent
@@ -10,11 +13,11 @@ import s2.sample.subautomate.domain.orderBook.OrderBookClosedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookCreatedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
-import s2.sample.subautomate.domain.model.OrderBookId
-import s2.sample.subautomate.domain.model.OrderId
 
 object Role: S2Role
 
+
+@Serializable
 enum class OrderBookState(override var position: Int): S2State {
     Created(0),
     Published(1),

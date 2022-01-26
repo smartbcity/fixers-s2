@@ -2,6 +2,7 @@ package s2.sample.subautomate.app
 
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
+import s2.sample.subautomate.app.config.OrderBookS2Aggregate
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.orderBook.OrderBookCloseCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookClosedEvent
@@ -23,13 +24,13 @@ class OrderBookDeciderImpl(
 	@Bean
 	override fun orderBookCreateDecider(): OrderBookDecide<OrderBookCreateCommand, OrderBookCreatedEvent> =
 		aggregate.init { cmd ->
-			OrderBookCreatedEvent(id = UUID.randomUUID().toString(), name = cmd.name, type = OrderBookState.Created)
+			OrderBookCreatedEvent(id = UUID.randomUUID().toString(), name = cmd.name, state = OrderBookState.Created)
 		}
 
 	@Bean
 	override fun orderBookUpdateDecider(): OrderBookDecide<OrderBookUpdateCommand, OrderBookUpdatedEvent> =
 		aggregate.decide { cmd, _ ->
-			OrderBookUpdatedEvent(id = cmd.id, name = cmd.name, type = OrderBookState.Created)
+			OrderBookUpdatedEvent(id = cmd.id, name = cmd.name, state = OrderBookState.Created)
 		}
 
 	@Bean
@@ -37,7 +38,7 @@ class OrderBookDeciderImpl(
 		aggregate.decide { cmd, entity ->
 			OrderBookPublishedEvent(
 				id = cmd.id,
-				type = entity.status
+				state = entity.status
 			)
 		}
 
@@ -46,7 +47,7 @@ class OrderBookDeciderImpl(
 		aggregate.decide { cmd, _ ->
 			OrderBookClosedEvent(
 				id = cmd.id,
-				type = OrderBookState.Closed
+				state = OrderBookState.Closed
 			)
 		}
 }

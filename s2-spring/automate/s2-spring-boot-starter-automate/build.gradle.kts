@@ -11,8 +11,8 @@ dependencies {
 
 	api("city.smartb.f2:f2-spring-boot-starter-function:${Versions.f2}")
 
-	implementation("org.springframework.boot:spring-boot-autoconfigure:${FixersVersions.Spring.boot}")
-	kapt("org.springframework.boot:spring-boot-configuration-processor:${FixersVersions.Spring.boot}")
+
+	Dependencies.springAutoConfigure(::implementation, ::kapt)
 
 	api("javax.persistence:javax.persistence-api:${Versions.javaxPersistence}")
 	api("org.springframework:spring-context:${Versions.springFramework}")

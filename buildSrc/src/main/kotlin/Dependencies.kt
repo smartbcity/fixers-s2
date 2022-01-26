@@ -7,6 +7,7 @@ import city.smartb.gradle.dependencies.add
 object PluginVersions {
 	const val fixers = "0.3.1"
 	const val d2 = fixers
+	const val ksp = "1.6.10-1.0.2"
 	const val kotlin = FixersPluginVersions.kotlin
 	const val springBoot = FixersPluginVersions.springBoot
 	const val npmPublish = FixersPluginVersions.npmPublish
@@ -14,6 +15,7 @@ object PluginVersions {
 
 object Versions {
 	const val arrow = "1.0.2-alpha.42"
+	const val serialization = "1.3.2"
 
 	const val springBoot = FixersVersions.Spring.boot
 	const val springFramework = "5.3.14"
@@ -29,12 +31,28 @@ object Versions {
 
 object Dependencies {
 
+	fun kserializationJson(scope: Scope) = scope.add(
+		"org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}",
+	)
+
+	fun f2Http(scope: Scope) = scope.add(
+		"city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
+	)
+
 	fun arrow(scope: Scope, ksp: Scope) = scope.add(
 		"io.arrow-kt:arrow-core:${Versions.arrow}",
 		"io.arrow-kt:arrow-optics:${Versions.arrow}",
 	).also {
 		ksp.add(
 			"io.arrow-kt:arrow-optics-ksp-plugin:${Versions.arrow}"
+		)
+	}
+
+	fun springAutoConfigure(scope: Scope, ksp: Scope) = scope.add(
+		"org.springframework.boot:spring-boot-autoconfigure:${FixersVersions.Spring.boot}"
+	).also {
+		ksp.add(
+			"org.springframework.boot:spring-boot-configuration-processor:${FixersVersions.Spring.boot}"
 		)
 	}
 
