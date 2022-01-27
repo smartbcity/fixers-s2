@@ -3,7 +3,7 @@ package s2.sample.subautomate.domain
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
-import s2.dsl.automate.event.storming.builder.s2Storming
+import s2.automate.sourcing.builder.s2Storming
 import s2.sample.subautomate.domain.model.OrderBookId
 import s2.sample.subautomate.domain.model.OrderId
 import s2.sample.subautomate.domain.order.OrderBoughtEvent

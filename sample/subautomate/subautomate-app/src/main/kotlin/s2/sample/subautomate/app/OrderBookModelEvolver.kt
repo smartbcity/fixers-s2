@@ -1,7 +1,7 @@
 package s2.sample.subautomate.app
 
 import org.springframework.stereotype.Service
-import s2.automate.storming.event.Evolver
+import s2.sourcing.dsl.event.Evolver
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.name

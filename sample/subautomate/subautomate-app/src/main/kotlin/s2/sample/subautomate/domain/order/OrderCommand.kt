@@ -1,6 +1,6 @@
 package s2.sample.subautomate.domain.order
 
-import s2.dsl.automate.event.storming.Decide
+import s2.sourcing.dsl.Decide
 import s2.dsl.automate.WithId
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2Event
@@ -24,7 +24,7 @@ interface OrderDecide<
 		COMMAND : OrderCommand,
 		EVENT : OrderEvent
 		>
-	: Decide<OrderId, OrderState, COMMAND, EVENT>
+	: Decide<COMMAND, EVENT>
 
 interface OrderEvent : S2Event<OrderState, OrderId>, WithId<OrderId>
 interface OrderCommand : S2Command<OrderId>

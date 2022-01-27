@@ -10,9 +10,14 @@ rootProject.name = "s2"
 include(
 	"s2-automate:s2-automate-core",
 	"s2-automate:s2-automate-dsl",
-	"s2-automate:s2-automate-storming",
-	"s2-automate:s2-automate-storming-dsl"
+	"s2-automate:s2-automate-storing",
+	"s2-automate:s2-automate-sourcing"
 )
+
+include(
+	"s2-sourcing:s2-sourcing-dsl"
+)
+
 include(
 	"s2-spring:automate:s2-spring-boot-starter-automate",
 	"s2-spring:automate:s2-spring-boot-starter-automate-data",
@@ -20,9 +25,9 @@ include(
 )
 
 include(
-	"s2-spring:storming:s2-spring-boot-starter-storming",
-	"s2-spring:storming:s2-spring-boot-starter-storming-data",
-	"s2-spring:storming:s2-spring-boot-starter-storming-ssm",
+	"s2-spring:sourcing:s2-spring-boot-starter-sourcing",
+	"s2-spring:sourcing:s2-spring-boot-starter-sourcing-data",
+	"s2-spring:sourcing:s2-spring-boot-starter-sourcing-ssm",
 )
 
 include(
@@ -35,10 +40,10 @@ include(
 )
 
 include(
-	"sample:orderbook-storming",
-	"sample:orderbook-storming:orderbook-storming-app-mongodb",
-	"sample:orderbook-storming:orderbook-storming-app-ssm",
-	"sample:orderbook-storming:orderbook-storming-domain"
+	"sample:orderbook-sourcing",
+	"sample:orderbook-sourcing:orderbook-sourcing-app-mongodb",
+	"sample:orderbook-sourcing:orderbook-sourcing-app-ssm",
+	"sample:orderbook-sourcing:orderbook-sourcing-domain"
 )
 
 include(

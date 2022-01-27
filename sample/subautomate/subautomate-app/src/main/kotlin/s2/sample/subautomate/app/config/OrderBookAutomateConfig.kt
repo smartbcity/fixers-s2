@@ -8,11 +8,11 @@ import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.OrderBookId
 import s2.sample.subautomate.domain.orderBook.OrderBookEvent
 import s2.sample.subautomate.domain.orderBookAutomate
-import s2.spring.automate.storming.S2AutomateEvolverSpring
-import s2.spring.storming.data.S2StormingSpringDataAdapter
+import s2.spring.automate.sourcing.S2AutomateEvolverSpring
+import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
-class OrderBookAutomateConfig : S2StormingSpringDataAdapter<
+class OrderBookAutomateConfig : S2SourcingSpringDataAdapter<
 		OrderBook, OrderBookState, OrderBookEvent, OrderBookId, OrderBookS2Aggregate>() {
 	override fun automate() = orderBookAutomate
 

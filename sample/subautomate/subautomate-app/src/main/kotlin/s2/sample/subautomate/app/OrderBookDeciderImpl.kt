@@ -23,19 +23,19 @@ class OrderBookDeciderImpl(
 
 	@Bean
 	override fun orderBookCreateDecider(): OrderBookDecide<OrderBookCreateCommand, OrderBookCreatedEvent> =
-		aggregate.init { cmd ->
+		aggregate.init { cmd: OrderBookCreateCommand ->
 			OrderBookCreatedEvent(id = UUID.randomUUID().toString(), name = cmd.name, state = OrderBookState.Created)
 		}
 
 	@Bean
 	override fun orderBookUpdateDecider(): OrderBookDecide<OrderBookUpdateCommand, OrderBookUpdatedEvent> =
-		aggregate.decide { cmd, _ ->
+		aggregate.decide { cmd: OrderBookUpdateCommand, _ ->
 			OrderBookUpdatedEvent(id = cmd.id, name = cmd.name, state = OrderBookState.Created)
 		}
 
 	@Bean
 	override fun orderBookPublishDecider(): OrderBookDecide<OrderBookPublishCommand, OrderBookPublishedEvent> =
-		aggregate.decide { cmd, entity ->
+		aggregate.decide { cmd: OrderBookPublishCommand, entity ->
 			OrderBookPublishedEvent(
 				id = cmd.id,
 				state = entity.status
@@ -44,7 +44,7 @@ class OrderBookDeciderImpl(
 
 	@Bean
 	override fun orderBookCloseDecider(): OrderBookDecide<OrderBookCloseCommand, OrderBookClosedEvent> =
-		aggregate.decide { cmd, _ ->
+		aggregate.decide { cmd: OrderBookCloseCommand, _ ->
 			OrderBookClosedEvent(
 				id = cmd.id,
 				state = OrderBookState.Closed

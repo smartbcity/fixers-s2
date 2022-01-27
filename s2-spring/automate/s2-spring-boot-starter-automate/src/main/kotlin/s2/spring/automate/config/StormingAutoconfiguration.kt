@@ -8,12 +8,12 @@ import org.springframework.data.repository.core.support.ReactiveRepositoryFactor
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.spring.automate.storming.StormingEventSink
-import s2.spring.automate.storming.entity.SnapEntityRepository
+import s2.spring.automate.sourcing.StormingEventSink
+import s2.spring.automate.sourcing.entity.SnapEntityRepository
 
 @EnableConfigurationProperties(S2AutomateProperties::class)
 @ConditionalOnProperty(
-	name = ["s2.storming.enable"],
+	name = ["s2.sourcing.enable"],
 	havingValue = "true")
 @Configuration
 open class StormingAutoconfiguration<STATE, ID, ENTITY> where
