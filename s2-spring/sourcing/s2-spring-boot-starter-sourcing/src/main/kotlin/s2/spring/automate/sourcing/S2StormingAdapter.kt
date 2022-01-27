@@ -4,6 +4,7 @@ import f2.dsl.cqrs.Event
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import s2.automate.core.TransitionStateGuard
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
 import s2.automate.core.guard.GuardAdapter
@@ -61,7 +62,7 @@ EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
 	}
 
 	protected open fun guards(): List<GuardAdapter<STATE, ID, ENTITY, S2StormingAutomate<ID>>> = listOf(
-//		TransitionStateGuard()
+		TransitionStateGuard()
 	)
 
 	@Configuration

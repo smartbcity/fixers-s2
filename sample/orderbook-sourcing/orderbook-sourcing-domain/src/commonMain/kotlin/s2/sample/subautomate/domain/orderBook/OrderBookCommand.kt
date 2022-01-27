@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.WithId
 import s2.sourcing.dsl.Decide
 import s2.sourcing.dsl.Evolve
 import s2.dsl.automate.model.WithS2Id
@@ -23,7 +24,7 @@ data class OrderBookCreateCommand(
 @SerialName("OrderBookCreatedEvent")
 data class OrderBookCreatedEvent(
 	val name: String,
-	val id: OrderId,
+	override val id: OrderId,
 	val state: OrderBookState
 ) : OrderBookEvent() {
 	override fun s2Id() = id
@@ -41,7 +42,7 @@ data class OrderBookUpdateCommand(
 @SerialName("OrderBookUpdatedEvent")
 data class OrderBookUpdatedEvent(
 	val name: String,
-	val id: OrderId,
+	override val id: OrderId,
 	val state: OrderBookState
 ) : OrderBookEvent() {
 	override fun s2Id() = id
@@ -55,7 +56,7 @@ data class OrderBookPublishCommand(override val id: OrderBookId) : OrderBookComm
 @Serializable
 @SerialName("OrderBookPublishedEvent")
 data class OrderBookPublishedEvent(
-	val id: OrderId,
+	override val id: OrderId,
 	val state: OrderBookState
 ) : OrderBookEvent() {
 	override fun s2Id() = id
@@ -69,14 +70,14 @@ data class OrderBookCloseCommand(override val id: OrderBookId) : OrderBookComman
 @Serializable
 @SerialName("OrderBookClosedEvent")
 data class OrderBookClosedEvent(
-	val id: OrderId, val state: OrderBookState
+	override val id: OrderId, val state: OrderBookState
 ) : OrderBookEvent() {
 	override fun s2Id() = id
 	override fun s2State() = state
 }
 
 @Serializable
-sealed class OrderBookEvent : Event, WithS2Id<OrderId>, WithS2State<OrderBookState>
+sealed class OrderBookEvent : Event, WithS2Id<OrderId>, WithS2State<OrderBookState>, WithId<OrderId>
 
 //@Serializable
 sealed interface OrderBookCommand : S2Command<OrderBookId>

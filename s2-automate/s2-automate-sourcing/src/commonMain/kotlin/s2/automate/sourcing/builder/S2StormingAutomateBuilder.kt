@@ -1,50 +1,39 @@
 package s2.automate.sourcing.builder
 
-import f2.dsl.cqrs.Event
 import s2.dsl.automate.builder.S2SelfTransitionBuilder
 import s2.dsl.automate.builder.S2TransitionBuilder
 import s2.automate.sourcing.automate.S2StormingAutomate
 import s2.automate.sourcing.automate.S2StormingSubMachine
-import s2.automate.sourcing.automate.S2StormingTransition
+import s2.dsl.automate.S2Transition
+import s2.dsl.automate.WithId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
 class S2StormingAutomateBuilder<ID> {
 	lateinit var name: String
-	val transactions = mutableListOf<S2StormingTransition>()
+	val transactions = mutableListOf<S2Transition<ID>>()
 	val subMachines = mutableListOf<S2StormingSubMachine<ID>>()
 
-//	inline fun <reified MSG: WithId<ID>> init(exec: S2TransitionBuilder.() -> Unit) {
-//		val builder = S2TransitionBuilder()
-//		builder.exec()
-//		S2Transition(
-//			from = null,
-//			to = builder.to,
-//			role = builder.role,
-//			command = MSG::class,
-//		).let(transactions::add)
-//	}
-
-	inline fun <reified MSG: Event> transaction(exec: S2TransitionBuilder.() -> Unit) {
+	inline fun <reified MSG: WithId<ID>> transaction(exec: S2TransitionBuilder.() -> Unit) {
 		val builder = S2TransitionBuilder()
 		builder.exec()
-		S2StormingTransition(
+		S2Transition(
 			from = builder.from,
 			to = builder.to,
 			role = builder.role,
-			msg = MSG::class,
+			command = MSG::class,
 		).let(transactions::add)
 	}
 
-	inline fun <reified MSG: Event> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
+	inline fun <reified MSG: WithId<ID>> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
 		val builder = S2SelfTransitionBuilder()
 		builder.exec()
 		builder.states.map { state ->
-			S2StormingTransition(
+			S2Transition(
 				from = state,
 				to = state,
 				role = builder.role,
-				msg = MSG::class,
+				command = MSG::class,
 			)
 		}.forEach(transactions::add)
 	}
