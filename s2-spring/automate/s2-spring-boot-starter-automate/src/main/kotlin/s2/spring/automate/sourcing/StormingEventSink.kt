@@ -14,7 +14,7 @@ import s2.spring.automate.sourcing.entity.StormingSnapTransaction
 
 class StormingEventSink<STATE, ID, ENTITY>(
 	private val repo: SnapEntityRepository<STATE, ID, ENTITY>,
-) : AutomateListenerAdapter<STATE, ID, ENTITY, S2Automate<ID>>()
+) : AutomateListenerAdapter<STATE, ID, ENTITY, S2Automate>()
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	@EventListener

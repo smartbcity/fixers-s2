@@ -19,7 +19,7 @@ ENTITY : WithS2Id<ID> {
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.
 	 */
-	suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
+	suspend fun evaluateInit(context: InitTransitionContext<AUTOMATE>): GuardResult
 
 	/**
 	 * Evaluate a guard condition for transition.

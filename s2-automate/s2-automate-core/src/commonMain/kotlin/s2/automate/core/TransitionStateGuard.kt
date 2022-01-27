@@ -14,7 +14,7 @@ class TransitionStateGuard<STATE, ID, ENTITY, AUTOMATE> : GuardAdapter<STATE, ID
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-AUTOMATE : Automate<ID>
+AUTOMATE : Automate
 {
 
 	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult {

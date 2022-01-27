@@ -3,6 +3,7 @@ package s2.sample.subautomate.domain.orderBook
 import f2.dsl.cqrs.Event
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import s2.dsl.automate.Msg
 import s2.sourcing.dsl.Decide
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -76,7 +77,7 @@ data class OrderBookClosedEvent(
 }
 
 @Serializable
-sealed class OrderBookEvent : Event, WithS2Id<OrderId>, WithS2State<OrderBookState>
+sealed class OrderBookEvent : Event, WithS2Id<OrderId>, WithS2State<OrderBookState>, Msg
 
 //@Serializable
 sealed interface OrderBookCommand : S2Command<OrderBookId>

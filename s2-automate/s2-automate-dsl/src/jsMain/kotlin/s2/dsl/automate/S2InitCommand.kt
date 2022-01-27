@@ -8,6 +8,6 @@ actual external interface S2InitCommand : Command
 
 @JsExport
 @JsName("S2Command")
-actual external interface S2Command<ID> : Command, WithId<ID> {
+actual external interface S2Command<ID> : Command, WithId<ID>, Msg {
 	actual override val id: ID
 }

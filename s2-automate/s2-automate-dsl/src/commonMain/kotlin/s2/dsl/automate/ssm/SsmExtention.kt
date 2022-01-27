@@ -5,14 +5,14 @@ import s2.dsl.automate.S2Transition
 import ssm.chaincode.dsl.model.Ssm
 import ssm.chaincode.dsl.model.SsmTransition
 
-fun S2Automate<*>.toSsm() = Ssm(
+fun S2Automate.toSsm() = Ssm(
 	name = this.name,
 	transitions = this.transitions.toSsmTransitions()
 )
 
-fun Array<out S2Transition<*>>.toSsmTransitions() =filter { it.from != null }. map { it.toSsmTransition() }
+fun Array<out S2Transition>.toSsmTransitions() =filter { it.from != null }. map { it.toSsmTransition() }
 
-fun S2Transition<*>.toSsmTransition() = SsmTransition(
+fun S2Transition.toSsmTransition() = SsmTransition(
 	from = this.from!!.position,
 	to = this.to.position,
 	role = this.role::class.simpleName!!,

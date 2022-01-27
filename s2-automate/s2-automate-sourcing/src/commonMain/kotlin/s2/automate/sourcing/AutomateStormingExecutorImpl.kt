@@ -26,14 +26,14 @@ import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
-import s2.automate.sourcing.automate.S2StormingAutomate
+import s2.automate.sourcing.automate.S2SourcingAutomate
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 open class AutomateStormingExecutorImpl<STATE, ID, ENTITY, EVENT>(
-	private val automateContext: AutomateContext<STATE, ID, ENTITY, S2StormingAutomate<ID>>,
-	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2StormingAutomate<ID>>,
-	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2StormingAutomate<ID>>,
+	private val automateContext: AutomateContext<S2SourcingAutomate>,
+	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2SourcingAutomate>,
+	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2SourcingAutomate>,
 	private val projectionBuilder: SourcingProjectionBuilder<ENTITY, EVENT, ID>,
 	private val eventStore: EventPersister<EVENT, ID>,
 ): AutomateStormingExecutor<ENTITY, STATE, EVENT, ID> where
@@ -45,11 +45,11 @@ EVENT :  WithS2Id<ID> {
 
 
 	@Suppress("ThrowsCount")
-	override suspend fun <EVENTD : EVENT> create(command: S2InitCommand, toEvent: suspend () -> EVENTD): EVENTD {
+	override suspend fun <EVENTD : EVENT> create(command: S2InitCommand, buildEvent: suspend () -> EVENTD): EVENTD {
 		try {
 			val initTransitionContext = initTransitionContext(command)
 			guardExecutor.evaluateInit(initTransitionContext)
-			val event = toEvent()
+			val event = buildEvent()
 			val entity = projectionBuilder.replay(flowOf(event))
 				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 			persist(command, entity, event)
@@ -122,7 +122,7 @@ EVENT :  WithS2Id<ID> {
 
 	private fun initTransitionContext(
 		command: S2InitCommand,
-	): InitTransitionContext<STATE, ID, ENTITY, S2StormingAutomate<ID>> {
+	): InitTransitionContext<S2SourcingAutomate> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,
 			command = command,
@@ -187,7 +187,7 @@ EVENT :  WithS2Id<ID> {
 
 	private suspend fun loadTransitionContext(
 		command: S2Command<ID>,
-	): TransitionContext<STATE, ID, ENTITY, S2StormingAutomate<ID>> {
+	): TransitionContext<STATE, ID, ENTITY, S2SourcingAutomate> {
 		val entity = projectionBuilder.replay(command.id)
 			?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
 		val transitionContext = TransitionContext(

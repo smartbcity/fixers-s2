@@ -17,11 +17,11 @@ open class S2InitTransition(
 
 @JsExport
 @JsName("S2Transition")
-open class S2Transition<ID>(
+open class S2Transition(
 	open val from: S2State?,
 	open val to: S2State,
 	open val role: S2Role,
-	open val command: KClass<out WithId<ID>>,
+	open val command: KClass<out Msg>,
 )
 
 @JsExport

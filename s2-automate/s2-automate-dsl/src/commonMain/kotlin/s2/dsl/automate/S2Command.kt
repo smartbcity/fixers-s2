@@ -4,6 +4,6 @@ import f2.dsl.cqrs.Command
 
 expect interface S2InitCommand : Command
 
-expect interface S2Command<ID> : Command, WithId<ID> {
+expect interface S2Command<ID> : Command, WithId<ID>, Msg {
 	override val id: ID
 }

@@ -14,5 +14,5 @@ ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 	suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>): ENTITY
 	suspend fun persist(transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>): ENTITY
-	suspend fun load(automateContext: AutomateContext<STATE, ID, ENTITY, S2Automate<ID>>, id: ID): ENTITY?
+	suspend fun load(automateContext: AutomateContext<AUTOMATE>, id: ID): ENTITY?
 }

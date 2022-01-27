@@ -13,8 +13,8 @@ import kotlin.js.JsName
 class S2AutomateBuilder<STATE: S2State, ID> {
 	lateinit var name: String
 	lateinit var init: S2InitTransition
-	val transactions = mutableListOf<S2Transition<ID>>()
-	val subMachines = mutableListOf<S2SubMachine<ID>>()
+	val transactions = mutableListOf<S2Transition>()
+	val subMachines = mutableListOf<S2SubMachine>()
 
 	inline fun <reified CMD: S2InitCommand> init(exec: S2InitTransitionBuilder<STATE>.() -> Unit) {
 		val builder = S2InitTransitionBuilder<STATE>()
@@ -72,7 +72,7 @@ class S2AutomateBuilder<STATE: S2State, ID> {
 
 @JsExport
 @JsName("s2")
-fun <ID, STATE: S2State> s2(exec: S2AutomateBuilder<STATE, ID>.() -> Unit): S2Automate<ID> {
+fun <ID, STATE: S2State> s2(exec: S2AutomateBuilder<STATE, ID>.() -> Unit): S2Automate {
 	val builder = S2AutomateBuilder<STATE, ID>()
 	builder.exec()
 	return S2Automate(

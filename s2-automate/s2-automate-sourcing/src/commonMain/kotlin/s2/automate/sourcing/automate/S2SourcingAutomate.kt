@@ -1,16 +1,20 @@
-package s2.dsl.automate
+package s2.automate.sourcing.automate
 
+import s2.dsl.automate.Automate
+import s2.dsl.automate.Msg
+import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.S2State
+import s2.dsl.automate.S2Transition
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
 @JsExport
-@JsName("S2Automate")
-class S2Automate(
+@JsName("S2SourcingAutomate")
+class S2SourcingAutomate(
 	val name: String,
-	val init: S2InitTransition,
 	val transitions: Array<S2Transition>,
-	val subMachines: Array<S2SubMachine>
-):Automate {
+	val subMachines: Array<S2StormingSubMachine>
+): Automate {
 	override fun getAvailableTransitions(state: S2State): List<S2Transition> {
 		return transitions.filter { isSameState(it.from, state) }
 	}
@@ -20,7 +24,7 @@ class S2Automate(
 	}
 
 	override fun isAvailableInitTransition(command: S2InitCommand): Boolean {
-		return init.command.isInstance(command)
+		return transitions.any { it.from == null && it.command.isInstance(command) }
 	}
 
 	override fun isFinalState(state: S2State): Boolean {

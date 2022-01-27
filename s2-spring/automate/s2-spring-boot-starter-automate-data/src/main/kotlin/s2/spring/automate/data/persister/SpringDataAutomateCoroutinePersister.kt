@@ -12,22 +12,22 @@ import s2.dsl.automate.model.WithS2State
 
 class SpringDataAutomateCoroutinePersister<STATE, ID, ENTITY>(
 	private val repository: CoroutineCrudRepository<ENTITY, ID>,
-) : AutomatePersister<STATE, ID, ENTITY, S2Automate<ID>> where
+) : AutomatePersister<STATE, ID, ENTITY, S2Automate> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
 	override suspend fun persist(
-		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate<ID>>,
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
 	): ENTITY {
 		return repository.save(transitionContext.entity)
 	}
 
-	override suspend fun load(automateContext: AutomateContext<STATE, ID, ENTITY, S2Automate<ID>>, id: ID): ENTITY? {
+	override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID): ENTITY? {
 		return repository.findById(id)
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate<ID>>): ENTITY {
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
 		return repository.save(transitionContext.entity)
 	}
 

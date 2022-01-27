@@ -115,6 +115,6 @@ class AutomateSessionStopped<AUTOMATE>(
  * @param exception the exception
  */
 class AutomateSessionError<AUTOMATE>(
-	val automate: S2Automate<*>,
+	val automate: S2Automate,
 	val exception: Exception?,
 ) : AppEvent

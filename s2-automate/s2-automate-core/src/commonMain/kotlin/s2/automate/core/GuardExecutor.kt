@@ -12,7 +12,7 @@ interface GuardExecutor<STATE, ID, ENTITY, AUTOMATE> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
-	suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY, AUTOMATE>)
+	suspend fun evaluateInit(context: InitTransitionContext<AUTOMATE>)
 	suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>)
 	suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>)
 	suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>)

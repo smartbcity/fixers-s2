@@ -6,7 +6,7 @@ import s2.dsl.automate.S2Transition
 
 class S2NodeBuilder<ID> {
     lateinit var state: S2State
-    val transactions: MutableList<S2Transition<ID>> = mutableListOf()
+    val transactions: MutableList<S2Transition> = mutableListOf()
 
     inline fun <reified CMD : S2Command<ID>> transaction(
         exec: S2NodeTransitionBuilder.() -> Unit,

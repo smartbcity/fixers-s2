@@ -7,11 +7,11 @@ import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
+import s2.automate.sourcing.toSsm
 import s2.sourcing.dsl.event.EventPersister
 import s2.sourcing.dsl.event.Evolver
 import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.dsl.automate.S2State
-import s2.automate.sourcing.automate.toSsm
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.sourcing.S2AutomateEvolverSpring

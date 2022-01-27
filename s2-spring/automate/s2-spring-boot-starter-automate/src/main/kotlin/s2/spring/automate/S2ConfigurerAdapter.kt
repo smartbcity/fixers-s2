@@ -33,11 +33,11 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 		return AutomateStoringExecutor(automateContext, guardExecutor, persister, publisher)
 	}
 
-	protected open fun automateContext() = AutomateContext(automate(), guards())
+	protected open fun automateContext() = AutomateContext(automate())
 
 	protected open fun guardExecutor(
-		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate<ID>>,
-	): GuardExecutorImpl<STATE, ID, ENTITY, S2Automate<ID>> {
+		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
+	): GuardExecutorImpl<STATE, ID, ENTITY, S2Automate> {
 		return GuardExecutorImpl(
 			guards = guards(),
 			publisher = automateAppEventPublisher
@@ -45,11 +45,11 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	}
 
 	protected open fun automateAppEventPublisher(eventPublisher: SpringEventPublisher)
-			: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate<ID>> {
+			: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate> {
 		return AutomateEventPublisher(eventPublisher)
 	}
 
-	protected open fun guards(): List<GuardAdapter<STATE, ID, ENTITY, S2Automate<ID>>> =
+	protected open fun guards(): List<GuardAdapter<STATE, ID, ENTITY, S2Automate>> =
 		listOf(TransitionStateGuard())
 
 	override fun afterPropertiesSet() {
@@ -58,7 +58,7 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 		agg.withContext(automateExecutor, eventPublisher)
 	}
 
-	abstract fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate<ID>>
-	abstract fun automate(): S2Automate<ID>
+	abstract fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate>
+	abstract fun automate(): S2Automate
 	abstract fun executor(): EXECUTER
 }

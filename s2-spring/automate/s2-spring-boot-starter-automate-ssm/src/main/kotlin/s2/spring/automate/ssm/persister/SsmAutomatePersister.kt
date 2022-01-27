@@ -27,7 +27,7 @@ import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
-class SsmAutomatePersister<STATE, ID, ENTITY> : AutomatePersister<STATE, ID, ENTITY, S2Automate<ID>> where
+class SsmAutomatePersister<STATE, ID, ENTITY> : AutomatePersister<STATE, ID, ENTITY, S2Automate> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
@@ -45,7 +45,7 @@ ENTITY : WithS2Id<ID> {
 
 
 	override suspend fun persist(
-		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate<ID>>,
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
 	): ENTITY {
 		val entity = transitionContext.entity
 		val sessionName = entity.s2Id().toString()
@@ -69,12 +69,12 @@ ENTITY : WithS2Id<ID> {
 		return entity
 	}
 
-	override suspend fun load(automateContext: AutomateContext<STATE, ID, ENTITY, S2Automate<ID>>, id: ID): ENTITY? {
+	override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID): ENTITY? {
 		val session = getSession( id.toString(), automateContext).item ?: return null
 		return objectMapper.readValue(session.state.details.public as String, entityType)
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate<ID>>): ENTITY {
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
 		val entity = transitionContext.entity
 		val automate = transitionContext.automateContext.automate
 
@@ -92,14 +92,14 @@ ENTITY : WithS2Id<ID> {
 		return entity
 	}
 
-	private suspend fun getIteration(automateContext: AutomateContext<STATE, ID, ENTITY, S2Automate<ID>>, sessionId: SessionName): Int {
+	private suspend fun getIteration(automateContext: AutomateContext<S2Automate>, sessionId: SessionName): Int {
 		return getSession(sessionId, automateContext)
 			.item?.state?.details?.iteration ?: return 0
 	}
 
 	private suspend fun getSession(
 		sessionId: SessionName,
-		automateContext: AutomateContext<STATE, ID, ENTITY, S2Automate<ID>>
+		automateContext: AutomateContext<S2Automate>
 	) = DataSsmSessionGetQuery(
 		sessionName = sessionId,
 		ssmUri = chaincodeUri.toSsmUri(automateContext.automate.name)

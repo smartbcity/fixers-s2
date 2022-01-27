@@ -29,10 +29,10 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 open class AutomateStoringExecutor<STATE, ID, ENTITY>(
-	private val automateContext: AutomateContext<STATE, ID, ENTITY, S2Automate<ID>>,
-	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate<ID>>,
-	private val persister: AutomatePersister<STATE, ID, ENTITY, S2Automate<ID>>,
-	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate<ID>>,
+	private val automateContext: AutomateContext<S2Automate>,
+	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate>,
+	private val persister: AutomatePersister<STATE, ID, ENTITY, S2Automate>,
+	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
 ) : S2Executor<ENTITY, STATE, ID, ENTITY>
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
@@ -113,7 +113,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 
 	private fun initTransitionContext(
 		command: S2InitCommand,
-	): InitTransitionContext<STATE, ID, ENTITY, S2Automate<ID>> {
+	): InitTransitionContext<S2Automate> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,
 			command = command,
@@ -178,7 +178,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 
 	private suspend fun loadTransitionContext(
 		command: S2Command<ID>,
-	): Pair<ENTITY, TransitionContext<STATE, ID, ENTITY, S2Automate<ID>>> {
+	): Pair<ENTITY, TransitionContext<STATE, ID, ENTITY, S2Automate>> {
 		val entity =
 			persister.load(automateContext, id = command.id) ?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
 		val transitionContext = TransitionContext(

@@ -21,7 +21,7 @@ class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
 	ENTITY : WithS2State<STATE>,
 	ENTITY : WithS2Id<ID> {
 
-	override suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY, AUTOMATE>) {
+	override suspend fun evaluateInit(context: InitTransitionContext<AUTOMATE>) {
 		val result = guards.map { it.evaluateInit(context) }.flatten()
 		handleResult(result, context.command)
 	}

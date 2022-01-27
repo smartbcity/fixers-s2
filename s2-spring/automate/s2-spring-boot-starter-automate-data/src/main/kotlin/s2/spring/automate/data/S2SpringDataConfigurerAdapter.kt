@@ -19,7 +19,7 @@ ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
-	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate<ID>> {
+	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate> {
 		return SpringDataAutomatePersister(
 			aggregateRepository
 		)

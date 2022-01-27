@@ -41,7 +41,7 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	lateinit var objectMapper: ObjectMapper
 
 //	@Bean
-	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate<ID>> {
+	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate> {
 		return SsmAutomatePersister<STATE, ID, ENTITY>().also {
 			it.ssmTxInitFunction = ssmTxInitFunction
 			it.ssmSessionStartFunction = ssmSessionStartFunction

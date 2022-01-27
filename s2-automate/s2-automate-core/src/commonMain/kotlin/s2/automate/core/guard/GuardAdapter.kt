@@ -13,10 +13,10 @@ open class GuardAdapter<STATE, ID, ENTITY, AUTOMATE> : Guard<STATE, ID, ENTITY, 
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-AUTOMATE : Automate<ID>
+AUTOMATE : Automate
 {
 
-	override suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY, AUTOMATE>) = GuardResult.valid()
+	override suspend fun evaluateInit(context: InitTransitionContext<AUTOMATE>) = GuardResult.valid()
 
 	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>) = GuardResult.valid()
 

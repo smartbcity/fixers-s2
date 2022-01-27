@@ -5,10 +5,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class InitTransitionContext<STATE, ID, ENTITY, AUTOMATE>(
-	val automateContext: AutomateContext<STATE, ID, ENTITY, AUTOMATE>,
+class InitTransitionContext<AUTOMATE>(
+	val automateContext: AutomateContext<AUTOMATE>,
 	val command: S2InitCommand,
-) where
-STATE : S2State,
-ENTITY : WithS2State<STATE>,
-ENTITY : WithS2Id<ID>
+)

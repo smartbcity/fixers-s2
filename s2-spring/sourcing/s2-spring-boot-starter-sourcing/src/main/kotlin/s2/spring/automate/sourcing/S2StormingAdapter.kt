@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Configuration
 import s2.automate.core.TransitionStateGuard
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
-import s2.automate.core.guard.GuardAdapter
+import s2.automate.core.guard.Guard
 import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.sourcing.AutomateStormingExecutor
 import s2.automate.sourcing.AutomateStormingExecutorImpl
-import s2.automate.sourcing.automate.S2StormingAutomate
+import s2.automate.sourcing.automate.S2SourcingAutomate
 import s2.dsl.automate.S2State
 import s2.sourcing.dsl.event.EventPersister
 import s2.sourcing.dsl.event.SourcingProjectionBuilder
@@ -45,11 +45,11 @@ EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
 		)
 	}
 
-	protected open fun automateContext() = AutomateContext(automate(), guards())
+	protected open fun automateContext() = AutomateContext(automate())
 
 	protected open fun guardExecutor(
-		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2StormingAutomate<ID>>,
-	): GuardExecutorImpl<STATE, ID, ENTITY, S2StormingAutomate<ID>> {
+		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2SourcingAutomate>,
+	): GuardExecutorImpl<STATE, ID, ENTITY, S2SourcingAutomate> {
 		return GuardExecutorImpl(
 			guards = guards(),
 			publisher = automateAppEventPublisher
@@ -57,11 +57,11 @@ EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
 	}
 
 	protected open fun automateAppEventPublisher(eventPublisher: SpringEventPublisher)
-			: AutomateEventPublisher<STATE, ID, ENTITY, S2StormingAutomate<ID>> {
+			: AutomateEventPublisher<STATE, ID, ENTITY, S2SourcingAutomate> {
 		return AutomateEventPublisher(eventPublisher)
 	}
 
-	protected open fun guards(): List<GuardAdapter<STATE, ID, ENTITY, S2StormingAutomate<ID>>> = listOf(
+	protected open fun guards(): List<Guard<STATE, ID, ENTITY, S2SourcingAutomate>> = listOf(
 		TransitionStateGuard()
 	)
 
@@ -75,6 +75,6 @@ EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
 		}
 	}
 
-	abstract fun automate(): S2StormingAutomate<ID>
+	abstract fun automate(): S2SourcingAutomate
 	abstract fun executor(): EXECUTER
 }
