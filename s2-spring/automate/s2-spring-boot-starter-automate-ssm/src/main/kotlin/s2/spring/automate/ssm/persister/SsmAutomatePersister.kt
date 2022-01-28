@@ -56,7 +56,7 @@ ENTITY : WithS2Id<ID> {
 			agent = agentSigner
 		))
 		val context = SsmSessionPerformActionCommand(
-			action = transitionContext.command::class.simpleName!!,
+			action = transitionContext.msg::class.simpleName!!,
 			context = SsmContext(
 				session = entity.s2Id().toString(),
 				public = objectMapper.writeValueAsString(entity),

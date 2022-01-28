@@ -30,7 +30,7 @@ ENTITY : WithS2Id<ID> {
 	suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
 
 	/**
-	 * Vefiry a guard condition after init transition has been applied.
+	 * Verify a guard condition after init transition has been applied.
 	 *
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.
@@ -38,7 +38,7 @@ ENTITY : WithS2Id<ID> {
 	suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
 
 	/**
-	 * Vefiry a guard condition after init transition has been applied.
+	 * Verify a guard condition after init transition has been applied.
 	 *
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.

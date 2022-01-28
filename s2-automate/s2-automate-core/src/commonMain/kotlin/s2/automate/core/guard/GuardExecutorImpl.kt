@@ -23,12 +23,12 @@ class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
 
 	override suspend fun evaluateInit(context: InitTransitionContext<AUTOMATE>) {
 		val result = guards.map { it.evaluateInit(context) }.flatten()
-		handleResult(result, context.command)
+		handleResult(result, context.msg)
 	}
 
 	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.evaluateTransition(context) }.flatten()
-		handleResult(result, context.command, context.from)
+		handleResult(result, context.msg, context.from)
 	}
 
 	private fun List<GuardResult>.flatten(): GuardResult {
@@ -38,12 +38,12 @@ class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
 
 	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.verifyInitTransition(context) }.flatten()
-		handleResult(result, context.command)
+		handleResult(result, context.msg)
 	}
 
 	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.verifyTransition(context) }.flatten()
-		handleResult(result, context.command, context.from)
+		handleResult(result, context.msg, context.from)
 	}
 
 	private fun handleResult(

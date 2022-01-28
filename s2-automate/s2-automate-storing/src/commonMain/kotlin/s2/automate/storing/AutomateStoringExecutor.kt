@@ -60,7 +60,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 	private suspend fun persist(command: S2InitCommand, entity: ENTITY) {
 		val initTransitionPersistContext = InitTransitionAppliedContext(
 			automateContext = automateContext,
-			command = command,
+			msg = command,
 			entity = entity
 		)
 		guardExecutor.verifyInitTransition(initTransitionPersistContext)
@@ -104,7 +104,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 		val transitionPersistContext = TransitionAppliedContext(
 			automateContext = automateContext,
 			from = fromState,
-			command = command,
+			msg = command,
 			entity = entityMutated
 		)
 		guardExecutor.verifyTransition(transitionPersistContext)
@@ -116,7 +116,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 	): InitTransitionContext<S2Automate> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,
-			command = command,
+			msg = command,
 		)
 		publisher.automateInitTransitionStarted(
 			AutomateInitTransitionStarted(
@@ -184,7 +184,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 		val transitionContext = TransitionContext(
 			automateContext = automateContext,
 			from = entity.s2State(),
-			command = command,
+			msg = command,
 			entity = entity,
 		)
 		publisher.automateTransitionStarted(

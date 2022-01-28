@@ -7,12 +7,9 @@ import s2.dsl.automate.model.WithS2State
 import kotlin.js.JsName
 
 @JsName("S2ExecutorWithInit")
-interface S2Executor<ENTITY, STATE, ID, TO>
-		where
+interface S2Executor<ENTITY, STATE, ID, TO> where
 ENTITY : WithS2State<STATE>,
-STATE : S2State
-{
+STATE : S2State {
 	suspend fun <EVENT_OUT : TO> create(command: S2InitCommand, buildEvent: suspend () -> EVENT_OUT): EVENT_OUT
-
 	suspend fun <EVENT_OUT : TO> doTransition(command: S2Command<ID>, exec: suspend (ENTITY) -> EVENT_OUT): EVENT_OUT
 }

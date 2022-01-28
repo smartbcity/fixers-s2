@@ -4,5 +4,5 @@ import s2.dsl.automate.Msg
 
 class InitTransitionContext<AUTOMATE>(
 	val automateContext: AutomateContext<AUTOMATE>,
-	val command: Msg,
+	val msg: Msg,
 )

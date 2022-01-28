@@ -70,7 +70,7 @@ EVENT :  WithS2Id<ID> {
 	private suspend fun persist(command: S2InitCommand, entity: ENTITY, event: EVENT) {
 		val initTransitionPersistContext = InitTransitionAppliedContext(
 			automateContext = automateContext,
-			command = command,
+			msg = command,
 			entity = entity
 		)
 		guardExecutor.verifyInitTransition(initTransitionPersistContext)
@@ -111,7 +111,7 @@ EVENT :  WithS2Id<ID> {
 		val transitionPersistContext = TransitionAppliedContext(
 			automateContext = automateContext,
 			from = fromState,
-			command = command,
+			msg = command,
 			entity = entityMutated
 		)
 		guardExecutor.verifyTransition(transitionPersistContext)
@@ -124,7 +124,7 @@ EVENT :  WithS2Id<ID> {
 	): InitTransitionContext<S2SourcingAutomate> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,
-			command = command,
+			msg = command,
 		)
 		publisher.automateInitTransitionStarted(
 			AutomateInitTransitionStarted(
@@ -192,7 +192,7 @@ EVENT :  WithS2Id<ID> {
 		val transitionContext = TransitionContext(
 			automateContext = automateContext,
 			from = entity.s2State(),
-			command = command,
+			msg = command,
 			entity = entity,
 		)
 		publisher.automateTransitionStarted(
