@@ -1,13 +1,11 @@
 package s2.dsl.automate
 
-import f2.dsl.cqrs.Command
-
 @JsExport
 @JsName("S2InitCommand")
-actual external interface S2InitCommand : Command
+actual external interface S2InitCommand : Cmd
 
 @JsExport
 @JsName("S2Command")
-actual external interface S2Command<ID> : Command, WithId<ID>, Msg {
+actual external interface S2Command<ID> : Cmd, WithId<ID> {
 	actual override val id: ID
 }

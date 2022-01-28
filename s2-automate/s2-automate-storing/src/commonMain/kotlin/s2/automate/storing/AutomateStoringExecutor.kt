@@ -49,7 +49,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 		} catch (e: Exception) {
 			publisher.automateTransitionError(
 				AutomateTransitionError(
-					command = command,
+					msg = command,
 					exception = e
 				)
 			)
@@ -92,7 +92,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 		} catch (e: Exception) {
 			publisher.automateTransitionError(
 				AutomateTransitionError(
-					command = command,
+					msg = command,
 					exception = e
 				)
 			)
@@ -120,7 +120,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 		)
 		publisher.automateInitTransitionStarted(
 			AutomateInitTransitionStarted(
-				command = command
+				msg = command
 			)
 		)
 		return initTransitionContext
@@ -130,7 +130,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 		publisher.automateInitTransitionEnded(
 			AutomateInitTransitionEnded(
 				to = entity.s2State(),
-				command = command,
+				msg = command,
 				entity = entity
 			)
 		)
@@ -156,7 +156,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 			AutomateTransitionEnded(
 				to = to,
 				from = fromState,
-				command = command,
+				msg = command,
 				entity = entity
 			)
 		)
@@ -190,7 +190,7 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 		publisher.automateTransitionStarted(
 			AutomateTransitionStarted(
 				from = entity.s2State(),
-				command = command
+				msg = command
 			)
 		)
 		return Pair(entity, transitionContext)

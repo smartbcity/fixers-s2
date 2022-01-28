@@ -1,8 +1,8 @@
 package s2.spring.automate.sourcing.entity
 
-import f2.dsl.cqrs.Command
 import org.springframework.data.annotation.Id
 import s2.automate.core.appevent.AppEvent
+import s2.dsl.automate.Msg
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -19,7 +19,7 @@ class StormingSnapEntity<STATE, ID, ENTITY>(
 class StormingSnapTransaction<STATE, ID, ENTITY>(
 	val from: S2State?,
 	val to: S2State,
-	val command: Command,
+	val command: Msg,
 	val entity: ENTITY,
 ) : AppEvent
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>

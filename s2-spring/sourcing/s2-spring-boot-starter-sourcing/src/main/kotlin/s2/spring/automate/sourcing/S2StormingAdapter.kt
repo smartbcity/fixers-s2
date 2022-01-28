@@ -1,6 +1,5 @@
 package s2.spring.automate.sourcing
 
-import f2.dsl.cqrs.Event
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,6 +11,7 @@ import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.sourcing.AutomateStormingExecutor
 import s2.automate.sourcing.AutomateStormingExecutorImpl
 import s2.automate.sourcing.automate.S2SourcingAutomate
+import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State
 import s2.sourcing.dsl.event.EventPersister
 import s2.sourcing.dsl.event.SourcingProjectionBuilder
@@ -23,7 +23,7 @@ abstract class S2StormingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-EVENT: Event,
+EVENT: Evt,
 EVENT: WithS2Id<ID>,
 EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
 

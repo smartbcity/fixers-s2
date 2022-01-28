@@ -1,6 +1,5 @@
 package s2.automate.sourcing
 
-import f2.dsl.cqrs.Event
 import kotlinx.coroutines.flow.flowOf
 import s2.automate.core.appevent.AutomateInitTransitionEnded
 import s2.automate.core.appevent.AutomateInitTransitionStarted
@@ -27,6 +26,7 @@ import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.automate.sourcing.automate.S2SourcingAutomate
+import s2.dsl.automate.Evt
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
@@ -40,9 +40,8 @@ open class AutomateStormingExecutorImpl<STATE, ID, ENTITY, EVENT>(
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
-EVENT: Event,
+EVENT: Evt,
 EVENT :  WithS2Id<ID> {
-
 
 	@Suppress("ThrowsCount")
 	override suspend fun <EVENTD : EVENT> create(command: S2InitCommand, buildEvent: suspend () -> EVENTD): EVENTD {
@@ -60,7 +59,7 @@ EVENT :  WithS2Id<ID> {
 		} catch (e: Exception) {
 			publisher.automateTransitionError(
 				AutomateTransitionError(
-					command = command,
+					msg = command,
 					exception = e
 				)
 			)
@@ -100,7 +99,7 @@ EVENT :  WithS2Id<ID> {
 		} catch (e: Exception) {
 			publisher.automateTransitionError(
 				AutomateTransitionError(
-					command = command,
+					msg = command,
 					exception = e
 				)
 			)
@@ -129,7 +128,7 @@ EVENT :  WithS2Id<ID> {
 		)
 		publisher.automateInitTransitionStarted(
 			AutomateInitTransitionStarted(
-				command = command
+				msg = command
 			)
 		)
 		return initTransitionContext
@@ -139,7 +138,7 @@ EVENT :  WithS2Id<ID> {
 		publisher.automateInitTransitionEnded(
 			AutomateInitTransitionEnded(
 				to = entity.s2State(),
-				command = command,
+				msg = command,
 				entity = entity
 			)
 		)
@@ -165,7 +164,7 @@ EVENT :  WithS2Id<ID> {
 			AutomateTransitionEnded(
 				to = to,
 				from = fromState,
-				command = command,
+				msg = command,
 				entity = entity
 			)
 		)
@@ -199,7 +198,7 @@ EVENT :  WithS2Id<ID> {
 		publisher.automateTransitionStarted(
 			AutomateTransitionStarted(
 				from = entity.s2State(),
-				command = command
+				msg = command
 			)
 		)
 		return transitionContext

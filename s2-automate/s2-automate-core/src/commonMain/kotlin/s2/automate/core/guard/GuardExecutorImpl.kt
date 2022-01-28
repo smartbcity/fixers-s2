@@ -1,6 +1,5 @@
 package s2.automate.core.guard
 
-import f2.dsl.cqrs.Command
 import s2.automate.core.GuardExecutor
 import s2.automate.core.appevent.AutomateTransitionNotAccepted
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
@@ -9,6 +8,7 @@ import s2.automate.core.context.InitTransitionContext
 import s2.automate.core.context.TransitionAppliedContext
 import s2.automate.core.context.TransitionContext
 import s2.automate.core.error.AutomateException
+import s2.dsl.automate.Msg
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -48,14 +48,14 @@ class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
 
 	private fun handleResult(
 		result: GuardResult,
-		command: Command,
+		command: Msg,
 		from: S2State? = null,
 	) {
 		if (result.isValid().not()) {
 			publisher.automateTransitionNotAccepted(
 				AutomateTransitionNotAccepted(
 					from = from,
-					command = command
+					msg = command
 				)
 			)
 			throw AutomateException(result.errors)

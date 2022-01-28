@@ -22,7 +22,7 @@ class StormingEventSink<STATE, ID, ENTITY>(
 		val snapTransaction = StormingSnapTransaction(
 			from = null,
 			to = event.to,
-			command = event.command,
+			command = event.msg,
 			entity = event.entity
 		)
 		val entity = StormingSnapEntity(event.entity.s2Id(), event.entity.s2Id(), snapTransaction)
@@ -34,7 +34,7 @@ class StormingEventSink<STATE, ID, ENTITY>(
 		val snapTransaction = StormingSnapTransaction(
 			from = event.from,
 			to = event.to,
-			command = event.command,
+			command = event.msg,
 			entity = event.entity
 		)
 		val entity = StormingSnapEntity(event.entity.s2Id(), event.entity.s2Id(), snapTransaction)

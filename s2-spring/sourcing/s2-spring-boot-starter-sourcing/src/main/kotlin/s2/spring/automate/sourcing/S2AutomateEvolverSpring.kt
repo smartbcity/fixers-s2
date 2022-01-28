@@ -1,18 +1,18 @@
 package s2.spring.automate.sourcing
 
-import f2.dsl.cqrs.Event
 import kotlinx.coroutines.flow.map
 import s2.automate.sourcing.AutomateStormingExecutor
-import s2.sourcing.dsl.Decide
+import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.sourcing.dsl.Decide
 
 open class S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> : S2AutomateEvolver<ENTITY, STATE, EVENT, ID> where
 STATE : S2State,
-EVENT : Event,
+EVENT : Evt,
 EVENT : WithS2Id<ID>,
 ENTITY : WithS2State<STATE> {
 

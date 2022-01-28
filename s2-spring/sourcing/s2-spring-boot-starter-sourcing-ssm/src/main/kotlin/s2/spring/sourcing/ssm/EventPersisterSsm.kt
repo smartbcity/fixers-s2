@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import s2.sourcing.dsl.event.EventPersister
 import s2.automate.sourcing.automate.S2SourcingAutomate
+import s2.dsl.automate.Evt
 import s2.dsl.automate.model.WithS2Id
 import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.SessionName
@@ -31,7 +32,7 @@ class EventPersisterSsm<EVENT, ID>(
 	private val s2Automate: S2SourcingAutomate,
 	private val kclass: KClass<EVENT>
 ) : EventPersister<EVENT, ID> where
-EVENT: Event,
+EVENT: Evt,
 EVENT: WithS2Id<ID>
 {
 
