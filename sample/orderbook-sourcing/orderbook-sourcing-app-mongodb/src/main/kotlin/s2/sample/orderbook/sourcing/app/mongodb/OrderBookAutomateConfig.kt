@@ -8,7 +8,7 @@ import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.OrderBookId
 import s2.sample.subautomate.domain.orderBook.OrderBookEvent
 import s2.sample.subautomate.domain.orderBookAutomate
-import s2.spring.automate.sourcing.S2AutomateEvolverSpring
+import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
@@ -23,4 +23,4 @@ class OrderBookAutomateConfig : S2SourcingSpringDataAdapter<
 }
 
 @Service
-class OrderBookS2Aggregate : S2AutomateEvolverSpring<OrderBook, OrderBookState, OrderBookEvent, OrderBookId>()
+class OrderBookS2Aggregate : S2AutomateDeciderSpring<OrderBook, OrderBookState, OrderBookEvent, OrderBookId>()

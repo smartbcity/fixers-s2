@@ -20,7 +20,7 @@ import s2.automate.core.error.AutomateException
 import s2.automate.core.error.ERROR_ENTITY_NOT_FOUND
 import s2.automate.core.error.asException
 import s2.automate.core.guard.GuardExecutorImpl
-import s2.sourcing.dsl.event.EventPersister
+import s2.sourcing.dsl.event.EventRepository
 import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -35,7 +35,7 @@ open class AutomateStormingExecutorImpl<STATE, ID, ENTITY, EVENT>(
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2SourcingAutomate>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2SourcingAutomate>,
 	private val projectionBuilder: SourcingProjectionBuilder<ENTITY, EVENT, ID>,
-	private val eventStore: EventPersister<EVENT, ID>,
+	private val eventStore: EventRepository<EVENT, ID>,
 ): AutomateStormingExecutor<ENTITY, STATE, EVENT, ID> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,

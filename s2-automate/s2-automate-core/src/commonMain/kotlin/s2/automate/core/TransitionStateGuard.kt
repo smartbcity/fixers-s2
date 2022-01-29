@@ -17,13 +17,13 @@ AUTOMATE : Automate {
 
 	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult {
 		val state = context.entity.s2State()
-		val command = context.msg
-		val isValid = context.automateContext.automate.isAvailableTransition(state, command)
+		val msg = context.msg
+		val isValid = context.automateContext.automate.isAvailableTransition(state, msg)
 		return if (isValid) {
 			GuardResult.valid()
 		} else {
 			GuardResult.error(
-				ERROR_INVALID_TRANSITION(state.toString(), command.toString())
+				ERROR_INVALID_TRANSITION(state.toString(), msg.toString())
 			)
 		}
 	}

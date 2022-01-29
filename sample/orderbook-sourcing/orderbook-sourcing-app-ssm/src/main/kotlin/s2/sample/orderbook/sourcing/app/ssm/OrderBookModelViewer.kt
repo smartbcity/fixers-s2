@@ -13,7 +13,7 @@ import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 
 @Service
-class OrderBookModelEvolver: Evolver<OrderBook, OrderBookEvent> {
+class OrderBookModelViewer: Evolver<OrderBook, OrderBookEvent> {
 
 	override suspend fun evolve(model: OrderBook?, event: OrderBookEvent): OrderBook? = when(event) {
 		is OrderBookCreatedEvent -> created(event)

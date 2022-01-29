@@ -26,20 +26,19 @@ import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 import kotlin.reflect.KClass
 
-abstract class S2StormingSsmAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>
-	: S2StormingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
+abstract class S2StormingStateSsmAdapter<STATE, EVENT, ID, EXECUTER>
+	: S2StormingAdapter<StateEntity<STATE, ID>, STATE, EVENT, ID, EXECUTER>() where
 STATE : S2State,
-ENTITY : WithS2State<STATE>,
-ENTITY : WithS2Id<ID>,
 EVENT: WithS2Id<ID>,
+EVENT: WithS2State<STATE>,
 EVENT: Evt,
-EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
+EXECUTER : S2AutomateDeciderSpring<StateEntity<STATE, ID>, STATE, EVENT, ID> {
 
 	@Bean
 	open fun stormingProjectionBuilder(
 		eventStore: EventPersisterSsm<EVENT, ID>,
-		evolver: Evolver<ENTITY, EVENT>
-	): SourcingProjectionBuilder<ENTITY, EVENT, ID> {
+		evolver: Evolver<StateEntity<STATE, ID>, EVENT>
+	): SourcingProjectionBuilder<StateEntity<STATE, ID>, EVENT, ID> {
 		return SourcingProjectionBuilder(eventStore, evolver)
 	}
 
@@ -58,6 +57,10 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	@Autowired
 	lateinit var dataSsmSessionLogFunction: DataSsmSessionLogListQueryFunction
 
+
+	@OptIn(InternalSerializationApi::class)
+	@Bean
+	open fun viewier(): Evolver<StateEntity<STATE, ID>, EVENT> = EntityStatusModelViewer()
 
 	@OptIn(InternalSerializationApi::class)
 	@Bean

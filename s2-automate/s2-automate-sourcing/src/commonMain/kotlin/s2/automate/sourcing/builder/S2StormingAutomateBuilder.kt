@@ -38,8 +38,8 @@ class S2StormingAutomateBuilder<ID> {
 		}.forEach(transactions::add)
 	}
 
-	fun submachine(exec: S2StormingSubMachineBuilder<ID>.() -> Unit) {
-		val builder = S2StormingSubMachineBuilder<ID>()
+	fun submachine(exec: S2StormingSubMachineBuilder.() -> Unit) {
+		val builder = S2StormingSubMachineBuilder()
 		builder.exec()
 		S2StormingSubMachine(
 			automate = builder.automate,

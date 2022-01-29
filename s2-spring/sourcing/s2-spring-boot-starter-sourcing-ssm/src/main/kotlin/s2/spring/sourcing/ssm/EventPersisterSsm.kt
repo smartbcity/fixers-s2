@@ -1,6 +1,5 @@
 package s2.spring.sourcing.ssm
 
-import f2.dsl.cqrs.Event
 import f2.dsl.fnc.invoke
 import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.flow.Flow
@@ -8,7 +7,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
-import s2.sourcing.dsl.event.EventPersister
+import s2.sourcing.dsl.event.EventRepository
 import s2.automate.sourcing.automate.S2SourcingAutomate
 import s2.dsl.automate.Evt
 import s2.dsl.automate.model.WithS2Id
@@ -31,7 +30,7 @@ import kotlin.reflect.KClass
 class EventPersisterSsm<EVENT, ID>(
 	private val s2Automate: S2SourcingAutomate,
 	private val kclass: KClass<EVENT>
-) : EventPersister<EVENT, ID> where
+) : EventRepository<EVENT, ID> where
 EVENT: Evt,
 EVENT: WithS2Id<ID>
 {

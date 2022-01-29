@@ -1,6 +1,5 @@
 package s2.spring.sourcing.data
 
-import f2.dsl.cqrs.Event
 import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport
 import s2.dsl.automate.Evt
@@ -9,7 +8,7 @@ import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.spring.automate.sourcing.S2AutomateEvolverSpring
+import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.automate.sourcing.S2StormingAdapter
 import s2.spring.sourcing.data.event.EventPersisterData
 import s2.spring.sourcing.data.event.SpringDataEventRepository
@@ -21,7 +20,7 @@ ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 EVENT: Evt,
 EVENT: WithS2Id<ID>,
-EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
+EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Bean
 	open fun sourcingProjectionBuilder(

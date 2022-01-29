@@ -1,4 +1,4 @@
-package s2.sample.orderbook.sourcing.app
+package s2.sample.orderbook.sourcing.app.ssm
 
 import f2.dsl.fnc.invoke
 import kotlinx.coroutines.flow.toList
@@ -10,10 +10,9 @@ import kotlinx.serialization.modules.polymorphic
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import s2.sourcing.dsl.event.EventPersister
+import s2.sourcing.dsl.event.EventRepository
 import s2.sourcing.dsl.event.SourcingProjectionBuilder
-import s2.sample.orderbook.sourcing.app.config.SpringTestBase
-import s2.sample.orderbook.sourcing.app.ssm.OrderBookDeciderImpl
+import s2.sample.orderbook.sourcing.app.ssm.config.SpringTestBase
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.OrderBookId
@@ -45,7 +44,7 @@ internal class SubAutomateAppTest: SpringTestBase() {
 	lateinit var close: OrderBookDecide<OrderBookCloseCommand, OrderBookClosedEvent>
 
 	@Autowired
-	lateinit var eventStore: EventPersister<OrderBookEvent, OrderBookId>
+	lateinit var eventStore: EventRepository<OrderBookEvent, OrderBookId>
 
 	@Autowired
 	lateinit var builder: SourcingProjectionBuilder<OrderBook, OrderBookEvent, OrderBookId>

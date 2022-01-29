@@ -1,20 +1,18 @@
 package s2.sample.subautomate.domain.orderBook
 
-import f2.dsl.cqrs.Event
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.Evt
-import s2.dsl.automate.Msg
-import s2.sourcing.dsl.Decide
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
-import s2.sourcing.dsl.Evolve
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.OrderBookId
 import s2.sample.subautomate.domain.model.OrderId
+import s2.sourcing.dsl.Decide
+import s2.sourcing.dsl.Evolve
 
 @Serializable
 data class OrderBookCreateCommand(

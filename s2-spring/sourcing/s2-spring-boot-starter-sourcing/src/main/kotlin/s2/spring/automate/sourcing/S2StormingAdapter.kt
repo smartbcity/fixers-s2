@@ -13,7 +13,7 @@ import s2.automate.sourcing.AutomateStormingExecutorImpl
 import s2.automate.sourcing.automate.S2SourcingAutomate
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State
-import s2.sourcing.dsl.event.EventPersister
+import s2.sourcing.dsl.event.EventRepository
 import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -25,12 +25,12 @@ ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 EVENT: Evt,
 EVENT: WithS2Id<ID>,
-EXECUTER : S2AutomateEvolverSpring<ENTITY, STATE, EVENT, ID> {
+EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Bean
 	open fun aggregate(
 		eventPublisher: SpringEventPublisher,
-		eventStore: EventPersister<EVENT, ID>,
+		eventStore: EventRepository<EVENT, ID>,
 		projectionBuilder: SourcingProjectionBuilder<ENTITY, EVENT, ID>
 	): AutomateStormingExecutor<ENTITY, STATE, EVENT, ID> {
 		val automateContext = automateContext()

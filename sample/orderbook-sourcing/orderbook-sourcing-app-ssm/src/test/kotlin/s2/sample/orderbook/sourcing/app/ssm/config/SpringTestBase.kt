@@ -1,4 +1,4 @@
-package s2.sample.orderbook.sourcing.app.config
+package s2.sample.orderbook.sourcing.app.ssm.config
 
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith

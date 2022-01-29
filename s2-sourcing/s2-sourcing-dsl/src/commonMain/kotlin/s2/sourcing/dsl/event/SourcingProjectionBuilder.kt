@@ -1,12 +1,11 @@
 package s2.sourcing.dsl.event
 
-import f2.dsl.cqrs.Event
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.fold
 import s2.dsl.automate.Evt
 
 open class SourcingProjectionBuilder<ENTITY, EVENT, ID>(
-	private val eventStore: EventPersister<EVENT, ID>,
+	private val eventStore: EventRepository<EVENT, ID>,
 	private val evolver: Evolver<ENTITY, EVENT>
 ) where
 EVENT : Evt {
