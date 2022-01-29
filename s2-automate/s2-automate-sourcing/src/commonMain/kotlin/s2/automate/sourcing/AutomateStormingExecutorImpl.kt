@@ -46,9 +46,9 @@ EVENT :  WithS2Id<ID> {
 	@Suppress("ThrowsCount")
 	override suspend fun <EVENTD : EVENT> create(command: S2InitCommand, buildEvent: suspend () -> EVENTD): EVENTD {
 		try {
-			val initTransitionContext = initTransitionContext(command)
-			guardExecutor.evaluateInit(initTransitionContext)
 			val event = buildEvent()
+			val initTransitionContext = initTransitionContext(event)
+			guardExecutor.evaluateInit(initTransitionContext)
 			val entity = projectionBuilder.replay(flowOf(event))
 				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 			persist(command, entity, event)
@@ -84,14 +84,25 @@ EVENT :  WithS2Id<ID> {
 		exec: suspend ENTITY.() -> EVENTD,
 	): EVENTD {
 		try {
-			val transitionContext = loadTransitionContext(command)
+			val entity = projectionBuilder.replay(command.id)
+				?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
+			publisher.automateTransitionStarted(
+				AutomateTransitionStarted(
+					from = entity.s2State(),
+					msg = command
+				)
+			)
+			val event = exec(entity)
+			val transitionContext = TransitionContext(
+				automateContext = automateContext,
+				from = entity.s2State(),
+				msg = event,
+				entity = entity,
+			)
 			guardExecutor.evaluateTransition(transitionContext)
-			val fromState = transitionContext.entity.s2State()
-
-			val event = exec(transitionContext.entity)
 			val entityMutated = projectionBuilder.replayAndEvolve(command.id, flowOf(event))
 				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
-			persist(fromState, command, entityMutated, event)
+			persist(entity.s2State(), command, entityMutated, event)
 			sendEndDoTransitionEvent(entityMutated.s2State(), transitionContext.from, command, transitionContext.entity)
 			return event
 		} catch (e: AutomateException) {
@@ -120,7 +131,7 @@ EVENT :  WithS2Id<ID> {
 	}
 
 	private fun initTransitionContext(
-		command: S2InitCommand,
+		command: Evt,
 	): InitTransitionContext<S2SourcingAutomate> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,
