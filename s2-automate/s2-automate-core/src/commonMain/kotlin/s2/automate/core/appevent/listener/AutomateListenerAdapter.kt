@@ -26,11 +26,11 @@ open class AutomateListenerAdapter<STATE, ID, ENTITY, AUTOMATE> : AutomateListen
 
 	override fun automateInitTransitionStarted(event: AutomateInitTransitionStarted) {}
 
-	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>) {}
+	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ENTITY>) {}
 
 	override fun automateTransitionStarted(event: AutomateTransitionStarted) {}
 
-	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ID, ENTITY>) {}
+	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ENTITY>) {}
 
 	override fun automateTransitionError(event: AutomateTransitionError) {}
 

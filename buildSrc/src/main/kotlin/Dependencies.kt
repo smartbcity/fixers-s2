@@ -19,7 +19,7 @@ object Versions {
 
 	const val springBoot = FixersVersions.Spring.boot
 	const val springFramework = "5.3.14"
-	const val springDataCommons = "2.6.0"
+	const val springData = "2.6.1"
 	const val jacksonKotlin = "2.13.0"
 	const val javaxPersistence = "2.2"
 
@@ -50,7 +50,7 @@ object Dependencies {
 
 	fun springDataCommon(scope: Scope) = scope.add(
 		"javax.persistence:javax.persistence-api:${Versions.javaxPersistence}",
-		"org.springframework.data:spring-data-commons:${Versions.springDataCommons}"
+		"org.springframework.data:spring-data-commons:${Versions.springData}"
 	)
 
 	fun springAutoConfigure(scope: Scope, ksp: Scope) = scope.add(

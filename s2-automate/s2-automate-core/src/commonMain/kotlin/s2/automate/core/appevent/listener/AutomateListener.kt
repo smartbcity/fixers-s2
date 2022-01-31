@@ -51,7 +51,7 @@ interface AutomateListener<STATE, ID, ENTITY, AUTOMATE>
 	 *
 	 * @param transition the transition
 	 */
-	fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>)
+	fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ENTITY>)
 
 	/**
 	 * Notified when transition started.
@@ -65,7 +65,7 @@ interface AutomateListener<STATE, ID, ENTITY, AUTOMATE>
 	 *
 	 * @param transition the transition
 	 */
-	fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ID, ENTITY>)
+	fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ENTITY>)
 
 	/**
 	 * Notified when transition happened.

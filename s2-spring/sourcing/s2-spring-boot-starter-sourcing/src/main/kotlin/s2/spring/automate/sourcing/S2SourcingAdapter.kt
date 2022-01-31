@@ -1,6 +1,8 @@
 package s2.spring.automate.sourcing
 
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import s2.automate.core.TransitionStateGuard
@@ -15,12 +17,15 @@ import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.sourcing.dsl.Loader
 import s2.sourcing.dsl.event.EventRepository
+import s2.sourcing.dsl.snap.SnapLoader
+import s2.sourcing.dsl.snap.SnapRepository
 import s2.sourcing.dsl.view.View
-import s2.sourcing.dsl.view.ViewBuilder
+import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
 
-abstract class S2StormingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
+abstract class S2SourcingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
@@ -29,11 +34,34 @@ EVENT: WithS2Id<ID>,
 EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Bean
+	@ConditionalOnBean(SnapRepository::class)
+	open fun snapLoader(
+		eventStore: EventRepository<EVENT, ID>,
+		snapRepository: SnapRepository<ENTITY, ID>?,
+		evolver: View<EVENT, ENTITY>
+	): Loader<EVENT, ENTITY, ID> {
+		val view = ViewLoader(eventStore, evolver)
+		return snapRepository?.let { repo ->
+			SnapLoader(repo, view)
+		} ?: view
+	}
+
+	@Bean
+	@ConditionalOnMissingBean(SnapRepository::class)
+	open fun viewLoader(
+		eventStore: EventRepository<EVENT, ID>,
+		evolver: View<EVENT, ENTITY>
+	): Loader<EVENT, ENTITY, ID> {
+		return ViewLoader(eventStore, evolver)
+	}
+
+
+	@Bean
 	open fun aggregate(
 		eventPublisher: SpringEventPublisher,
 		eventStore: EventRepository<EVENT, ID>,
-		projectionBuilder: ViewBuilder<ENTITY, EVENT, ID>
-	): AutomateSourcingExecutor<ENTITY, STATE, EVENT, ID> {
+		projectionBuilder: Loader<EVENT, ENTITY, ID>
+	): AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID> {
 		val automateContext = automateContext()
 		val publisher = automateAppEventPublisher(eventPublisher)
 		val guardExecutor = guardExecutor(publisher)
@@ -68,7 +96,7 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Configuration
 	open inner class InitBean(
-		private val automateStormingExecutor: AutomateSourcingExecutor<ENTITY, STATE, EVENT, ID>
+		private val automateStormingExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>
 	): InitializingBean{
 		override fun afterPropertiesSet() {
 			val agg = executor()
@@ -78,5 +106,5 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	abstract fun automate(): S2Automate
 	abstract fun executor(): EXECUTER
-	abstract fun view(): View<ENTITY, EVENT>
+	abstract fun view(): View<EVENT, ENTITY>
 }

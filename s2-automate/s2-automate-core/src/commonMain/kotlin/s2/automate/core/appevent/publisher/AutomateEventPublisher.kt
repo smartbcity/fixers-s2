@@ -37,7 +37,7 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 		publisher.publish(event)
 	}
 
-	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>) {
+	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ENTITY>) {
 		publisher.publish(event)
 	}
 
@@ -45,7 +45,7 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 		publisher.publish(event)
 	}
 
-	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ID, ENTITY>) {
+	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ENTITY>) {
 		publisher.publish(event)
 	}
 

@@ -36,20 +36,20 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 ) : S2AutomateExecutor<ENTITY, STATE, ID, ENTITY>
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
-	override suspend fun <EVENT_OUT : ENTITY> create(msg: S2InitCommand, decide: suspend () -> EVENT_OUT): EVENT_OUT {
+	override suspend fun <EVENT_OUT : ENTITY> create(command: S2InitCommand, decide: suspend () -> EVENT_OUT): EVENT_OUT {
 		try {
-			val initTransitionContext = initTransitionContext(msg)
+			val initTransitionContext = initTransitionContext(command)
 			guardExecutor.evaluateInit(initTransitionContext)
 			val entity = decide()
-			persist(msg, entity)
-			sentEndCreateEvent(msg, entity)
+			persist(command, entity)
+			sentEndCreateEvent(command, entity)
 			return entity
 		} catch (e: AutomateException) {
 			throw e
 		} catch (e: Exception) {
 			publisher.automateTransitionError(
 				AutomateTransitionError(
-					msg = msg,
+					msg = command,
 					exception = e
 				)
 			)

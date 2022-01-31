@@ -27,16 +27,16 @@ import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.sourcing.dsl.Loader
 import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.view.ViewBuilder
 
 open class AutomateSourcingExecutorImpl<STATE, ID, ENTITY, EVENT>(
 	private val automateContext: AutomateContext<S2Automate>,
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
-	private val projectionBuilder: ViewBuilder<ENTITY, EVENT, ID>,
+	private val projectionBuilder: Loader<EVENT, ENTITY, ID>,
 	private val eventStore: EventRepository<EVENT, ID>,
-): AutomateSourcingExecutor<ENTITY, STATE, EVENT, ID> where
+): AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
@@ -44,12 +44,12 @@ EVENT: Evt,
 EVENT :  WithS2Id<ID> {
 
 	@Suppress("ThrowsCount")
-	override suspend fun <EVENTD : EVENT> create(command: S2InitCommand, buildEvent: suspend () -> EVENTD): EVENTD {
+	override suspend fun <EVENT_OUT : EVENT> create(command: S2InitCommand, buildEvent: suspend () -> EVENT_OUT): EVENT_OUT {
 		try {
 			val event = buildEvent()
 			val initTransitionContext = initTransitionContext(event)
 			guardExecutor.evaluateInit(initTransitionContext)
-			val entity = projectionBuilder.replay(flowOf(event))
+			val entity = projectionBuilder.load(flowOf(event))
 				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 			persist(command, entity, event)
 			sentEndCreateEvent(command, entity)
@@ -79,12 +79,12 @@ EVENT :  WithS2Id<ID> {
 	}
 
 	@Suppress("ThrowsCount")
-	override suspend fun <EVENTD : EVENT> doTransition(
+	override suspend fun <EVENT_OUT : EVENT> doTransition(
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> EVENTD,
-	): EVENTD {
+		exec: suspend ENTITY.() -> EVENT_OUT,
+	): EVENT_OUT {
 		try {
-			val entity = projectionBuilder.replay(command.id)
+			val entity = projectionBuilder.load(command.id)
 				?: throw ERROR_ENTITY_NOT_FOUND(command.id.toString()).asException()
 			publisher.automateTransitionStarted(
 				AutomateTransitionStarted(
@@ -100,7 +100,7 @@ EVENT :  WithS2Id<ID> {
 				entity = entity,
 			)
 			guardExecutor.evaluateTransition(transitionContext)
-			val entityMutated = projectionBuilder.replayAndEvolve(command.id, flowOf(event))
+			val entityMutated = projectionBuilder.loadAndEvolve(command.id, flowOf(event))
 				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 			persist(entity.s2State(), command, entityMutated, event)
 			sendEndDoTransitionEvent(entityMutated.s2State(), transitionContext.from, command, transitionContext.entity)

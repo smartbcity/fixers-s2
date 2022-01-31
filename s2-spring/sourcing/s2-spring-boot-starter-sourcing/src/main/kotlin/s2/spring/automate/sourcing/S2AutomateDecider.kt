@@ -7,8 +7,8 @@ import s2.dsl.automate.model.WithS2State
 
 interface S2AutomateDecider<ENTITY : WithS2State<STATE>, STATE : S2State, EVENT, ID> {
 
-	suspend fun <EVENTD: EVENT> init(command: S2InitCommand, buildEvent: suspend () -> EVENTD): EVENTD
+	suspend fun <EVENT_OUT: EVENT> init(command: S2InitCommand, buildEvent: suspend () -> EVENT_OUT): EVENT_OUT
 
-	suspend fun <EVENTD: EVENT> transition(command: S2Command<ID>, exec: suspend ENTITY.() -> EVENTD): EVENTD
+	suspend fun <EVENT_OUT: EVENT> transition(command: S2Command<ID>, exec: suspend ENTITY.() -> EVENT_OUT): EVENT_OUT
 
 }

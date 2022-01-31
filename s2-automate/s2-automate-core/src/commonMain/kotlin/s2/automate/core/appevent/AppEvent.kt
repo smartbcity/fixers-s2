@@ -3,7 +3,6 @@ package s2.automate.core.appevent
 import s2.dsl.automate.Msg
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
-import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 interface AppEvent
@@ -50,12 +49,12 @@ class AutomateInitTransitionStarted(
  *
  * @param transition the transition
  */
-class AutomateInitTransitionEnded<STATE, ID, ENTITY>(
+class AutomateInitTransitionEnded<STATE, ENTITY>(
 	val to: STATE,
 	val msg: Msg,
 	val entity: ENTITY,
 ) : AppEvent
-		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
+		where STATE : S2State, ENTITY : WithS2State<STATE>
 
 /**
  * Notification when transition started.
@@ -72,13 +71,13 @@ class AutomateTransitionStarted(
  *
  * @param transition the transition
  */
-class AutomateTransitionEnded<STATE, ID, ENTITY>(
+class AutomateTransitionEnded<STATE, ENTITY>(
 	val from: STATE,
 	val to: STATE,
 	val msg: Msg,
 	val entity: ENTITY,
 ) : AppEvent
-		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
+		where STATE : S2State, ENTITY : WithS2State<STATE>
 
 /**
  * Notification when transition happened.

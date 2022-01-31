@@ -1,8 +1,6 @@
 spring:
-  data:
-    mongodb:
-      uri: mongodb://admin:admin@localhost/admin
-      auto-index-creation: true
+  redis:
+    password: sOmE_sEcUrE_pAsS
 
 ssm:
   signer:
@@ -19,7 +17,3 @@ ssm:
     serviceName: s2-sample-did
   chaincode:
     url: http://localhost:9090
-#debug: true
-#logging:
-#  level:
-#    org.springframework.boot.rsocket: DEBUG

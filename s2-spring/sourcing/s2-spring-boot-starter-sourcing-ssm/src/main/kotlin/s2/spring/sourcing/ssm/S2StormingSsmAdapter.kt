@@ -12,10 +12,8 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.dsl.automate.ssm.toSsm
 import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.view.View
-import s2.sourcing.dsl.view.ViewBuilder
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import s2.spring.automate.sourcing.S2StormingAdapter
+import s2.spring.automate.sourcing.S2SourcingAdapter
 import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.data.dsl.features.query.DataSsmSessionGetQueryFunction
@@ -27,21 +25,13 @@ import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 import kotlin.reflect.KClass
 
 abstract class S2StormingSsmAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>
-	: S2StormingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
+	: S2SourcingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 EVENT: WithS2Id<ID>,
 EVENT: Evt,
 EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
-
-	@Bean
-	open fun stormingProjectionBuilder(
-		eventStore: EventPersisterSsm<EVENT, ID>,
-		evolver: View<ENTITY, EVENT>
-	): ViewBuilder<ENTITY, EVENT, ID> {
-		return ViewBuilder(eventStore, evolver)
-	}
 
 	@Autowired
 	lateinit var ssmTxInitFunction: SsmTxInitFunction
@@ -80,7 +70,6 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 			)
 		}
 	}
-
 
 	open fun json(): Json = Json{}
 

@@ -1,5 +1,9 @@
 package s2.sourcing.dsl.view
 
-interface View<ENTITY, EVENT> {
-	suspend fun evolve(model: ENTITY?, event: EVENT): ENTITY?
+import s2.dsl.automate.Evt
+
+interface View<EVENT, ENTITY>
+where EVENT: Evt
+{
+	suspend fun evolve(event: EVENT, model: ENTITY?): ENTITY?
 }

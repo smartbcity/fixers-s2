@@ -1,9 +1,10 @@
-package s2.sample.orderbook.sourcing.app.mongodb
+package s2.sample.orderbook.sourcing.app.mongodb.config
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
+import s2.sample.orderbook.sourcing.app.mongodb.OrderBookModelView
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.OrderBookId
@@ -24,7 +25,7 @@ class OrderBookAutomateConfig : S2SourcingSpringDataAdapter<
 	override fun executor(): OrderBookS2Aggregate = endableLoopS2Aggregate
 
 	@Bean
-	override fun view(): View<OrderBook, OrderBookEvent> = OrderBookModelView()
+	override fun view(): View<OrderBookEvent, OrderBook> = OrderBookModelView()
 }
 
 @Service

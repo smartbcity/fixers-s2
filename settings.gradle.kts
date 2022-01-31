@@ -10,12 +10,12 @@ rootProject.name = "s2"
 include(
 	"s2-automate:s2-automate-core",
 	"s2-automate:s2-automate-dsl",
-	"s2-automate:s2-automate-storing",
-	"s2-automate:s2-automate-sourcing"
+	"s2-automate:s2-automate-storing"
 )
 
 include(
-	"s2-sourcing:s2-sourcing-dsl"
+	"s2-sourcing:s2-sourcing-dsl",
+	"s2-sourcing:s2-sourcing-automate"
 )
 
 include(

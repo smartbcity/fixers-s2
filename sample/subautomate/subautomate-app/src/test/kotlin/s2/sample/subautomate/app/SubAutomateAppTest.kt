@@ -21,7 +21,7 @@ import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.view.ViewBuilder
+import s2.sourcing.dsl.view.ViewLoader
 
 internal class SubAutomateAppTest: SpringTestBase() {
 
@@ -41,7 +41,7 @@ internal class SubAutomateAppTest: SpringTestBase() {
 	lateinit var eventStore: EventRepository<OrderBookEvent, OrderBookId>
 
 	@Autowired
-	lateinit var builder: ViewBuilder<OrderBook, OrderBookEvent, OrderBookId>
+	lateinit var builder: ViewLoader<OrderBookEvent, OrderBook, OrderBookId>
 
 	@Autowired
 	lateinit var orderBookDeciderImpl: OrderBookDeciderImpl
@@ -69,7 +69,7 @@ internal class SubAutomateAppTest: SpringTestBase() {
 		close(OrderBookCloseCommand(id = event.id))
 
 		val events = eventStore.load(event.id)
-		val entity = builder.replay(events)
+		val entity = builder.load(events)
 		Assertions.assertThat(entity?.name).isEqualTo("TheNewOrderBook2")
 		Assertions.assertThat(entity?.status).isEqualTo(OrderBookState.Closed)
 	}

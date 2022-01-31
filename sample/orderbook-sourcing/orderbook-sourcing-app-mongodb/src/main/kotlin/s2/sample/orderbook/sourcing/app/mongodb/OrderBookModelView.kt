@@ -11,9 +11,9 @@ import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 import s2.sourcing.dsl.view.View
 
-class OrderBookModelView: View<OrderBook, OrderBookEvent> {
+class OrderBookModelView: View<OrderBookEvent, OrderBook> {
 
-	override suspend fun evolve(model: OrderBook?, event: OrderBookEvent): OrderBook? = when(event) {
+	override suspend fun evolve(event: OrderBookEvent, model: OrderBook?): OrderBook? = when(event) {
 		is OrderBookCreatedEvent -> created(event)
 		is OrderBookClosedEvent -> closed(model, event)
 		is OrderBookPublishedEvent -> published(model, event)

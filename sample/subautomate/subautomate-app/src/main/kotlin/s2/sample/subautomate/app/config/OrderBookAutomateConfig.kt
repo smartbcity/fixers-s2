@@ -25,7 +25,7 @@ class OrderBookAutomateConfig : S2SourcingSpringDataAdapter<
 	override fun executor(): OrderBookS2Aggregate = endableLoopS2Aggregate
 
 	@Bean
-	override fun view(): View<OrderBook, OrderBookEvent> = OrderBookModelView()
+	override fun view(): View<OrderBookEvent, OrderBook> = OrderBookModelView()
 }
 
 @Service
