@@ -2,7 +2,7 @@ package s2.spring.sourcing.ssm
 
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.sourcing.dsl.event.Evolver
+import s2.sourcing.dsl.view.View
 
 class StateEntity<STATE, ID>(
 	val id: ID,
@@ -12,7 +12,7 @@ class StateEntity<STATE, ID>(
 	override fun s2Id() = id
 }
 
-class EntityStatusModelViewer<STATE, ID, EVENT> : Evolver<StateEntity<STATE, ID>, EVENT> where
+class EntityStatusModelViewer<STATE, ID, EVENT> : View<StateEntity<STATE, ID>, EVENT> where
 EVENT : WithS2Id<ID>,
 EVENT : WithS2State<STATE> {
 	override suspend fun evolve(model: StateEntity<STATE, ID>?, event: EVENT): StateEntity<STATE, ID> {

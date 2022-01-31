@@ -1,16 +1,15 @@
 package s2.automate.sourcing
 
-import s2.automate.core.S2Executor
-import s2.dsl.automate.Cmd
+import s2.automate.core.S2AutomateExecutor
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2State
 import kotlin.js.JsName
 
-@JsName("AutomateStormingExecutor")
-interface AutomateStormingExecutor<ENTITY , STATE, EVENT, ID>
-	: S2Executor<ENTITY, STATE, ID, EVENT>
+@JsName("AutomateSourcingExecutor")
+interface AutomateSourcingExecutor<ENTITY , STATE, EVENT, ID>
+	: S2AutomateExecutor<ENTITY, STATE, ID, EVENT>
 where
 ENTITY : WithS2State<STATE>,
 STATE : S2State

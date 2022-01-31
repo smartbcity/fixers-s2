@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopEntity
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopRepository
-import s2.spring.automate.executor.S2AutomateExecutorSpring
 import s2.spring.automate.data.S2SpringDataConfigurerAdapter
+import s2.spring.automate.executor.S2AutomateExecutorSpring
 
 @Configuration
 class ApplicationS2SpringDataConfigurerAdapter(

@@ -8,15 +8,16 @@ import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
 import s2.automate.core.guard.Guard
 import s2.automate.core.guard.GuardExecutorImpl
-import s2.automate.sourcing.AutomateStormingExecutor
-import s2.automate.sourcing.AutomateStormingExecutorImpl
-import s2.automate.sourcing.automate.S2SourcingAutomate
+import s2.automate.sourcing.AutomateSourcingExecutor
+import s2.automate.sourcing.AutomateSourcingExecutorImpl
 import s2.dsl.automate.Evt
+import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
-import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.sourcing.dsl.event.EventRepository
+import s2.sourcing.dsl.view.View
+import s2.sourcing.dsl.view.ViewBuilder
 import s2.spring.automate.persister.SpringEventPublisher
 
 abstract class S2StormingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
@@ -31,12 +32,12 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	open fun aggregate(
 		eventPublisher: SpringEventPublisher,
 		eventStore: EventRepository<EVENT, ID>,
-		projectionBuilder: SourcingProjectionBuilder<ENTITY, EVENT, ID>
-	): AutomateStormingExecutor<ENTITY, STATE, EVENT, ID> {
+		projectionBuilder: ViewBuilder<ENTITY, EVENT, ID>
+	): AutomateSourcingExecutor<ENTITY, STATE, EVENT, ID> {
 		val automateContext = automateContext()
 		val publisher = automateAppEventPublisher(eventPublisher)
 		val guardExecutor = guardExecutor(publisher)
-		return AutomateStormingExecutorImpl(
+		return AutomateSourcingExecutorImpl(
 			automateContext = automateContext,
 			guardExecutor = guardExecutor,
 			projectionBuilder = projectionBuilder,
@@ -48,8 +49,8 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	protected open fun automateContext() = AutomateContext(automate())
 
 	protected open fun guardExecutor(
-		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2SourcingAutomate>,
-	): GuardExecutorImpl<STATE, ID, ENTITY, S2SourcingAutomate> {
+		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
+	): GuardExecutorImpl<STATE, ID, ENTITY, S2Automate> {
 		return GuardExecutorImpl(
 			guards = guards(),
 			publisher = automateAppEventPublisher
@@ -57,17 +58,17 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	}
 
 	protected open fun automateAppEventPublisher(eventPublisher: SpringEventPublisher)
-			: AutomateEventPublisher<STATE, ID, ENTITY, S2SourcingAutomate> {
+			: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate> {
 		return AutomateEventPublisher(eventPublisher)
 	}
 
-	protected open fun guards(): List<Guard<STATE, ID, ENTITY, S2SourcingAutomate>> = listOf(
+	protected open fun guards(): List<Guard<STATE, ID, ENTITY, S2Automate>> = listOf(
 		TransitionStateGuard()
 	)
 
 	@Configuration
 	open inner class InitBean(
-		private val automateStormingExecutor: AutomateStormingExecutor<ENTITY, STATE, EVENT, ID>
+		private val automateStormingExecutor: AutomateSourcingExecutor<ENTITY, STATE, EVENT, ID>
 	): InitializingBean{
 		override fun afterPropertiesSet() {
 			val agg = executor()
@@ -75,6 +76,7 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		}
 	}
 
-	abstract fun automate(): S2SourcingAutomate
+	abstract fun automate(): S2Automate
 	abstract fun executor(): EXECUTER
+	abstract fun view(): View<ENTITY, EVENT>
 }

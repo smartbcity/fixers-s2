@@ -48,14 +48,14 @@ class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
 
 	private fun handleResult(
 		result: GuardResult,
-		command: Msg,
+		msg: Msg,
 		from: S2State? = null,
 	) {
 		if (result.isValid().not()) {
 			publisher.automateTransitionNotAccepted(
 				AutomateTransitionNotAccepted(
 					from = from,
-					msg = command
+					msg = msg
 				)
 			)
 			throw AutomateException(result.errors)

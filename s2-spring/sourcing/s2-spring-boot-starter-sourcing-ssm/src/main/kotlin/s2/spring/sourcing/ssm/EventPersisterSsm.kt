@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
-import s2.sourcing.dsl.event.EventRepository
-import s2.automate.sourcing.automate.S2SourcingAutomate
 import s2.dsl.automate.Evt
+import s2.dsl.automate.S2Automate
 import s2.dsl.automate.model.WithS2Id
+import s2.sourcing.dsl.event.EventRepository
 import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.SessionName
 import ssm.chaincode.dsl.model.SsmContext
@@ -28,7 +28,7 @@ import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 import kotlin.reflect.KClass
 
 class EventPersisterSsm<EVENT, ID>(
-	private val s2Automate: S2SourcingAutomate,
+	private val s2Automate: S2Automate,
 	private val kclass: KClass<EVENT>
 ) : EventRepository<EVENT, ID> where
 EVENT: Evt,

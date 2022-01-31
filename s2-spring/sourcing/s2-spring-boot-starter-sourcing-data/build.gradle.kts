@@ -1,5 +1,3 @@
-import city.smartb.gradle.dependencies.FixersVersions
-
 plugins {
 	id("city.smartb.fixers.gradle.kotlin.jvm")
 	id("city.smartb.fixers.gradle.publish")
@@ -12,10 +10,7 @@ dependencies {
 
 	api(project(":s2-spring:sourcing:s2-spring-boot-starter-sourcing"))
 
-//	api("city.smartb.f2:f2-spring-boot-starter-function:${Versions.f2}")
-
 	Dependencies.springAutoConfigure(::implementation, ::kapt)
-	api("javax.persistence:javax.persistence-api:${Versions.javaxPersistence}")
-	api("org.springframework.data:spring-data-commons:${Versions.springDataCommons}")
+	Dependencies.springDataCommon(::implementation)
 
 }

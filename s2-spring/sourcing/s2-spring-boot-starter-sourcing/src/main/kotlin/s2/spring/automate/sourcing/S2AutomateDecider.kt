@@ -1,6 +1,5 @@
 package s2.spring.automate.sourcing
 
-import s2.dsl.automate.Cmd
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State

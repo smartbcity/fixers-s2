@@ -3,11 +3,11 @@ package s2.spring.sourcing.data
 import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport
 import s2.dsl.automate.Evt
-import s2.sourcing.dsl.event.Evolver
-import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.sourcing.dsl.view.View
+import s2.sourcing.dsl.view.ViewBuilder
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.automate.sourcing.S2StormingAdapter
 import s2.spring.sourcing.data.event.EventPersisterData
@@ -25,9 +25,9 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	@Bean
 	open fun sourcingProjectionBuilder(
 		eventStore: EventPersisterData<EVENT, ID>,
-		evolver: Evolver<ENTITY, EVENT>
-	): SourcingProjectionBuilder<ENTITY, EVENT, ID> {
-		return SourcingProjectionBuilder(eventStore, evolver)
+		view: View<ENTITY, EVENT>
+	): ViewBuilder<ENTITY, EVENT, ID> {
+		return ViewBuilder(eventStore, view)
 	}
 
 	@Bean

@@ -7,7 +7,6 @@ import kotlin.js.JsName
 @JsName("S2Automate")
 class S2Automate(
 	val name: String,
-	val init: S2InitTransition,
 	val transitions: Array<S2Transition>,
 	val subMachines: Array<S2SubMachine>
 ):Automate {
@@ -15,12 +14,12 @@ class S2Automate(
 		return transitions.filter { isSameState(it.from, state) }
 	}
 
-	override fun isAvailableTransition(currentState: S2State, command: Msg): Boolean {
-		return getAvailableTransitions(currentState).any { it.command.isInstance(command) }
+	override fun isAvailableTransition(currentState: S2State, msg: Msg): Boolean {
+		return getAvailableTransitions(currentState).any { it.msg.isInstance(msg) }
 	}
 
-	override fun isAvailableInitTransition(command: S2InitCommand): Boolean {
-		return init.command.isInstance(command)
+	override fun isAvailableInitTransition(command: Msg): Boolean {
+		return transitions.any { it.from == null && it.msg.isInstance(command) }
 	}
 
 	override fun isFinalState(state: S2State): Boolean {

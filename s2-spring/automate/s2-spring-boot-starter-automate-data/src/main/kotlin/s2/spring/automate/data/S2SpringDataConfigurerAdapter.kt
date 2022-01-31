@@ -1,7 +1,6 @@
 package s2.spring.automate.data
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import org.springframework.data.repository.reactive.ReactiveSortingRepository
 import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State

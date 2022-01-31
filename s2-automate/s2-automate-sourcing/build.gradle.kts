@@ -7,7 +7,4 @@ plugins {
 dependencies {
 	commonMainApi(project(":s2-automate:s2-automate-core"))
 	commonMainApi(project(":s2-sourcing:s2-sourcing-dsl"))
-
-	commonMainApi("city.smartb.f2:f2-dsl-event:${Versions.f2}")
-	commonMainApi("city.smartb.f2:f2-dsl-function:${Versions.f2}")
 }

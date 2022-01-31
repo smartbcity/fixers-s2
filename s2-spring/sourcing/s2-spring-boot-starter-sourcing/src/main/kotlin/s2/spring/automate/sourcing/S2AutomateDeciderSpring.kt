@@ -1,8 +1,7 @@
 package s2.spring.automate.sourcing
 
 import kotlinx.coroutines.flow.map
-import s2.automate.sourcing.AutomateStormingExecutor
-import s2.dsl.automate.Cmd
+import s2.automate.sourcing.AutomateSourcingExecutor
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -17,10 +16,10 @@ EVENT : Evt,
 EVENT : WithS2Id<ID>,
 ENTITY : WithS2State<STATE> {
 
-	private lateinit var automateExecutor: AutomateStormingExecutor<ENTITY, STATE, EVENT, ID>
+	private lateinit var automateExecutor: AutomateSourcingExecutor<ENTITY, STATE, EVENT, ID>
 
 
-	internal fun withContext(automateExecutor: AutomateStormingExecutor<ENTITY, STATE, EVENT, ID>) {
+	internal fun withContext(automateExecutor: AutomateSourcingExecutor<ENTITY, STATE, EVENT, ID>) {
 		this.automateExecutor = automateExecutor
 	}
 

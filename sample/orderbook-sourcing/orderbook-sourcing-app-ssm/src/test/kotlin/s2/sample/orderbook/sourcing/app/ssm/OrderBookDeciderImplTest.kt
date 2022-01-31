@@ -10,8 +10,6 @@ import kotlinx.serialization.modules.polymorphic
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.event.SourcingProjectionBuilder
 import s2.sample.orderbook.sourcing.app.ssm.config.SpringTestBase
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBook
@@ -26,10 +24,12 @@ import s2.sample.subautomate.domain.orderBook.OrderBookPublishCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
+import s2.sourcing.dsl.event.EventRepository
+import s2.sourcing.dsl.view.ViewBuilder
 import s2.spring.sourcing.ssm.PolymorphicEnumSerializer
 import java.util.UUID
 
-internal class SubAutomateAppTest: SpringTestBase() {
+internal class OrderBookDeciderImplTest: SpringTestBase() {
 
 	@Autowired
 	lateinit var create: OrderBookDecide<OrderBookCreateCommand, OrderBookCreatedEvent>
@@ -47,7 +47,7 @@ internal class SubAutomateAppTest: SpringTestBase() {
 	lateinit var eventStore: EventRepository<OrderBookEvent, OrderBookId>
 
 	@Autowired
-	lateinit var builder: SourcingProjectionBuilder<OrderBook, OrderBookEvent, OrderBookId>
+	lateinit var builder: ViewBuilder<OrderBook, OrderBookEvent, OrderBookId>
 
 	@Autowired
 	lateinit var orderBookDeciderImpl: OrderBookDeciderImpl

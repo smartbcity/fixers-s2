@@ -16,5 +16,5 @@ fun S2Transition.toSsmTransition() = SsmTransition(
 	from = this.from!!.position,
 	to = this.to.position,
 	role = this.role::class.simpleName!!,
-	action = this.command.simpleName!!
+	action = this.msg.simpleName!!
 )

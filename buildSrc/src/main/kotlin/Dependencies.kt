@@ -25,8 +25,8 @@ object Versions {
 
 	const val testcontainers = "1.16.3"
 
-	const val ssm = PluginVersions.fixers
-	const val f2 = PluginVersions.fixers
+	const val ssm = "experimental-SNAPSHOT"
+	const val f2 = "experimental-SNAPSHOT"
 }
 
 object Dependencies {
@@ -47,6 +47,11 @@ object Dependencies {
 			"io.arrow-kt:arrow-optics-ksp-plugin:${Versions.arrow}"
 		)
 	}
+
+	fun springDataCommon(scope: Scope) = scope.add(
+		"javax.persistence:javax.persistence-api:${Versions.javaxPersistence}",
+		"org.springframework.data:spring-data-commons:${Versions.springDataCommons}"
+	)
 
 	fun springAutoConfigure(scope: Scope, ksp: Scope) = scope.add(
 		"org.springframework.boot:spring-boot-autoconfigure:${FixersVersions.Spring.boot}"

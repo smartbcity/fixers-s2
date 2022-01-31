@@ -21,7 +21,7 @@ open class S2Transition(
 	open val from: S2State?,
 	open val to: S2State,
 	open val role: S2Role,
-	open val command: KClass<out Msg>,
+	open val msg: KClass<out Msg>,
 )
 
 @JsExport

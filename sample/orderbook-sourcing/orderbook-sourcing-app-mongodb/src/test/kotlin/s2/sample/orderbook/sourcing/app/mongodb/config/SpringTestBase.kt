@@ -10,12 +10,12 @@ import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
-import s2.sample.orderbook.sourcing.app.mongodb.SubAutomateApp
+import s2.sample.orderbook.sourcing.app.mongodb.SubAutomateMongodbApp
 
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [SubAutomateApp::class])
+@SpringBootTest(classes = [SubAutomateMongodbApp::class])
 abstract class SpringTestBase {
 
 	companion object {

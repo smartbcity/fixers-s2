@@ -6,14 +6,14 @@ import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
-import s2.automate.sourcing.toSsm
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.dsl.automate.ssm.toSsm
 import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.event.Evolver
-import s2.sourcing.dsl.event.SourcingProjectionBuilder
+import s2.sourcing.dsl.view.View
+import s2.sourcing.dsl.view.ViewBuilder
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.automate.sourcing.S2StormingAdapter
 import ssm.chaincode.dsl.model.Agent
@@ -38,9 +38,9 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	@Bean
 	open fun stormingProjectionBuilder(
 		eventStore: EventPersisterSsm<EVENT, ID>,
-		evolver: Evolver<ENTITY, EVENT>
-	): SourcingProjectionBuilder<ENTITY, EVENT, ID> {
-		return SourcingProjectionBuilder(eventStore, evolver)
+		evolver: View<ENTITY, EVENT>
+	): ViewBuilder<ENTITY, EVENT, ID> {
+		return ViewBuilder(eventStore, evolver)
 	}
 
 	@Autowired

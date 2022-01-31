@@ -21,7 +21,7 @@ import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.event.SourcingProjectionBuilder
+import s2.sourcing.dsl.view.ViewBuilder
 
 internal class SubAutomateAppTest: SpringTestBase() {
 
@@ -41,7 +41,7 @@ internal class SubAutomateAppTest: SpringTestBase() {
 	lateinit var eventStore: EventRepository<OrderBookEvent, OrderBookId>
 
 	@Autowired
-	lateinit var builder: SourcingProjectionBuilder<OrderBook, OrderBookEvent, OrderBookId>
+	lateinit var builder: ViewBuilder<OrderBook, OrderBookEvent, OrderBookId>
 
 	@Autowired
 	lateinit var orderBookDeciderImpl: OrderBookDeciderImpl

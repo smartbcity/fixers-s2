@@ -1,7 +1,5 @@
 package s2.sample.subautomate.app
 
-import org.springframework.stereotype.Service
-import s2.sourcing.dsl.event.Evolver
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.name
@@ -11,9 +9,9 @@ import s2.sample.subautomate.domain.orderBook.OrderBookCreatedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
+import s2.sourcing.dsl.view.View
 
-@Service
-class OrderBookModelEvolver: Evolver<OrderBook, OrderBookEvent> {
+class OrderBookModelView: View<OrderBook, OrderBookEvent> {
 
 	override suspend fun evolve(model: OrderBook?, event: OrderBookEvent): OrderBook? = when(event) {
 		is OrderBookCreatedEvent -> created(event)

@@ -1,6 +1,6 @@
 package s2.automate.storing
 
-import s2.automate.core.S2Executor
+import s2.automate.core.S2AutomateExecutor
 import s2.automate.core.appevent.AutomateInitTransitionEnded
 import s2.automate.core.appevent.AutomateInitTransitionStarted
 import s2.automate.core.appevent.AutomateSessionStarted
@@ -33,23 +33,23 @@ open class AutomateStoringExecutor<STATE, ID, ENTITY>(
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate>,
 	private val persister: AutomatePersister<STATE, ID, ENTITY, S2Automate>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
-) : S2Executor<ENTITY, STATE, ID, ENTITY>
+) : S2AutomateExecutor<ENTITY, STATE, ID, ENTITY>
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
-	override suspend fun <EVENT_OUT : ENTITY> create(command: S2InitCommand, buildEntity: suspend () -> EVENT_OUT): EVENT_OUT {
+	override suspend fun <EVENT_OUT : ENTITY> create(msg: S2InitCommand, decide: suspend () -> EVENT_OUT): EVENT_OUT {
 		try {
-			val initTransitionContext = initTransitionContext(command)
+			val initTransitionContext = initTransitionContext(msg)
 			guardExecutor.evaluateInit(initTransitionContext)
-			val entity = buildEntity()
-			persist(command, entity)
-			sentEndCreateEvent(command, entity)
+			val entity = decide()
+			persist(msg, entity)
+			sentEndCreateEvent(msg, entity)
 			return entity
 		} catch (e: AutomateException) {
 			throw e
 		} catch (e: Exception) {
 			publisher.automateTransitionError(
 				AutomateTransitionError(
-					msg = command,
+					msg = msg,
 					exception = e
 				)
 			)

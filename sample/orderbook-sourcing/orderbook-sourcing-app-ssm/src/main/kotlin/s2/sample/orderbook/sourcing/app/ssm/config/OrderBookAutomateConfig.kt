@@ -4,8 +4,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
+import s2.sample.orderbook.sourcing.app.ssm.OrderBookModelView
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sample.subautomate.domain.model.OrderBookId
@@ -50,6 +52,9 @@ class OrderBookAutomateConfig : S2StormingSsmAdapter<
 	override fun signerAgent(): Agent {
 		return Agent.loadFromFile("ssm-admin","user/ssm-admin")
 	}
+
+	@Bean
+	override fun view() = OrderBookModelView()
 }
 
 @Service

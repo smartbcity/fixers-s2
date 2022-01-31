@@ -3,7 +3,7 @@ package s2.sample.subautomate.domain
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
-import s2.automate.sourcing.builder.s2Storming
+import s2.dsl.automate.builder.s2
 import s2.sample.subautomate.domain.model.OrderBookId
 import s2.sample.subautomate.domain.model.OrderId
 import s2.sample.subautomate.domain.order.OrderBoughtEvent
@@ -31,7 +31,7 @@ enum class OrderState(override var position: Int): S2State {
     Closed(3)
 }
 
-val orderAutomate = s2Storming<OrderId> {
+val orderAutomate = s2 {
     name = "S2Order"
     transaction<OrderBoughtEvent> {
         to = OrderState.Pending
@@ -47,7 +47,7 @@ val orderAutomate = s2Storming<OrderId> {
     }
 }
 
-val orderBookAutomate = s2Storming<OrderBookId> {
+val orderBookAutomate = s2 {
     name = "S2OrderBook"
     transaction<OrderBookCreatedEvent> {
         to = OrderBookState.Created

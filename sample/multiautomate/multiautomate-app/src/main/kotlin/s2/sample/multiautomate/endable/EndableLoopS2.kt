@@ -10,23 +10,21 @@ import s2.dsl.automate.builder.s2
 
 typealias EndableLoopId = String
 
-fun endableLoopS2(): S2Automate {
-	return s2<EndableLoopId, EndableLoopState> {
-		name = "EndableLoopS2"
-		init<EndableCreateCommand> {
-			to = EndableLoopState.Running
-			role = EndableLoopRole.User()
-		}
-		transaction<EndableStepCommand> {
-			from = EndableLoopState.Running
-			to = EndableLoopState.Running
-			role = EndableLoopRole.User()
-		}
-		transaction<EndableEndCommand> {
-			from = EndableLoopState.Running
-			to = EndableLoopState.Ended
-			role = EndableLoopRole.User()
-		}
+fun endableLoopS2(): S2Automate = s2 {
+	name = "EndableLoopS2"
+	init<EndableCreateCommand> {
+		to = EndableLoopState.Running
+		role = EndableLoopRole.User()
+	}
+	transaction<EndableStepCommand> {
+		from = EndableLoopState.Running
+		to = EndableLoopState.Running
+		role = EndableLoopRole.User()
+	}
+	transaction<EndableEndCommand> {
+		from = EndableLoopState.Running
+		to = EndableLoopState.Ended
+		role = EndableLoopRole.User()
 	}
 }
 

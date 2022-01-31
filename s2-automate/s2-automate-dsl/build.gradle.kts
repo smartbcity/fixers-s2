@@ -9,6 +9,5 @@ plugins {
 
 dependencies {
     jsApi("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${FixersVersions.Kotlin.coroutines}")
-    commonMainApi("city.smartb.f2:f2-dsl-cqrs:${Versions.f2}")
     commonMainApi("city.smartb.ssm:ssm-chaincode-dsl:${Versions.ssm}")
 }

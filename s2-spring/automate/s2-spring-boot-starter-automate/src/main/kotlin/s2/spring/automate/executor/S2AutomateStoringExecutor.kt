@@ -5,7 +5,7 @@ import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2State
 
-interface S2AutomateExecutor<STATE : S2State, ID, ENTITY : WithS2State<STATE>> {
+interface S2AutomateStoringExecutor<STATE : S2State, ID, ENTITY : WithS2State<STATE>> {
 
 	suspend fun <EVENT> createWithEvent(
 		command: S2InitCommand,

@@ -1,5 +1,10 @@
 package s2.dsl.automate
 
-expect interface Msg
-expect interface Cmd: Msg
-expect interface Evt: Msg
+import f2.dsl.cqrs.Command
+import f2.dsl.cqrs.Event
+import f2.dsl.cqrs.Message
+
+
+typealias Msg = Message
+typealias Cmd = Command
+typealias Evt = Event

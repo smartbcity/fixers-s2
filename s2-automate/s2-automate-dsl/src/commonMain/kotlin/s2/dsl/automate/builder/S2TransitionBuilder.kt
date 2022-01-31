@@ -24,8 +24,8 @@ class S2SelfTransitionBuilder {
 	lateinit var role: S2Role
 }
 
-class S2InitTransitionBuilder<STATE: S2State> {
-	lateinit var to: STATE
+class S2InitTransitionBuilder {
+	lateinit var to: S2State
 	lateinit var role: S2Role
 	@Deprecated("Useless, you can remove this line.")
 	var cmd: KClass<out S2InitCommand>? = null
