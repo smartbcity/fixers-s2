@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+s2.spring.automate.config.EventPublisherConfiguration

@@ -2,14 +2,13 @@ package s2.spring.automate
 
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
-import s2.automate.core.AutomateExecutor
-import s2.automate.core.AutomateExecutorCore
 import s2.automate.core.TransitionStateGuard
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
 import s2.automate.core.guard.GuardAdapter
 import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.core.persist.AutomatePersister
+import s2.automate.storing.AutomateStoringExecutor
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
@@ -26,19 +25,19 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	@Autowired
 	private lateinit var eventPublisher: SpringEventPublisher
 
-	open fun aggregate(): AutomateExecutor<STATE, ID, ENTITY> {
+	open fun aggregate(): AutomateStoringExecutor<STATE, ID, ENTITY> {
 		val automateContext = automateContext()
 		val publisher = automateAppEventPublisher(eventPublisher)
 		val guardExecutor = guardExecutor(publisher)
 		val persister = aggregateRepository()
-		return AutomateExecutorCore(automateContext, guardExecutor, persister, publisher)
+		return AutomateStoringExecutor(automateContext, guardExecutor, persister, publisher)
 	}
 
-	protected open fun automateContext() = AutomateContext(automate(), guards())
+	protected open fun automateContext() = AutomateContext(automate())
 
 	protected open fun guardExecutor(
-		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY>,
-	): GuardExecutorImpl<STATE, ID, ENTITY> {
+		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
+	): GuardExecutorImpl<STATE, ID, ENTITY, S2Automate> {
 		return GuardExecutorImpl(
 			guards = guards(),
 			publisher = automateAppEventPublisher
@@ -46,11 +45,11 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	}
 
 	protected open fun automateAppEventPublisher(eventPublisher: SpringEventPublisher)
-			: AutomateEventPublisher<STATE, ID, ENTITY> {
+			: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate> {
 		return AutomateEventPublisher(eventPublisher)
 	}
 
-	protected open fun guards(): List<GuardAdapter<STATE, ID, ENTITY>> =
+	protected open fun guards(): List<GuardAdapter<STATE, ID, ENTITY, S2Automate>> =
 		listOf(TransitionStateGuard())
 
 	override fun afterPropertiesSet() {
@@ -59,7 +58,7 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 		agg.withContext(automateExecutor, eventPublisher)
 	}
 
-	abstract fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY>
+	abstract fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate>
 	abstract fun automate(): S2Automate
 	abstract fun executor(): EXECUTER
 }

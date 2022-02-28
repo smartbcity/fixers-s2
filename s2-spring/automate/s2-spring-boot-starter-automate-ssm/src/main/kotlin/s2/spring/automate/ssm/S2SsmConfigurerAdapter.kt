@@ -2,8 +2,8 @@ package s2.spring.automate.ssm
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import s2.automate.core.persist.AutomatePersister
+import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -40,7 +40,7 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	lateinit var objectMapper: ObjectMapper
 
 //	@Bean
-	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY> {
+	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate> {
 		return SsmAutomatePersister<STATE, ID, ENTITY>().also {
 			it.ssmTxInitFunction = ssmTxInitFunction
 			it.ssmSessionStartFunction = ssmSessionStartFunction

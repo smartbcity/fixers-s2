@@ -15,7 +15,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-interface AutomateListener<STATE, ID, ENTITY>
+interface AutomateListener<STATE, ID, ENTITY, AUTOMATE>
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	/**
@@ -51,7 +51,7 @@ interface AutomateListener<STATE, ID, ENTITY>
 	 *
 	 * @param transition the transition
 	 */
-	fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>)
+	fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ENTITY>)
 
 	/**
 	 * Notified when transition started.
@@ -65,7 +65,7 @@ interface AutomateListener<STATE, ID, ENTITY>
 	 *
 	 * @param transition the transition
 	 */
-	fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ID, ENTITY>)
+	fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ENTITY>)
 
 	/**
 	 * Notified when transition happened.
@@ -79,14 +79,14 @@ interface AutomateListener<STATE, ID, ENTITY>
 	 *
 	 * @param stateMachine the statemachine
 	 */
-	fun automateSessionStarted(event: AutomateSessionStarted)
+	fun automateSessionStarted(event: AutomateSessionStarted<AUTOMATE>)
 
 	/**
 	 * Notified when statemachine stops
 	 *
 	 * @param stateMachine the statemachine
 	 */
-	fun automateSessionStopped(event: AutomateSessionStopped)
+	fun automateSessionStopped(event: AutomateSessionStopped<AUTOMATE>)
 
 	/**
 	 * Notified when statemachine enters error it can't recover from.
@@ -94,5 +94,5 @@ interface AutomateListener<STATE, ID, ENTITY>
 	 * @param stateMachine the state machine
 	 * @param exception the exception
 	 */
-	fun automateSessionError(event: AutomateSessionError)
+	fun automateSessionError(event: AutomateSessionError<AUTOMATE>)
 }

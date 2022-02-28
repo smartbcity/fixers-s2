@@ -18,10 +18,10 @@ open class S2InitTransition(
 @JsExport
 @JsName("S2Transition")
 open class S2Transition(
-	open val from: S2State,
+	open val from: S2State?,
 	open val to: S2State,
 	open val role: S2Role,
-	open val command: String,
+	open val msg: KClass<out Msg>,
 )
 
 @JsExport
@@ -58,6 +58,5 @@ fun SerialDescriptor.toS2TransitionCommand(): S2TransitionCommandAttribute {
 		name = this.serialName,
 		type = this.kind.toString().lowercase(),
 		optional = this.isNullable,
-
-		)
+	)
 }

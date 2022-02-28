@@ -16,9 +16,9 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class AutomateEventPublisher<STATE, ID, ENTITY>(
+class AutomateEventPublisher<STATE, ID, ENTITY, AUTOMATE>(
 	private val publisher: AppEventPublisher
-): AutomateListener<STATE, ID, ENTITY>
+): AutomateListener<STATE, ID, ENTITY, AUTOMATE>
 where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	override fun automateStateEntered(event: AutomateStateEntered) {
@@ -37,7 +37,7 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 		publisher.publish(event)
 	}
 
-	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>) {
+	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ENTITY>) {
 		publisher.publish(event)
 	}
 
@@ -45,7 +45,7 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 		publisher.publish(event)
 	}
 
-	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ID, ENTITY>) {
+	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ENTITY>) {
 		publisher.publish(event)
 	}
 
@@ -53,15 +53,15 @@ where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 		publisher.publish(event)
 	}
 
-	override fun automateSessionStarted(event: AutomateSessionStarted) {
+	override fun automateSessionStarted(event: AutomateSessionStarted<AUTOMATE>) {
 		publisher.publish(event)
 	}
 
-	override fun automateSessionStopped(event: AutomateSessionStopped) {
+	override fun automateSessionStopped(event: AutomateSessionStopped<AUTOMATE>) {
 		publisher.publish(event)
 	}
 
-	override fun automateSessionError(event: AutomateSessionError) {
+	override fun automateSessionError(event: AutomateSessionError<AUTOMATE>) {
 		publisher.publish(event)
 	}
 }

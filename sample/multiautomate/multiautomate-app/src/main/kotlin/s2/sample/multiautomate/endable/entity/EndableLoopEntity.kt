@@ -1,12 +1,12 @@
 package s2.sample.multiautomate.endable.entity
 
 import f2.spring.data.entity.EntityBase
-import java.util.UUID
-import s2.dsl.automate.model.WithS2IdAndStatus
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import s2.dsl.automate.model.WithS2IdAndStatus
 import s2.sample.multiautomate.endable.EndableLoopId
 import s2.sample.multiautomate.endable.EndableLoopState
+import java.util.UUID
 
 @Document
 data class EndableLoopEntity(

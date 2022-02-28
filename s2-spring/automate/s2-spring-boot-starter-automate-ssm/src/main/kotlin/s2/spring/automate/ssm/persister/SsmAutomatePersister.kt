@@ -7,6 +7,7 @@ import s2.automate.core.context.AutomateContext
 import s2.automate.core.context.InitTransitionAppliedContext
 import s2.automate.core.context.TransitionAppliedContext
 import s2.automate.core.persist.AutomatePersister
+import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -26,7 +27,7 @@ import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
-class SsmAutomatePersister<STATE, ID, ENTITY> : AutomatePersister<STATE, ID, ENTITY> where
+class SsmAutomatePersister<STATE, ID, ENTITY> : AutomatePersister<STATE, ID, ENTITY, S2Automate> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
@@ -44,7 +45,7 @@ ENTITY : WithS2Id<ID> {
 
 
 	override suspend fun persist(
-		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY>,
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
 	): ENTITY {
 		val entity = transitionContext.entity
 		val sessionName = entity.s2Id().toString()
@@ -55,7 +56,7 @@ ENTITY : WithS2Id<ID> {
 			agent = agentSigner
 		))
 		val context = SsmSessionPerformActionCommand(
-			action = transitionContext.command::class.simpleName!!,
+			action = transitionContext.msg::class.simpleName!!,
 			context = SsmContext(
 				session = entity.s2Id().toString(),
 				public = objectMapper.writeValueAsString(entity),
@@ -68,12 +69,12 @@ ENTITY : WithS2Id<ID> {
 		return entity
 	}
 
-	override suspend fun load(automateContext: AutomateContext<STATE, ID, ENTITY>, id: ID): ENTITY? {
+	override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID): ENTITY? {
 		val session = getSession( id.toString(), automateContext).item ?: return null
 		return objectMapper.readValue(session.state.details.public as String, entityType)
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY>): ENTITY {
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
 		val entity = transitionContext.entity
 		val automate = transitionContext.automateContext.automate
 
@@ -91,14 +92,14 @@ ENTITY : WithS2Id<ID> {
 		return entity
 	}
 
-	private suspend fun getIteration(automateContext: AutomateContext<STATE, ID, ENTITY>, sessionId: SessionName): Int {
+	private suspend fun getIteration(automateContext: AutomateContext<S2Automate>, sessionId: SessionName): Int {
 		return getSession(sessionId, automateContext)
 			.item?.state?.details?.iteration ?: return 0
 	}
 
 	private suspend fun getSession(
 		sessionId: SessionName,
-		automateContext: AutomateContext<STATE, ID, ENTITY>
+		automateContext: AutomateContext<S2Automate>
 	) = DataSsmSessionGetQuery(
 		sessionName = sessionId,
 		ssmUri = chaincodeUri.toSsmUri(automateContext.automate.name)

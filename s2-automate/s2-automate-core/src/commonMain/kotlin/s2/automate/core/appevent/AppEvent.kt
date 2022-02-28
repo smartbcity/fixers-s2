@@ -1,9 +1,8 @@
 package s2.automate.core.appevent
 
-import f2.dsl.cqrs.Command
+import s2.dsl.automate.Msg
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
-import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 interface AppEvent
@@ -33,7 +32,7 @@ class AutomateStateExited(
  */
 class AutomateTransitionNotAccepted(
 	val from: S2State?,
-	val command: Command,
+	val msg: Msg,
 ) : AppEvent
 
 /**
@@ -42,7 +41,7 @@ class AutomateTransitionNotAccepted(
  * @param transition the transition
  */
 class AutomateInitTransitionStarted(
-	val command: Command,
+	val msg: Msg,
 ) : AppEvent
 
 /**
@@ -50,12 +49,12 @@ class AutomateInitTransitionStarted(
  *
  * @param transition the transition
  */
-class AutomateInitTransitionEnded<STATE, ID, ENTITY>(
+class AutomateInitTransitionEnded<STATE, ENTITY>(
 	val to: STATE,
-	val command: Command,
+	val msg: Msg,
 	val entity: ENTITY,
 ) : AppEvent
-		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
+		where STATE : S2State, ENTITY : WithS2State<STATE>
 
 /**
  * Notification when transition started.
@@ -64,7 +63,7 @@ class AutomateInitTransitionEnded<STATE, ID, ENTITY>(
  */
 class AutomateTransitionStarted(
 	val from: S2State,
-	val command: Command,
+	val msg: Msg,
 ) : AppEvent
 
 /**
@@ -72,13 +71,13 @@ class AutomateTransitionStarted(
  *
  * @param transition the transition
  */
-class AutomateTransitionEnded<STATE, ID, ENTITY>(
+class AutomateTransitionEnded<STATE, ENTITY>(
 	val from: STATE,
 	val to: STATE,
-	val command: Command,
+	val msg: Msg,
 	val entity: ENTITY,
 ) : AppEvent
-		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID>
+		where STATE : S2State, ENTITY : WithS2State<STATE>
 
 /**
  * Notification when transition happened.
@@ -86,7 +85,7 @@ class AutomateTransitionEnded<STATE, ID, ENTITY>(
  * @param transition the transition
  */
 class AutomateTransitionError(
-	val command: Command,
+	val msg: Msg,
 	val exception: Exception,
 ) : AppEvent
 
@@ -95,8 +94,8 @@ class AutomateTransitionError(
  *
  * @param automate the automate
  */
-class AutomateSessionStarted(
-	val automate: S2Automate,
+class AutomateSessionStarted<AUTOMATE>(
+	val automate: AUTOMATE,
 ) : AppEvent
 
 /**
@@ -104,8 +103,8 @@ class AutomateSessionStarted(
  *
  * @param automate the automate
  */
-class AutomateSessionStopped(
-	val automate: S2Automate,
+class AutomateSessionStopped<AUTOMATE>(
+	val automate: AUTOMATE,
 ) : AppEvent
 
 /**
@@ -114,7 +113,7 @@ class AutomateSessionStopped(
  * @param automate the automate
  * @param exception the exception
  */
-class AutomateSessionError(
+class AutomateSessionError<AUTOMATE>(
 	val automate: S2Automate,
 	val exception: Exception?,
 ) : AppEvent

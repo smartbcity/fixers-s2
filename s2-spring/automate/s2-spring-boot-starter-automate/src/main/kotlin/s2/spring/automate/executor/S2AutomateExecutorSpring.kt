@@ -1,22 +1,22 @@
 package s2.spring.automate.executor
 
-import s2.automate.core.AutomateExecutor
 import s2.automate.core.appevent.publisher.AppEventPublisher
+import s2.automate.storing.AutomateStoringExecutor
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-open class S2AutomateExecutorSpring<STATE, ID, ENTITY> : S2AutomateExecutor<STATE, ID, ENTITY> where
+open class S2AutomateExecutorSpring<STATE, ID, ENTITY> : S2AutomateStoringExecutor<STATE, ID, ENTITY> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	private lateinit var automateExecutor: AutomateExecutor<STATE, ID, ENTITY>
+	private lateinit var automateExecutor: AutomateStoringExecutor<STATE, ID, ENTITY>
 	private lateinit var publisher: AppEventPublisher
 
-	fun withContext(automateExecutor: AutomateExecutor<STATE, ID, ENTITY>, publisher: AppEventPublisher) {
+	fun withContext(automateExecutor: AutomateStoringExecutor<STATE, ID, ENTITY>, publisher: AppEventPublisher) {
 		this.automateExecutor = automateExecutor
 		this.publisher = publisher
 	}

@@ -15,7 +15,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-open class AutomateListenerAdapter<STATE, ID, ENTITY> : AutomateListener<STATE, ID, ENTITY>
+open class AutomateListenerAdapter<STATE, ID, ENTITY, AUTOMATE> : AutomateListener<STATE, ID, ENTITY, AUTOMATE>
 		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
 
 	override fun automateStateEntered(event: AutomateStateEntered) {}
@@ -26,17 +26,17 @@ open class AutomateListenerAdapter<STATE, ID, ENTITY> : AutomateListener<STATE, 
 
 	override fun automateInitTransitionStarted(event: AutomateInitTransitionStarted) {}
 
-	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ID, ENTITY>) {}
+	override fun automateInitTransitionEnded(event: AutomateInitTransitionEnded<STATE, ENTITY>) {}
 
 	override fun automateTransitionStarted(event: AutomateTransitionStarted) {}
 
-	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ID, ENTITY>) {}
+	override fun automateTransitionEnded(event: AutomateTransitionEnded<STATE, ENTITY>) {}
 
 	override fun automateTransitionError(event: AutomateTransitionError) {}
 
-	override fun automateSessionStarted(event: AutomateSessionStarted) {}
+	override fun automateSessionStarted(event: AutomateSessionStarted<AUTOMATE>) {}
 
-	override fun automateSessionStopped(event: AutomateSessionStopped) {}
+	override fun automateSessionStopped(event: AutomateSessionStopped<AUTOMATE>) {}
 
-	override fun automateSessionError(event: AutomateSessionError) {}
+	override fun automateSessionError(event: AutomateSessionError<AUTOMATE>) {}
 }

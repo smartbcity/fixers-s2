@@ -8,7 +8,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-interface Guard<STATE, ID, ENTITY> where
+interface Guard<STATE, ID, ENTITY, AUTOMATE> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
@@ -19,7 +19,7 @@ ENTITY : WithS2Id<ID> {
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.
 	 */
-	suspend fun evaluateInit(context: InitTransitionContext<STATE, ID, ENTITY>): GuardResult
+	suspend fun evaluateInit(context: InitTransitionContext<AUTOMATE>): GuardResult
 
 	/**
 	 * Evaluate a guard condition for transition.
@@ -27,21 +27,21 @@ ENTITY : WithS2Id<ID> {
 	 * @param context the state context transaction
 	 * @return true, if guard evaluation is successful, false otherwise.
 	 */
-	suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY>): GuardResult
+	suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
 
 	/**
-	 * Vefiry a guard condition after init transition has been applied.
+	 * Verify a guard condition after init transition has been applied.
 	 *
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.
 	 */
-	suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY>): GuardResult
+	suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
 
 	/**
-	 * Vefiry a guard condition after init transition has been applied.
+	 * Verify a guard condition after init transition has been applied.
 	 *
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.
 	 */
-	suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY>): GuardResult
+	suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
 }
