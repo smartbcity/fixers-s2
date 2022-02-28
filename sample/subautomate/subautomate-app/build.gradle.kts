@@ -2,7 +2,7 @@ plugins {
 	id("city.smartb.fixers.gradle.kotlin.jvm")
 	id("org.springframework.boot") version PluginVersions.springBoot
 	kotlin("plugin.spring")
-	id("com.google.devtools.ksp") version "1.6.10-1.0.2"
+	id("com.google.devtools.ksp") version PluginVersions.ksp
 	kotlin("plugin.serialization")
 }
 
@@ -20,11 +20,11 @@ dependencies {
 	Dependencies.springTest(::testImplementation)
 }
 
-kotlin {
-	sourceSets.main {
-		kotlin.srcDir("build/generated/ksp/main/kotlin")
-	}
-	sourceSets.test {
-		kotlin.srcDir("build/generated/ksp/test/kotlin")
-	}
-}
+//kotlin {
+//	sourceSets.main {
+//		kotlin.srcDir("build/generated/ksp/main/kotlin")
+//	}
+//	sourceSets.test {
+//		kotlin.srcDir("build/generated/ksp/test/kotlin")
+//	}
+//}

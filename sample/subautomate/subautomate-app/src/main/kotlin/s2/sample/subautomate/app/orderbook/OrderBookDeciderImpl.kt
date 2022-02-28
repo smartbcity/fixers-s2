@@ -1,17 +1,9 @@
-package s2.sample.subautomate.app
+package s2.sample.subautomate.app.orderbook
 
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import s2.sample.subautomate.app.config.OrderBookS2Aggregate
 import s2.sample.subautomate.domain.OrderBookDecider
-import s2.sample.subautomate.domain.OrderBookState
-import s2.sample.subautomate.domain.order.OrderBoughtEvent
-import s2.sample.subautomate.domain.order.OrderBurnCommand
-import s2.sample.subautomate.domain.order.OrderBurnedEvent
-import s2.sample.subautomate.domain.order.OrderBuyCommand
-import s2.sample.subautomate.domain.order.OrderDecide
-import s2.sample.subautomate.domain.order.OrderSellCommand
-import s2.sample.subautomate.domain.order.OrderSoldEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookCloseCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookClosedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookCreateCommand
@@ -19,6 +11,7 @@ import s2.sample.subautomate.domain.orderBook.OrderBookCreatedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookDecide
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
+import s2.sample.subautomate.domain.orderBook.OrderBookState
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 import java.util.UUID
@@ -57,10 +50,5 @@ class OrderBookDeciderImpl(
 				state = OrderBookState.Closed
 			)
 		}
-
-	override fun orderBuy(): OrderDecide<OrderBuyCommand, OrderBoughtEvent> = TODO()
-	override fun orderSell(): OrderDecide<OrderSellCommand, OrderSoldEvent> = TODO()
-	override fun orderBurn(): OrderDecide<OrderBurnCommand, OrderBurnedEvent> = TODO()
-
 }
 

@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
-import s2.sample.subautomate.app.OrderBookModelView
-import s2.sample.subautomate.domain.OrderBookState
-import s2.sample.subautomate.domain.model.OrderBook
-import s2.sample.subautomate.domain.model.OrderBookId
+import s2.sample.subautomate.app.orderbook.OrderBookModelView
+import s2.sample.subautomate.domain.orderBook.OrderBookState
+import s2.sample.subautomate.domain.orderBook.OrderBook
 import s2.sample.subautomate.domain.orderBook.OrderBookEvent
-import s2.sample.subautomate.domain.orderBookAutomate
+import s2.sample.subautomate.domain.orderBook.OrderBookId
+import s2.sample.subautomate.domain.orderBook.orderBookAutomate
 import s2.sourcing.dsl.view.View
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter

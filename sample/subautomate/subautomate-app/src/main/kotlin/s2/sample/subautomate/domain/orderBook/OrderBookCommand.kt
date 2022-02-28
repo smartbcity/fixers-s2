@@ -7,9 +7,7 @@ import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.sample.subautomate.domain.OrderBookState
-import s2.sample.subautomate.domain.model.OrderBookId
-import s2.sample.subautomate.domain.model.OrderId
+import s2.sample.subautomate.domain.order.OrderId
 import s2.sourcing.dsl.Decide
 
 @Serializable

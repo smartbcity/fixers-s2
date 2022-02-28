@@ -1,9 +1,9 @@
-package s2.sample.subautomate.domain.model
+package s2.sample.subautomate.domain.orderBook
 
 import arrow.optics.optics
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.sample.subautomate.domain.OrderBookState
+import s2.sample.subautomate.domain.orderBook.OrderBookState
 
 typealias OrderBookId = String
 

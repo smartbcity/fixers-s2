@@ -1,14 +1,14 @@
-package s2.sample.subautomate.app
+package s2.sample.subautomate.app.orderbook
 
-import s2.sample.subautomate.domain.OrderBookState
-import s2.sample.subautomate.domain.model.OrderBook
-import s2.sample.subautomate.domain.model.name
-import s2.sample.subautomate.domain.model.status
+import s2.sample.subautomate.domain.orderBook.OrderBookState
+import s2.sample.subautomate.domain.orderBook.OrderBook
 import s2.sample.subautomate.domain.orderBook.OrderBookClosedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookCreatedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
+import s2.sample.subautomate.domain.orderBook.name
+import s2.sample.subautomate.domain.orderBook.status
 import s2.sourcing.dsl.view.View
 
 class OrderBookModelView: View<OrderBookEvent, OrderBook> {
