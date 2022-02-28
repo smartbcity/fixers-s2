@@ -13,7 +13,7 @@ import s2.dsl.automate.model.WithS2State
 import s2.dsl.automate.ssm.toSsm
 import s2.sourcing.dsl.event.EventRepository
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import s2.spring.automate.sourcing.S2SourcingAdapter
+import s2.spring.automate.sourcing.S2AutomateDeciderSpringAdapter
 import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.data.dsl.features.query.DataSsmSessionGetQueryFunction
@@ -25,7 +25,7 @@ import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 import kotlin.reflect.KClass
 
 abstract class S2StormingSsmAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>
-	: S2SourcingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
+	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,

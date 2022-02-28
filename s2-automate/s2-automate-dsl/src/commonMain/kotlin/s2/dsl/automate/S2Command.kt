@@ -1,7 +1,14 @@
 package s2.dsl.automate
 
-expect interface S2InitCommand : Cmd
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
-expect interface S2Command<ID> : Cmd, WithId<ID> {
+@JsExport
+@JsName("S2InitCommand")
+interface S2InitCommand : Cmd
+
+@JsExport
+@JsName("S2Command")
+interface S2Command<ID> : Cmd, WithId<ID> {
 	override val id: ID
 }

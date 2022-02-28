@@ -7,12 +7,12 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import s2.spring.automate.sourcing.S2SourcingAdapter
+import s2.spring.automate.sourcing.S2AutomateDeciderSpringAdapter
 import s2.spring.sourcing.data.event.EventPersisterData
 import s2.spring.sourcing.data.event.SpringDataEventRepository
 
 abstract class S2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>
-	: S2SourcingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
+	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,

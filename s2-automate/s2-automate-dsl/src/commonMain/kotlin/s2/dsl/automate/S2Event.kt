@@ -3,7 +3,9 @@ package s2.dsl.automate
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-expect interface S2Event<out STATE : S2State, ID> : Evt, WithId<ID> {
+@JsExport
+@JsName("S2Event")
+interface S2Event<out STATE : S2State, ID> : Evt, WithId<ID> {
 	override val id: ID
 	val type: STATE
 }

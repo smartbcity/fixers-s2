@@ -25,7 +25,7 @@ import s2.sourcing.dsl.view.View
 import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
 
-abstract class S2SourcingAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
+abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
