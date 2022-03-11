@@ -23,14 +23,9 @@ import ssm.sdk.sign.extention.loadFromFile
 import kotlin.reflect.KClass
 
 @Configuration
-class OrderBookAutomateConfig : S2StormingSsmAdapter<
-		OrderBook, OrderBookState, OrderBookEvent, OrderBookId, OrderBookS2Aggregate>() {
+class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate) : S2StormingSsmAdapter<
+		OrderBook, OrderBookState, OrderBookEvent, OrderBookId, OrderBookS2Aggregate>(orderBookS2Aggregate) {
 	override fun automate() = orderBookAutomate
-
-	@Autowired
-	lateinit var endableLoopS2Aggregate: OrderBookS2Aggregate
-
-	override fun executor(): OrderBookS2Aggregate = endableLoopS2Aggregate
 
 	override fun entityType(): KClass<OrderBookEvent> {
 		return OrderBookEvent::class

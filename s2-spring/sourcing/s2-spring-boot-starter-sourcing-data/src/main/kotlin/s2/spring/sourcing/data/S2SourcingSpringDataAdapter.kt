@@ -11,8 +11,8 @@ import s2.spring.automate.sourcing.S2AutomateDeciderSpringAdapter
 import s2.spring.sourcing.data.event.EventPersisterData
 import s2.spring.sourcing.data.event.SpringDataEventRepository
 
-abstract class S2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>
-	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
+abstract class S2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(executor: EXECUTER)
+	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(executor) where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,

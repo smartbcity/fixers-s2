@@ -9,15 +9,15 @@ import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
-class EndableLoopS2SpringDataConfigurerAdapter() : S2SourcingSpringDataAdapter<
+class EndableLoopS2SpringDataConfigurerAdapter(endableLoopS2Aggregate: EndableLoopS2Aggregate) : S2SourcingSpringDataAdapter<
 		EndableLoopEntity, EndableLoopState, EndableLoopEvent, EndableLoopId, EndableLoopS2Aggregate
->() {
+>(endableLoopS2Aggregate) {
 	override fun automate() = endableLoopS2()
 
 	@Autowired
 	lateinit var endableLoopS2Aggregate: EndableLoopS2Aggregate
 
-	override fun executor(): EndableLoopS2Aggregate = endableLoopS2Aggregate
+//	override fun executor(): EndableLoopS2Aggregate = endableLoopS2Aggregate
 
 	override fun view(): View<EndableLoopEvent, EndableLoopEntity> {
 		TODO("Not yet implemented")

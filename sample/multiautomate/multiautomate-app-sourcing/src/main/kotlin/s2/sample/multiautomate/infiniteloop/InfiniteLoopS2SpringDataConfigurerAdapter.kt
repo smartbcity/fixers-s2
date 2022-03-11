@@ -10,15 +10,12 @@ import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
 class ApplicationS2SpringDataConfigurerAdapter(
+	infiniteLoopS2Aggregate: InfiniteLoopS2Aggregate
 ) : S2SourcingSpringDataAdapter<
 		InfiniteLoopEntity, InfiniteLoopState, InfiniteLoopEvent, InfiniteLoopId, InfiniteLoopS2Aggregate
-		>() {
+		>(infiniteLoopS2Aggregate) {
 	override fun automate() = infiniteLoopS2()
 
-	@Autowired
-	lateinit var infiniteLoopS2Aggregate: InfiniteLoopS2Aggregate
-
-	override fun executor(): InfiniteLoopS2Aggregate = infiniteLoopS2Aggregate
 	override fun view(): View<InfiniteLoopEvent, InfiniteLoopEntity> {
 		TODO("Not yet implemented")
 	}

@@ -15,14 +15,9 @@ import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
-class OrderAutomateConfig : S2SourcingSpringDataAdapter<
-		Order, OrderState, OrderEvent, OrderId, OrderS2AutomateDecider>() {
+class OrderAutomateConfig(orderS2AutomateDecider: OrderS2AutomateDecider) : S2SourcingSpringDataAdapter<
+		Order, OrderState, OrderEvent, OrderId, OrderS2AutomateDecider>(orderS2AutomateDecider) {
 	override fun automate() = orderBookAutomate
-
-	@Autowired
-	lateinit var orderS2Aggregate: OrderS2AutomateDecider
-
-	override fun executor(): OrderS2AutomateDecider = orderS2Aggregate
 
 	@Bean
 	override fun view(): View<OrderEvent, Order> = OrderModelView()
