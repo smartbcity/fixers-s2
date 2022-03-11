@@ -37,7 +37,8 @@ include(
 
 include(
 	"sample:multiautomate",
-	"sample:multiautomate:multiautomate-app"
+	"sample:multiautomate:multiautomate-app-sourcing",
+	"sample:multiautomate:multiautomate-app-storing"
 )
 
 include(
