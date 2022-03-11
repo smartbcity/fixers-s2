@@ -53,7 +53,8 @@ ENTITY : WithS2Id<ID> {
 		ssmTxInitFunction.invoke(SsmInitCommand(
 			signerName = agentSigner.name,
 			ssm = transitionContext.automateContext.automate.toSsm(),
-			agent = agentSigner
+			agent = agentSigner,
+			chaincodeUri = chaincodeUri
 		))
 		val context = SsmSessionPerformActionCommand(
 			action = transitionContext.msg::class.simpleName!!,
@@ -63,7 +64,8 @@ ENTITY : WithS2Id<ID> {
 				private = mapOf(),
 				iteration = iteration,
 			),
-			signerName = agentSigner.name
+			signerName = agentSigner.name,
+			chaincodeUri = chaincodeUri
 		)
 		ssmSessionPerformActionFunction.invoke(context)
 		return entity
@@ -86,7 +88,8 @@ ENTITY : WithS2Id<ID> {
 				public = objectMapper.writeValueAsString(entity),
 				private = mapOf()
 			),
-			signerName = agentSigner.name
+			signerName = agentSigner.name,
+			chaincodeUri = chaincodeUri
 		)
 		ssmSessionStartFunction.invoke(ssmStart)
 		return entity

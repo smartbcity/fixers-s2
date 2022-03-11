@@ -69,7 +69,8 @@ EVENT: WithS2Id<ID>
 					private = mapOf(),
 					iteration = iteration,
 				),
-				signerName = agentSigner.name
+				signerName = agentSigner.name,
+				chaincodeUri = chaincodeUri
 			)
 			ssmSessionPerformActionFunction.invoke(context)
 		}
@@ -87,7 +88,8 @@ EVENT: WithS2Id<ID>
 				public = json.encodeToString(kclass.serializer(), event),
 				private = mapOf()
 			),
-			signerName = agentSigner.name
+			signerName = agentSigner.name,
+			chaincodeUri = chaincodeUri
 		)
 		ssmSessionStartFunction.invoke(ssmStart)
 		return event

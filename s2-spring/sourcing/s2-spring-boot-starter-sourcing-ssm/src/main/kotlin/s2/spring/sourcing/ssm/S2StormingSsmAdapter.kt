@@ -65,7 +65,8 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 				SsmInitCommand(
 					signerName = signerAgent().name,
 					ssm = automate.toSsm(),
-					agent = ee.agentSigner
+					agent = ee.agentSigner,
+					chaincodeUri = chaincodeUri()
 				)
 			)
 		}

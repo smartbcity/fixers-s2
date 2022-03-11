@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2
-import s2.sample.subautomate.domain.model.OrderBookId
 import s2.sample.subautomate.domain.orderBook.OrderBookClosedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookCreatedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent

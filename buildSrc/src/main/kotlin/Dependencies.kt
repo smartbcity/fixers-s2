@@ -5,9 +5,9 @@ import city.smartb.gradle.dependencies.Scope
 import city.smartb.gradle.dependencies.add
 
 object PluginVersions {
-	const val fixers = "experimental-SNAPSHOT"
-	const val d2 = fixers
-	const val ksp = "1.6.20-M1-1.0.2"
+	const val fixers = "0.4.1"
+	const val d2 = "0.3.1"
+	const val ksp = "1.6.20-RC-1.0.4"
 	const val kotlin = FixersPluginVersions.kotlin
 	const val springBoot = FixersPluginVersions.springBoot
 	const val npmPublish = FixersPluginVersions.npmPublish
@@ -18,15 +18,15 @@ object Versions {
 	const val serialization = "1.3.2"
 
 	const val springBoot = FixersVersions.Spring.boot
-	const val springFramework = "5.3.14"
-	const val springData = "2.6.1"
-	const val jacksonKotlin = "2.13.0"
+	const val springFramework = FixersVersions.Spring.framework
+	const val springData = "2.6.2"
+	const val jacksonKotlin = "2.13.2"
 	const val javaxPersistence = "2.2"
 
 	const val testcontainers = "1.16.3"
 
-	const val ssm = "experimental-SNAPSHOT"
-	const val f2 = "experimental-SNAPSHOT"
+	const val ssm = PluginVersions.fixers
+	const val f2 = PluginVersions.fixers
 }
 
 object Dependencies {
