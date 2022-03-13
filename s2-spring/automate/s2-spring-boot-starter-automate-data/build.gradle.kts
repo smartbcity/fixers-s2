@@ -8,5 +8,5 @@ dependencies {
 	api(project(":s2-automate:s2-automate-core"))
 	api(project(":s2-spring:automate:s2-spring-boot-starter-automate"))
 
-	Dependencies.springDataCommon(::implementation)
+	Dependencies.Spring.dataCommons(::implementation)
 }

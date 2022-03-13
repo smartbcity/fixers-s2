@@ -7,7 +7,7 @@ plugins {
 dependencies {
 	api(project(":s2-spring:sourcing:s2-spring-boot-starter-sourcing"))
 
-	Dependencies.springAutoConfigure(::implementation, ::kapt)
-	Dependencies.springDataCommon(::implementation)
+	Dependencies.Spring.autoConfigure(::implementation, ::kapt)
+	Dependencies.Spring.dataCommons(::implementation)
 
 }

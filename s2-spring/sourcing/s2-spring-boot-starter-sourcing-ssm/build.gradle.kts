@@ -7,7 +7,7 @@ plugins {
 dependencies {
 	api(project(":s2-spring:sourcing:s2-spring-boot-starter-sourcing"))
 
-	Dependencies.springAutoConfigure(::implementation, ::kapt)
+	Dependencies.Spring.autoConfigure(::implementation, ::kapt)
 
 	api("city.smartb.ssm:ssm-data-spring-boot-starter:${Versions.ssm}")
 	api("city.smartb.ssm:ssm-tx-spring-boot-starter:${Versions.ssm}")
