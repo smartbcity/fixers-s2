@@ -6,7 +6,6 @@ import s2.dsl.automate.S2Event
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
-import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2
 import s2.dsl.automate.model.WithS2Id
 
