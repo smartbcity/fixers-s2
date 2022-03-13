@@ -1,11 +1,11 @@
 package s2.sample.subautomate.app.orderbook
 
-import s2.sample.subautomate.domain.orderBook.OrderBookState
 import s2.sample.subautomate.domain.orderBook.OrderBook
 import s2.sample.subautomate.domain.orderBook.OrderBookClosedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookCreatedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
+import s2.sample.subautomate.domain.orderBook.OrderBookState
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 import s2.sample.subautomate.domain.orderBook.name
 import s2.sample.subautomate.domain.orderBook.status

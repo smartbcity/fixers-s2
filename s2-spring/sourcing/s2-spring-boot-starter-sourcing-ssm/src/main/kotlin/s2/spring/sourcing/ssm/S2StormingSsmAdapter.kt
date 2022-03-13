@@ -24,8 +24,8 @@ import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 import kotlin.reflect.KClass
 
-abstract class S2StormingSsmAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>
-	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>() where
+abstract class S2StormingSsmAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(executor: EXECUTER)
+	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(executor) where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,

@@ -9,5 +9,5 @@ dependencies {
 	//TODO REMOVE dependency to :s2-spring:automate:s2-spring-boot-starter-automate
 	api(project(":s2-spring:automate:s2-spring-boot-starter-automate"))
 
-	Dependencies.springAutoConfigure(::implementation, ::kapt)
+	Dependencies.Spring.autoConfigure(::implementation, ::kapt)
 }

@@ -1,15 +1,10 @@
 package s2.sample.subautomate.domain.order
 
-import s2.dsl.automate.Cmd
 import s2.dsl.automate.Evt
+import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import s2.sample.subautomate.domain.order.OrderState
-import s2.sample.subautomate.domain.order.OrderId
-import s2.sourcing.dsl.Decide
-import s2.dsl.automate.S2Command
-import s2.sample.subautomate.domain.orderBook.OrderBookEvent
 
 data class OrderBuyCommand(override val id: OrderId) : OrderCommand
 data class OrderBoughtEvent(val id: OrderId, val state: OrderState) : OrderEvent {

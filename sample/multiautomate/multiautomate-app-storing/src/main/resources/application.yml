@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://admin:admin@localhost/admin
+      auto-index-creation: true
+
+#debug: true
+#logging:
+#  level:
+#    org.springframework.boot.rsocket: DEBUG

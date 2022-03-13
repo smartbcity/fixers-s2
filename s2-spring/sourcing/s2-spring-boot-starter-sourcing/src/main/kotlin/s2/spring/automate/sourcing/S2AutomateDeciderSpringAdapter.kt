@@ -1,10 +1,8 @@
 package s2.spring.automate.sourcing
 
-import org.springframework.beans.factory.InitializingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import s2.automate.core.TransitionStateGuard
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
@@ -25,7 +23,7 @@ import s2.sourcing.dsl.view.View
 import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
 
-abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER> where
+abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(val executor: EXECUTER) where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
@@ -38,21 +36,19 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	open fun snapLoader(
 		eventStore: EventRepository<EVENT, ID>,
 		snapRepository: SnapRepository<ENTITY, ID>?,
-		evolver: View<EVENT, ENTITY>
 	): Loader<EVENT, ENTITY, ID> {
-		val view = ViewLoader(eventStore, evolver)
+		val viewLoader = ViewLoader(eventStore, view())
 		return snapRepository?.let { repo ->
-			SnapLoader(repo, view)
-		} ?: view
+			SnapLoader(repo, viewLoader)
+		} ?: viewLoader
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(SnapRepository::class)
 	open fun viewLoader(
 		eventStore: EventRepository<EVENT, ID>,
-		evolver: View<EVENT, ENTITY>
 	): Loader<EVENT, ENTITY, ID> {
-		return ViewLoader(eventStore, evolver)
+		return ViewLoader(eventStore, view())
 	}
 
 
@@ -71,7 +67,9 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 			projectionBuilder = projectionBuilder,
 			eventStore = eventStore,
 			publisher = publisher
-		)
+		).also {
+			executor.withContext(it)
+		}
 	}
 
 	protected open fun automateContext() = AutomateContext(automate())
@@ -94,17 +92,6 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		TransitionStateGuard()
 	)
 
-	@Configuration
-	open inner class InitBean(
-		private val automateStormingExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>
-	): InitializingBean{
-		override fun afterPropertiesSet() {
-			val agg = executor()
-			agg.withContext(automateStormingExecutor)
-		}
-	}
-
 	abstract fun automate(): S2Automate
-	abstract fun executor(): EXECUTER
 	abstract fun view(): View<EVENT, ENTITY>
 }

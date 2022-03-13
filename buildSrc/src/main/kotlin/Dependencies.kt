@@ -5,9 +5,9 @@ import city.smartb.gradle.dependencies.Scope
 import city.smartb.gradle.dependencies.add
 
 object PluginVersions {
-	const val fixers = "0.4.1"
+	val fixers = FixersPluginVersions.fixers
 	const val d2 = "0.3.1"
-	const val ksp = "1.6.20-RC-1.0.4"
+	const val ksp = FixersPluginVersions.ksp
 	const val kotlin = FixersPluginVersions.kotlin
 	const val springBoot = FixersPluginVersions.springBoot
 	const val npmPublish = FixersPluginVersions.npmPublish
@@ -15,25 +15,16 @@ object PluginVersions {
 
 object Versions {
 	const val arrow = "1.0.2-alpha.42"
-	const val serialization = "1.3.2"
 
 	const val springBoot = FixersVersions.Spring.boot
-	const val springFramework = FixersVersions.Spring.framework
-	const val springData = "2.6.2"
-	const val jacksonKotlin = "2.13.2"
-	const val javaxPersistence = "2.2"
+	const val testcontainers = FixersVersions.Test.testcontainers
 
-	const val testcontainers = "1.16.3"
-
-	const val ssm = PluginVersions.fixers
-	const val f2 = PluginVersions.fixers
+	val ssm = PluginVersions.fixers
+	val f2 = PluginVersions.fixers
 }
 
 object Dependencies {
-
-	fun kserializationJson(scope: Scope) = scope.add(
-		"org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}",
-	)
+	fun kserializationJson(scope: Scope) = FixersDependencies.Jvm.Json.kSerialization(scope)
 
 	fun f2Http(scope: Scope) = scope.add(
 		"city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
@@ -48,17 +39,9 @@ object Dependencies {
 		)
 	}
 
-	fun springDataCommon(scope: Scope) = scope.add(
-		"javax.persistence:javax.persistence-api:${Versions.javaxPersistence}",
-		"org.springframework.data:spring-data-commons:${Versions.springData}"
-	)
-
-	fun springAutoConfigure(scope: Scope, ksp: Scope) = scope.add(
-		"org.springframework.boot:spring-boot-autoconfigure:${FixersVersions.Spring.boot}"
-	).also {
-		ksp.add(
-			"org.springframework.boot:spring-boot-configuration-processor:${FixersVersions.Spring.boot}"
-		)
+	object Spring {
+		fun dataCommons(scope: Scope) = FixersDependencies.Jvm.Spring.dataCommons(scope)
+		fun autoConfigure(scope: Scope, ksp: Scope) = FixersDependencies.Jvm.Spring.autoConfigure(scope, ksp)
 	}
 
 	fun testcontainersMongo(scope: Scope) = scope.add(

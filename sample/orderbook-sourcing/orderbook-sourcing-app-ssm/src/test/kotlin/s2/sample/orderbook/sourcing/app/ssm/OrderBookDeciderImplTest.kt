@@ -26,7 +26,6 @@ import s2.sample.subautomate.domain.orderBook.OrderBookUpdateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 import s2.sourcing.dsl.Loader
 import s2.sourcing.dsl.event.EventRepository
-import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.sourcing.ssm.PolymorphicEnumSerializer
 import java.util.UUID
 

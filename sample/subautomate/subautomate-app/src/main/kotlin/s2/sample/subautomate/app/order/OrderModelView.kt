@@ -5,7 +5,6 @@ import s2.sample.subautomate.domain.order.OrderBoughtEvent
 import s2.sample.subautomate.domain.order.OrderBurnedEvent
 import s2.sample.subautomate.domain.order.OrderEvent
 import s2.sample.subautomate.domain.order.OrderSoldEvent
-import s2.sample.subautomate.domain.orderBook.OrderBook
 import s2.sourcing.dsl.view.View
 
 class OrderModelView : View<OrderEvent, Order> {

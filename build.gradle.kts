@@ -4,7 +4,7 @@ plugins {
 
 	kotlin("kapt") version PluginVersions.kotlin apply false
 
-	id("lt.petuska.npm.publish") version PluginVersions.npmPublish apply false
+	id("dev.petuska.npm.publish") version PluginVersions.npmPublish apply false
 	id("com.moowork.node" ) version "1.2.0"
 
 	id("city.smartb.fixers.gradle.config") version PluginVersions.fixers
@@ -39,8 +39,8 @@ subprojects {
 			}
 		}
 	}
-	plugins.withType(lt.petuska.npm.publish.NpmPublishPlugin::class.java).whenPluginAdded {
-		the<lt.petuska.npm.publish.dsl.NpmPublishExtension>().apply {
+	plugins.withType(dev.petuska.npm.publish.NpmPublishPlugin::class.java).whenPluginAdded {
+		the<dev.petuska.npm.publish.dsl.NpmPublishExtension>().apply {
 			organization = "smartb"
 			repositories {
 				repository("npmjs") {

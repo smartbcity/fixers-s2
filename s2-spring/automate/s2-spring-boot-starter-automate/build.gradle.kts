@@ -7,5 +7,5 @@ plugins {
 dependencies {
 	api(project(":s2-automate:s2-automate-storing"))
 
-	Dependencies.springAutoConfigure(::implementation, ::kapt)
+	Dependencies.Spring.autoConfigure(::implementation, ::kapt)
 }
