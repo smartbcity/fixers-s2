@@ -18,7 +18,7 @@ plugins {
 
 allprojects {
 	group = "city.smartb.s2"
-	version = System.getenv("VERSION") ?: "latest"
+	version = System.getenv("VERSION") ?: "experimental-SNAPSHOT"
 	repositories {
 		mavenLocal()
 		mavenCentral()
