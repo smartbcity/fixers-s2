@@ -20,7 +20,7 @@ EVENT: WithS2Id<ID>
 
 	override suspend fun persist(event: EVENT): EVENT {
 		return eventRepository.save(
-			EventStorming(
+			EventSourcing(
 				id = UUID.randomUUID().toString(),
 				objId = event.s2Id(),
 				event = event

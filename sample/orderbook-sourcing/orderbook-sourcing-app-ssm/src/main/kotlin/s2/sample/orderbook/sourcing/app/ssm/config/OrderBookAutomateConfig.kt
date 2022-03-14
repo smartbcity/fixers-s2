@@ -14,7 +14,7 @@ import s2.sample.subautomate.domain.orderBook.OrderBookEvent
 import s2.sample.subautomate.domain.orderBookAutomate
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.ssm.PolymorphicEnumSerializer
-import s2.spring.sourcing.ssm.S2StormingSsmAdapter
+import s2.spring.sourcing.ssm.S2SourcingSsmAdapter
 import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
@@ -22,7 +22,7 @@ import ssm.sdk.sign.extention.loadFromFile
 import kotlin.reflect.KClass
 
 @Configuration
-class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate) : S2StormingSsmAdapter<
+class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate) : S2SourcingSsmAdapter<
 		OrderBook, OrderBookState, OrderBookEvent, OrderBookId, OrderBookS2Aggregate>(orderBookS2Aggregate) {
 	override fun automate() = orderBookAutomate
 

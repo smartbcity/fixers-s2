@@ -16,7 +16,7 @@ import javax.persistence.TemporalType
 @Entity
 @MappedSuperclass
 @EntityListeners
-class EventStorming<EVENT, ID>(
+class EventSourcing<EVENT, ID>(
 	@Id
 	val id: String,
 	val objId: ID,
