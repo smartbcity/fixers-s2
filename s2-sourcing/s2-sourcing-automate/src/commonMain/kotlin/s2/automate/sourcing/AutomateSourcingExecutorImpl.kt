@@ -49,7 +49,7 @@ EVENT :  WithS2Id<ID> {
 			val event = buildEvent()
 			val initTransitionContext = initTransitionContext(event)
 			guardExecutor.evaluateInit(initTransitionContext)
-			val entity = projectionBuilder.load(flowOf(event))
+			val entity = projectionBuilder.evolve(flowOf(event), null)
 				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 			persist(command, entity, event)
 			sentEndCreateEvent(command, entity)
@@ -75,7 +75,6 @@ EVENT :  WithS2Id<ID> {
 		)
 		guardExecutor.verifyInitTransition(initTransitionPersistContext)
 		eventStore.persist(event)
-//		persister.persist(initTransitionPersistContext)
 	}
 
 	@Suppress("ThrowsCount")

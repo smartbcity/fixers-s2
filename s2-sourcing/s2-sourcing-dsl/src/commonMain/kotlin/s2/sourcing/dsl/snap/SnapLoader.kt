@@ -28,6 +28,8 @@ EVENT : Evt {
 	}
 
 	override suspend fun evolve(events: Flow<EVENT>, entity: ENTITY?): ENTITY? {
-		return viewLoader.evolve(events,entity)
+		return viewLoader.evolve(events, entity)?.let { updated ->
+			snapRepository.save(updated)
+		}
 	}
 }
