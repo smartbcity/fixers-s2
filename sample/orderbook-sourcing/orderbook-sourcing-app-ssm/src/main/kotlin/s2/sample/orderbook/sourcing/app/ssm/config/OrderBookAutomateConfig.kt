@@ -23,7 +23,7 @@ import kotlin.reflect.KClass
 
 @Configuration
 class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate) : S2SourcingSsmAdapter<
-		OrderBook, OrderBookState, OrderBookEvent, OrderBookId, OrderBookS2Aggregate>(orderBookS2Aggregate) {
+		OrderBook, OrderBookState, OrderBookEvent, OrderBookId, OrderBookS2Aggregate>(orderBookS2Aggregate, OrderBookModelView()) {
 	override fun automate() = orderBookAutomate
 
 	override fun entityType(): KClass<OrderBookEvent> {
@@ -46,9 +46,6 @@ class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate) : S2So
 	override fun signerAgent(): Agent {
 		return Agent.loadFromFile("ssm-admin","user/ssm-admin")
 	}
-
-	@Bean
-	override fun view() = OrderBookModelView()
 }
 
 @Service

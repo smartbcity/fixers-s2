@@ -10,13 +10,12 @@ import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 @Configuration
 class EndableLoopS2SpringDataConfigurerAdapter(
 	endableLoopS2Aggregate: EndableLoopS2Aggregate,
-	val endableLoopS2View: EndableLoopS2View
+	endableLoopS2View: EndableLoopS2View
 ) : S2SourcingSpringDataAdapter<
 		EndableLoopEntity, EndableLoopState, EndableLoopEvent, EndableLoopId, EndableLoopS2Aggregate
->(endableLoopS2Aggregate) {
+>(endableLoopS2Aggregate, endableLoopS2View) {
 	override fun automate() = endableLoopS2()
 
-	override fun view() = endableLoopS2View
 }
 
 @Service

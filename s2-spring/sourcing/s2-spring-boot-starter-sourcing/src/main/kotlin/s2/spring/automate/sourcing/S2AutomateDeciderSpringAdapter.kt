@@ -23,7 +23,11 @@ import s2.sourcing.dsl.view.View
 import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
 
-abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(val executor: EXECUTER) where
+abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(
+	val executor: EXECUTER,
+	val view: View<EVENT, ENTITY>,
+	val snapRepository: SnapRepository<ENTITY, ID>? = null
+	) where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
@@ -35,9 +39,8 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	@ConditionalOnBean(SnapRepository::class)
 	open fun snapLoader(
 		eventStore: EventRepository<EVENT, ID>,
-		snapRepository: SnapRepository<ENTITY, ID>?,
 	): Loader<EVENT, ENTITY, ID> {
-		val viewLoader = ViewLoader(eventStore, view())
+		val viewLoader = ViewLoader(eventStore, view)
 		return snapRepository?.let { repo ->
 			SnapLoader(repo, viewLoader)
 		} ?: viewLoader
@@ -48,7 +51,7 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	open fun viewLoader(
 		eventStore: EventRepository<EVENT, ID>,
 	): Loader<EVENT, ENTITY, ID> {
-		return ViewLoader(eventStore, view())
+		return ViewLoader(eventStore, view)
 	}
 
 
@@ -93,5 +96,4 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	)
 
 	abstract fun automate(): S2Automate
-	abstract fun view(): View<EVENT, ENTITY>
 }
