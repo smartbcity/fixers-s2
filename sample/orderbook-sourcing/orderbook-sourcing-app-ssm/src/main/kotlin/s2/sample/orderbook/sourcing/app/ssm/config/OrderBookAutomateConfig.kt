@@ -3,7 +3,6 @@ package s2.sample.orderbook.sourcing.app.ssm.config
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.orderbook.sourcing.app.ssm.OrderBookModelView

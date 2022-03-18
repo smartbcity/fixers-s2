@@ -1,6 +1,5 @@
 package s2.sample.subautomate.app.config
 
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.subautomate.app.order.OrderModelView
@@ -9,7 +8,6 @@ import s2.sample.subautomate.domain.order.OrderEvent
 import s2.sample.subautomate.domain.order.OrderId
 import s2.sample.subautomate.domain.order.OrderState
 import s2.sample.subautomate.domain.orderBook.orderBookAutomate
-import s2.sourcing.dsl.view.View
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
