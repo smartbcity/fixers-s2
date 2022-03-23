@@ -1,5 +1,6 @@
 package s2.sample.multiautomate.endable
 
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.endable.entity.EndableLoopEntity
@@ -14,6 +15,7 @@ class EndableLoopS2SpringDataConfigurerAdapter(
 ) : S2SourcingSpringDataAdapter<
 		EndableLoopEntity, EndableLoopState, EndableLoopEvent, EndableLoopId, EndableLoopS2Aggregate
 >(endableLoopS2Aggregate, endableLoopS2View) {
+
 	override fun automate() = endableLoopS2()
 
 }

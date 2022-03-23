@@ -7,4 +7,6 @@ spring:
 #debug: true
 #logging:
 #  level:
+server:
+  port: 2080
 #    org.springframework.boot.rsocket: DEBUG

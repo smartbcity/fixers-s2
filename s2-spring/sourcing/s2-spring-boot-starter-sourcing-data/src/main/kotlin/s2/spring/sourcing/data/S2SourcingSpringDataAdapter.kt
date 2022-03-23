@@ -1,5 +1,6 @@
 package s2.spring.sourcing.data
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport
 import s2.dsl.automate.Evt
@@ -25,17 +26,15 @@ ENTITY : WithS2Id<ID>,
 EVENT: Evt,
 EVENT: WithS2Id<ID>,
 EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
+	@Autowired
+	lateinit var repositoryFactorySupport: ReactiveRepositoryFactorySupport
 
-	@Bean
-	open fun eventStore(
-		eventRepository: SpringDataEventRepository<EVENT, ID>
-	): EventPersisterData<EVENT, ID> {
+	override fun eventStore(): EventPersisterData<EVENT, ID> {
+		val eventRepository = springDataEventRepository()
 		return EventPersisterData(eventRepository)
 	}
 
-
-	@Bean
-	open fun springDataEventRepository(repositoryFactorySupport: ReactiveRepositoryFactorySupport): SpringDataEventRepository<EVENT, ID> {
+	open fun springDataEventRepository(): SpringDataEventRepository<EVENT, ID> {
 		return repositoryFactorySupport.getRepository(SpringDataEventRepository::class.java) as SpringDataEventRepository<EVENT, ID>
 	}
 

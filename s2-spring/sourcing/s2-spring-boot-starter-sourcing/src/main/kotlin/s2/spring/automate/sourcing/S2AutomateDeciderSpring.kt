@@ -18,7 +18,6 @@ ENTITY : WithS2State<STATE> {
 
 	private lateinit var automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>
 
-
 	internal fun withContext(automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>) {
 		this.automateExecutor = automateExecutor
 	}

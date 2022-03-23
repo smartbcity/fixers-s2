@@ -55,9 +55,9 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	lateinit var dataSsmSessionLogFunction: DataSsmSessionLogListQueryFunction
 
 
-	@OptIn(InternalSerializationApi::class)
-	@Bean
-	open fun eventStore(): EventRepository<EVENT, ID> = runBlocking {
+//	@OptIn(InternalSerializationApi::class)
+//	@Bean
+	override fun eventStore(): EventRepository<EVENT, ID> = runBlocking {
 		val automate = automate()
 		EventPersisterSsm(automate, entityType()).also { ee ->
 			ee.ssmSessionStartFunction = ssmSessionStartFunction
