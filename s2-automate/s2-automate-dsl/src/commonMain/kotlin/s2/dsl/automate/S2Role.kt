@@ -1,3 +1,6 @@
 package s2.dsl.automate
 
-expect interface S2Role
+import kotlin.js.JsExport
+
+@JsExport
+interface S2Role

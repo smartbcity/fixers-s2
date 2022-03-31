@@ -6,7 +6,9 @@ import f2.dsl.cqrs.error.ErrorSeverityWarning
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-expect interface S2Error {
+@JsExport
+@JsName("S2Error")
+interface S2Error {
 	val severity: ErrorSeverity
 	val type: String
 	val description: String

@@ -10,8 +10,8 @@ class S2Automate(
 	val transitions: Array<S2Transition>,
 	val subMachines: Array<S2SubMachine>
 ):Automate {
-	override fun getAvailableTransitions(state: S2State): List<S2Transition> {
-		return transitions.filter { isSameState(it.from, state) }
+	override fun getAvailableTransitions(state: S2State): Array<S2Transition> {
+		return transitions.filter { isSameState(it.from, state) }.toTypedArray()
 	}
 
 	override fun isAvailableTransition(currentState: S2State, msg: Msg): Boolean {
