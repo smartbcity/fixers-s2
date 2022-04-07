@@ -1,5 +1,6 @@
 package s2.sample.subautomate.domain.orderBook
 
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.Evt
@@ -10,7 +11,6 @@ import s2.dsl.automate.model.WithS2State
 import s2.sample.subautomate.domain.OrderBookState
 import s2.sample.subautomate.domain.model.OrderBookId
 import s2.sample.subautomate.domain.model.OrderId
-import s2.sourcing.dsl.Decide
 
 @Serializable
 data class OrderBookCreateCommand(
@@ -80,6 +80,6 @@ sealed class OrderBookEvent : Evt, WithS2Id<OrderId>, WithS2State<OrderBookState
 sealed class OrderBookCommand : S2Command<OrderBookId>
 
 
-typealias OrderBookDecide<COMMAND, EVENT> = Decide<COMMAND, EVENT>
+typealias OrderBookDecide<COMMAND, EVENT> = F2Function<COMMAND, EVENT>
 
 //interface OrderBookEvolve<EVENT : OrderBookEvent> : Evolve<OrderBook, EVENT>
