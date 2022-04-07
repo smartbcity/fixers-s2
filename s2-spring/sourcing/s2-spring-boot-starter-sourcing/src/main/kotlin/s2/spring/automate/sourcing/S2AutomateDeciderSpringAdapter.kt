@@ -2,9 +2,6 @@ package s2.spring.automate.sourcing
 
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
-import org.springframework.context.annotation.Bean
 import s2.automate.core.TransitionStateGuard
 import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
@@ -66,7 +63,7 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 			eventStore = eventStore,
 			publisher = publisher
 		).also {
-			executor.withContext(it)
+			executor.withContext(it, eventPublisher)
 		}
 	}
 

@@ -1,6 +1,7 @@
 package s2.spring.automate.sourcing
 
 import kotlinx.coroutines.flow.map
+import s2.automate.core.appevent.publisher.AppEventPublisher
 import s2.automate.sourcing.AutomateSourcingExecutor
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
@@ -17,17 +18,21 @@ EVENT : WithS2Id<ID>,
 ENTITY : WithS2State<STATE> {
 
 	private lateinit var automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>
+	private lateinit var publisher: AppEventPublisher
 
-	internal fun withContext(automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>) {
+	internal fun withContext(automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>, publisher: AppEventPublisher) {
 		this.automateExecutor = automateExecutor
+		this.publisher = publisher
 	}
 
 	override suspend fun <EVENT_OUT : EVENT> init(command: S2InitCommand, buildEvent: suspend () -> EVENT_OUT): EVENT_OUT {
 		return automateExecutor.create(command, buildEvent)
+			.also(publisher::publish)
 	}
 
 	override suspend fun <EVENT_OUT : EVENT> transition(command: S2Command<ID>, exec: suspend (ENTITY) -> EVENT_OUT): EVENT_OUT {
 		return automateExecutor.doTransition(command, exec)
+			.also(publisher::publish)
 	}
 
 	fun <EVENT_OUT : EVENT, COMMAND: S2InitCommand> init(fnc: suspend (t: COMMAND) -> EVENT_OUT): Decide<COMMAND, EVENT_OUT> =
