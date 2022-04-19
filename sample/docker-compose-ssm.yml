@@ -38,16 +38,7 @@ services:
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=couchdb
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=couchdb
     volumes:
-      - /var/run/:/host/var/run/
-    networks:
-      - bclannet-it
-
-  cli-init.bc-coop.bclan:
-    container_name: cli-init-bclan-network-it
-    image: smartbcity/commune-sandbox-cli:2.3.3-0.8.2
-    command: /opt/commune-sandbox/util/init.sh
-    depends_on:
-      - peer0.bc-coop.bclan
+      - /var/run/docker.sock:/host/var/run/docker.sock
     networks:
       - bclannet-it
 
@@ -58,6 +49,15 @@ services:
       - i2_jwt-issuer-uri=
     ports:
       - "9090:9090"
+    depends_on:
+      - peer0.bc-coop.bclan
+    networks:
+      - bclannet-it
+
+  cli-init.bc-coop.bclan:
+    container_name: cli-init-bclan-network-it
+    image: smartbcity/commune-sandbox-cli:2.3.3-0.8.2
+    command: /opt/commune-sandbox/util/init.sh
     depends_on:
       - peer0.bc-coop.bclan
     networks:
