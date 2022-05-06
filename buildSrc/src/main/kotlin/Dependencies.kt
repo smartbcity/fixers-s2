@@ -1,5 +1,5 @@
-import city.smartb.gradle.dependencies.FixersPluginVersions
 import city.smartb.gradle.dependencies.FixersDependencies
+import city.smartb.gradle.dependencies.FixersPluginVersions
 import city.smartb.gradle.dependencies.FixersVersions
 import city.smartb.gradle.dependencies.Scope
 import city.smartb.gradle.dependencies.add
@@ -43,6 +43,12 @@ object Dependencies {
 		fun dataCommons(scope: Scope) = FixersDependencies.Jvm.Spring.dataCommons(scope)
 		fun autoConfigure(scope: Scope, ksp: Scope) = FixersDependencies.Jvm.Spring.autoConfigure(scope, ksp)
 	}
+
+	fun springRedis(scope: Scope) = scope.add(
+		"org.springframework.boot:spring-boot-starter-data-redis-reactive:${Versions.springBoot}",
+		"com.redis:spring-lettucemod:2.15.5",
+		"io.lettuce:lettuce-core:6.1.6.RELEASE"
+	)
 
 	fun testcontainersMongo(scope: Scope) = scope.add(
 		"org.testcontainers:junit-jupiter:${Versions.testcontainers}",

@@ -1,8 +1,7 @@
 version: "3.2"
 services:
   redis:
-    image: "redis:alpine"
-    command: redis-server --requirepass sOmE_sEcUrE_pAsS
+    image: redis/redis-stack:6.2.2-v2-edge
     ports:
       - "6379:6379"
     environment:

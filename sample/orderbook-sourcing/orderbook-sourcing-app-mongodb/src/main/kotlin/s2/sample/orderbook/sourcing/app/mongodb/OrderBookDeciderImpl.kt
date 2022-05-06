@@ -50,4 +50,6 @@ class OrderBookDeciderImpl(
 				state = OrderBookState.Closed
 			)
 		}
+
+	suspend fun replayHistory() = aggregate.replayHistory()
 }
