@@ -63,7 +63,7 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 			eventStore = eventStore,
 			publisher = publisher
 		).also {
-			executor.withContext(it, eventPublisher)
+			executor.withContext(it, eventPublisher, projectionBuilder)
 		}
 	}
 
