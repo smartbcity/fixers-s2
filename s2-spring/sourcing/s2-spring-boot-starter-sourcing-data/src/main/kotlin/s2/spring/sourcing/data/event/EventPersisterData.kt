@@ -18,6 +18,10 @@ EVENT: WithS2Id<ID>
 		return eventRepository.findAllByObjId(id).map { it.event }
 	}
 
+	override suspend fun loadAll(): Flow<EVENT> {
+		return eventRepository.findAll().map { it.event }
+	}
+
 	override suspend fun persist(event: EVENT): EVENT {
 		return eventRepository.save(
 			EventSourcing(

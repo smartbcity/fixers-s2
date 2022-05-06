@@ -7,5 +7,6 @@ interface EventRepository<EVENT, ID> where
 EVENT : Evt
 {
 	suspend fun load(id: ID): Flow<EVENT>
+	suspend fun loadAll(): Flow<EVENT>
 	suspend fun persist(event: EVENT): EVENT
 }

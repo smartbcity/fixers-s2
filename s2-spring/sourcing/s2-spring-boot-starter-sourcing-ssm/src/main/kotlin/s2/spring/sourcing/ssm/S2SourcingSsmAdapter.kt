@@ -2,10 +2,8 @@ package s2.spring.sourcing.ssm
 
 import f2.dsl.fnc.invoke
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
@@ -19,6 +17,7 @@ import s2.spring.automate.sourcing.S2AutomateDeciderSpringAdapter
 import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.data.dsl.features.query.DataSsmSessionGetQueryFunction
+import ssm.data.dsl.features.query.DataSsmSessionListQueryFunction
 import ssm.data.dsl.features.query.DataSsmSessionLogListQueryFunction
 import ssm.tx.dsl.features.ssm.SsmInitCommand
 import ssm.tx.dsl.features.ssm.SsmTxInitFunction
@@ -52,6 +51,9 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	lateinit var dataSsmSessionGetQueryFunction: DataSsmSessionGetQueryFunction
 
 	@Autowired
+	lateinit var dataSsmSessionListQueryFunction: DataSsmSessionListQueryFunction
+
+	@Autowired
 	lateinit var dataSsmSessionLogFunction: DataSsmSessionLogListQueryFunction
 
 
@@ -61,9 +63,10 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		val automate = automate()
 		EventPersisterSsm(automate, entityType()).also { ee ->
 			ee.ssmSessionStartFunction = ssmSessionStartFunction
-			ee. dataSsmSessionLogFunction = dataSsmSessionLogFunction
+			ee.dataSsmSessionLogFunction = dataSsmSessionLogFunction
 			ee.ssmSessionPerformActionFunction = ssmSessionPerformActionFunction
 			ee.dataSsmSessionGetQueryFunction = dataSsmSessionGetQueryFunction
+			ee.dataSsmSessionListQueryFunction = dataSsmSessionListQueryFunction
 			ee.chaincodeUri = chaincodeUri()
 			ee.agentSigner = signerAgent()
 			ee.json = json()
