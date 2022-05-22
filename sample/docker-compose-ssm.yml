@@ -3,13 +3,13 @@ version: '3.7'
 services:
   ca.bc-coop.bclan:
     container_name: ca-bclan-network-it
-    image: smartbcity/commune-sandbox-ca:2.3.3-0.8.2
+    image: smartbcity/commune-sandbox-ca:2.3.3-0.8.2-2
     networks:
       - bclannet-it
 
   orderer.bclan:
     container_name: orderer-network-it
-    image: smartbcity/commune-sandbox-orderer:2.3.3-0.8.2
+    image: smartbcity/commune-sandbox-orderer:2.3.3-0.8.2-2
     networks:
       - bclannet-it
 
@@ -29,7 +29,7 @@ services:
 
   peer0.bc-coop.bclan:
     container_name: peer0-bclan-network-it
-    image: smartbcity/commune-sandbox-peer:2.3.3-0.8.2
+    image: smartbcity/commune-sandbox-peer:2.3.3-0.8.2-2
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=bclannet-it
@@ -44,7 +44,7 @@ services:
 
   coop-rest-java:
     container_name: coop-rest-bclan-network-it
-    image: smartbcity/commune-sandbox-ssm-rest:2.3.3-0.8.2
+    image: smartbcity/commune-sandbox-ssm-rest:2.3.3-0.8.2-2
     environment:
       - i2_jwt-issuer-uri=
     ports:
@@ -56,7 +56,7 @@ services:
 
   cli-init.bc-coop.bclan:
     container_name: cli-init-bclan-network-it
-    image: smartbcity/commune-sandbox-cli:2.3.3-0.8.2
+    image: smartbcity/commune-sandbox-cli:2.3.3-0.8.2-2
     command: /opt/commune-sandbox/util/init.sh
     depends_on:
       - peer0.bc-coop.bclan
