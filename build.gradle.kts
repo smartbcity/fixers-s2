@@ -63,3 +63,9 @@ tasks {
 		args = listOf("storybook")
 	}
 }
+
+fixers {
+	d2 {
+		outputDirectory = file("storybook/d2/")
+	}
+}
