@@ -11,4 +11,6 @@ interface S2AutomateDecider<ENTITY : WithS2State<STATE>, STATE : S2State, EVENT,
 
 	suspend fun <EVENT_OUT: EVENT> transition(command: S2Command<ID>, exec: suspend ENTITY.() -> EVENT_OUT): EVENT_OUT
 
+	suspend fun replayHistory()
+
 }

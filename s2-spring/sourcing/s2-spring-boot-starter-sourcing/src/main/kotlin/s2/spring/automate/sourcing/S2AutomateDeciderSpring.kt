@@ -10,19 +10,27 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.sourcing.dsl.Decide
+import s2.sourcing.dsl.Loader
 
 open class S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> : S2AutomateDecider<ENTITY, STATE, EVENT, ID> where
 STATE : S2State,
 EVENT : Evt,
 EVENT : WithS2Id<ID>,
+ENTITY : WithS2Id<ID>,
 ENTITY : WithS2State<STATE> {
 
 	private lateinit var automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>
 	private lateinit var publisher: AppEventPublisher
+	private lateinit var projectionLoader: Loader<EVENT, ENTITY, ID>
 
-	internal fun withContext(automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>, publisher: AppEventPublisher) {
+	internal fun withContext(
+		automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>,
+		publisher: AppEventPublisher,
+		projectionLoader: Loader<EVENT, ENTITY, ID>
+	) {
 		this.automateExecutor = automateExecutor
 		this.publisher = publisher
+		this.projectionLoader = projectionLoader
 	}
 
 	override suspend fun <EVENT_OUT : EVENT> init(command: S2InitCommand, buildEvent: suspend () -> EVENT_OUT): EVENT_OUT {
@@ -51,5 +59,9 @@ ENTITY : WithS2State<STATE> {
 				fnc(cmd, model)
 			}
 		}
+	}
+
+	override suspend fun replayHistory() {
+		projectionLoader.reloadHistory()
 	}
 }

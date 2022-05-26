@@ -13,6 +13,7 @@ dependencies {
 
 	Dependencies.f2Http (::implementation)
 	Dependencies.kserializationJson (::implementation)
+	Dependencies.springRedis(::api)
 
 	Dependencies.testcontainersMongo(::testImplementation)
 	Dependencies.springTest(::testImplementation)
