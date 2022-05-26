@@ -5,7 +5,7 @@ plugins {
 	id("city.smartb.fixers.gradle.publish")
 
 	kotlin("plugin.serialization")
-	id("dev.petuska.npm.publish")
+//	id("dev.petuska.npm.publish")
 }
 
 kotlin {
