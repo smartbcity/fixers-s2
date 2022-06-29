@@ -29,6 +29,17 @@ data class OrderBookCreatedEvent(
 }
 
 @Serializable
+@SerialName("FakeEvent")
+data class FakeEvent(
+	val name: String,
+	val id: OrderId,
+	val state: OrderBookState
+): Evt, WithS2Id<OrderId>, WithS2State<OrderBookState> {
+	override fun s2Id() = id
+	override fun s2State() = state
+}
+
+@Serializable
 @SerialName("OrderBookUpdateCommand")
 data class OrderBookUpdateCommand(
 	val name: String,

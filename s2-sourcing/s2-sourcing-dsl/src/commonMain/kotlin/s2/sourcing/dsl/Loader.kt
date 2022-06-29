@@ -2,7 +2,7 @@ package s2.sourcing.dsl
 
 import kotlinx.coroutines.flow.Flow
 
-interface Loader<EVENT, ENTITY, ID> {
+interface Loader<EVENT: Any, ENTITY, ID> {
 	suspend fun load(id: ID): ENTITY?
 	suspend fun load(events: Flow<EVENT>): ENTITY?
 	suspend fun loadAndEvolve(id: ID, news: Flow<EVENT>): ENTITY?

@@ -69,12 +69,12 @@ internal class SubAutomateMongodbAppTest: SpringTestBase() {
 
 	@Test
 	fun `should replay all events to rebuild entities`(): Unit = runBlocking {
-		val event = create(OrderBookCreateCommand("TheNewOrderBook"))
-		update(OrderBookUpdateCommand(id = event.id, name = "TheNewOrderBook2"))
-		publish(OrderBookPublishCommand(id = event.id))
-		close(OrderBookCloseCommand(id = event.id))
-
-		create(OrderBookCreateCommand("AndAnotherOrderBook"))
+//		val event = create(OrderBookCreateCommand("TheNewOrderBook"))
+//		update(OrderBookUpdateCommand(id = event.id, name = "TheNewOrderBook2"))
+//		publish(OrderBookPublishCommand(id = event.id))
+//		close(OrderBookCloseCommand(id = event.id))
+//
+//		create(OrderBookCreateCommand("AndAnotherOrderBook"))
 
 		orderBookDeciderImpl.replayHistory()
 	}

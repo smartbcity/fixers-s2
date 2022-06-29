@@ -1,6 +1,5 @@
 package s2.sample.multiautomate.infiniteloop
 
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopEntity
@@ -17,7 +16,7 @@ class ApplicationS2SpringDataConfigurerAdapter(
 		>(infiniteLoopS2Aggregate, infiniteLoopS2View) {
 
 	override fun automate() = infiniteLoopS2()
-
+	override fun entityType() = InfiniteLoopEvent::class
 }
 
 @Service

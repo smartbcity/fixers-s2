@@ -15,7 +15,7 @@ import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 class OrderAutomateConfig(orderS2AutomateDecider: OrderS2AutomateDecider) : S2SourcingSpringDataAdapter<
 		Order, OrderState, OrderEvent, OrderId, OrderS2AutomateDecider>(orderS2AutomateDecider, OrderModelView()) {
 	override fun automate() = orderBookAutomate
-
+	override fun entityType() = OrderEvent::class
 }
 
 @Service

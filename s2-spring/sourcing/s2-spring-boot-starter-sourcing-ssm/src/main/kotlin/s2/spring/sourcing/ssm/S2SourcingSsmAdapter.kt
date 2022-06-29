@@ -23,20 +23,18 @@ import ssm.tx.dsl.features.ssm.SsmInitCommand
 import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
-import kotlin.reflect.KClass
 
-abstract class S2SourcingSsmAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(
-	executor: EXECUTER,
+abstract class S2SourcingSsmAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
+	executor: EXECUTOR,
 	view: View<EVENT, ENTITY>,
 	snapRepository: SnapRepository<ENTITY, ID>? = null
-)
-	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(executor, view, snapRepository) where
+): S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(executor, view, snapRepository) where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 EVENT: WithS2Id<ID>,
 EVENT: Evt,
-EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
+EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Autowired
 	lateinit var ssmTxInitFunction: SsmTxInitFunction
@@ -81,9 +79,8 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		}
 	}
 
-	open fun json(): Json = Json{}
+	open fun json(): Json = Json
 
-	abstract fun entityType(): KClass<EVENT>
 	abstract fun chaincodeUri(): ChaincodeUri
 	abstract fun signerAgent(): Agent
 }
