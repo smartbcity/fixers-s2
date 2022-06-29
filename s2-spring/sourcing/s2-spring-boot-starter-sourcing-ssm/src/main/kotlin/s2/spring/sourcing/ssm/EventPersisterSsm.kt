@@ -33,7 +33,7 @@ import kotlin.reflect.KClass
 
 class EventPersisterSsm<EVENT, ID>(
 	private val s2Automate: S2Automate,
-	private val kclass: KClass<EVENT>
+	private val eventType: KClass<EVENT>
 ) : EventRepository<EVENT, ID> where
 EVENT: Evt,
 EVENT: WithS2Id<ID>
@@ -73,7 +73,7 @@ EVENT: WithS2Id<ID>
 				action = event::class.simpleName!!,
 				context = SsmContext(
 					session = sessionName,
-					public = json.encodeToString(kclass.serializer(), event),
+					public = json.encodeToString(eventType.serializer(), event),
 					private = mapOf(),
 					iteration = iteration,
 				),
@@ -93,7 +93,7 @@ EVENT: WithS2Id<ID>
 				ssm = s2Automate.name,
 				session = event.s2Id().toString(),
 				roles = mapOf(agentSigner.name to s2Automate.transitions.get(0).role::class.simpleName!!),
-				public = json.encodeToString(kclass.serializer(), event),
+				public = json.encodeToString(eventType.serializer(), event),
 				private = mapOf()
 			),
 			signerName = agentSigner.name,
@@ -128,6 +128,6 @@ EVENT: WithS2Id<ID>
 
 	@OptIn(InternalSerializationApi::class)
 	private fun List<DataSsmSessionStateDTO>.toEvents() = sortedBy { it.details.iteration }.map {
-		json.decodeFromString(kclass.serializer(), it.details.public as String)
+		json.decodeFromString(eventType.serializer(), it.details.public as String)
 	}.asFlow()
 }

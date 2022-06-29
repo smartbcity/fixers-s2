@@ -1,7 +1,6 @@
 package s2.spring.sourcing.data
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State
@@ -14,24 +13,23 @@ import s2.spring.automate.sourcing.S2AutomateDeciderSpringAdapter
 import s2.spring.sourcing.data.event.EventPersisterData
 import s2.spring.sourcing.data.event.SpringDataEventRepository
 
-abstract class S2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(
-	executor: EXECUTER,
+abstract class S2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
+	executor: EXECUTOR,
 	view: View<EVENT, ENTITY>,
 	snapRepository: SnapRepository<ENTITY, ID>? = null
-)
-	: S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(executor, view, snapRepository) where
-STATE : S2State,
-ENTITY : WithS2State<STATE>,
-ENTITY : WithS2Id<ID>,
+): S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(executor, view, snapRepository) where
+STATE: S2State,
+ENTITY: WithS2State<STATE>,
+ENTITY: WithS2Id<ID>,
 EVENT: Evt,
 EVENT: WithS2Id<ID>,
-EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
+EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	@Autowired
 	lateinit var repositoryFactorySupport: ReactiveRepositoryFactorySupport
 
 	override fun eventStore(): EventPersisterData<EVENT, ID> {
 		val eventRepository = springDataEventRepository()
-		return EventPersisterData(eventRepository)
+		return EventPersisterData(eventRepository, entityType())
 	}
 
 	open fun springDataEventRepository(): SpringDataEventRepository<EVENT, ID> {

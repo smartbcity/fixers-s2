@@ -21,18 +21,19 @@ import s2.sourcing.dsl.snap.SnapRepository
 import s2.sourcing.dsl.view.View
 import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
+import kotlin.reflect.KClass
 
-abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTER>(
-	val executor: EXECUTER,
+abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
+	val executor: EXECUTOR,
 	val view: View<EVENT, ENTITY>,
 	val snapRepository: SnapRepository<ENTITY, ID>? = null
-	): InitializingBean where
+): InitializingBean where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 EVENT: Evt,
 EVENT: WithS2Id<ID>,
-EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
+EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Autowired
 	lateinit var eventPublisher: SpringEventPublisher
@@ -89,6 +90,7 @@ EXECUTER : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	abstract fun automate(): S2Automate
 	abstract fun eventStore(): EventRepository<EVENT, ID>
+	abstract fun entityType(): KClass<EVENT>
 	override fun afterPropertiesSet() {
 		val loader = snapLoader()
 		aggregate(loader)
