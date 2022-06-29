@@ -20,6 +20,7 @@ class OrderBookAutomateConfig(
 	orderBookS2Aggregate, OrderBookModelView(), orderBookSnapView
 ) {
 	override fun automate() = orderBookAutomate
+	override fun entityType() = OrderBookEvent::class
 }
 
 @Service
