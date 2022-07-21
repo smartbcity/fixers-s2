@@ -1,7 +1,6 @@
 package s2.dsl.automate.builder
 
 import f2.dsl.cqrs.Message
-import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2SubMachine
@@ -36,7 +35,7 @@ class S2AutomateBuilder {
 		).let(transactions::add)
 	}
 
-	inline fun <reified CMD: Evt> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
+	inline fun <reified CMD: Message> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
 		val builder = S2SelfTransitionBuilder()
 		builder.exec()
 		builder.states.map { state ->
