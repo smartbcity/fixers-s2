@@ -17,10 +17,6 @@ STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
-		return repository.save(transitionContext.entity)
-	}
-
 	override suspend fun persist(
 		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
 	): ENTITY {
@@ -31,4 +27,9 @@ ENTITY : WithS2Id<ID> {
 		return repository.findById(id)
 	}
 
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
+		return repository.save(transitionContext.entity)
+	}
+
 }
+
