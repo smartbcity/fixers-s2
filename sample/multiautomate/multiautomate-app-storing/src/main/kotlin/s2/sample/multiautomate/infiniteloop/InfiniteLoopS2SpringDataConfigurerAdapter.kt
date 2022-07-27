@@ -5,13 +5,13 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopEntity
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopRepository
-import s2.spring.automate.data.S2SpringDataConfigurerAdapter
+import s2.spring.automate.data.S2SpringDataReactiveConfigurerAdapter
 import s2.spring.automate.executor.S2AutomateExecutorSpring
 
 @Configuration
 class ApplicationS2SpringDataConfigurerAdapter(
 	repository: InfiniteLoopRepository,
-) : S2SpringDataConfigurerAdapter<InfiniteLoopState, InfiniteLoopId, InfiniteLoopEntity, InfiniteLoopS2Aggregate>(
+) : S2SpringDataReactiveConfigurerAdapter<InfiniteLoopState, InfiniteLoopId, InfiniteLoopEntity, InfiniteLoopS2Aggregate>(
 	repository) {
 	override fun automate() = infiniteLoopS2()
 

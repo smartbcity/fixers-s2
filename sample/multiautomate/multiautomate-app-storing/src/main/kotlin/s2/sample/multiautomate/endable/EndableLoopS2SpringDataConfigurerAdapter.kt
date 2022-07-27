@@ -5,13 +5,13 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.endable.entity.EndableLoopEntity
 import s2.sample.multiautomate.endable.entity.EndableLoopRepository
-import s2.spring.automate.data.S2SpringDataConfigurerAdapter
+import s2.spring.automate.data.S2SpringDataReactiveConfigurerAdapter
 import s2.spring.automate.executor.S2AutomateExecutorSpring
 
 @Configuration
 class EndableLoopS2SpringDataConfigurerAdapter(
 	repository: EndableLoopRepository,
-) : S2SpringDataConfigurerAdapter<
+) : S2SpringDataReactiveConfigurerAdapter<
 		EndableLoopState, EndableLoopId, EndableLoopEntity, EndableLoopS2Aggregate
 		>(repository) {
 	override fun automate() = endableLoopS2()
