@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
 	api(project(":s2-automate:s2-automate-core"))
-	api(project(":s2-spring:automate:s2-spring-boot-starter-automate"))
+	api(project(":s2-spring:storing:s2-spring-boot-starter-storing"))
 
 	Dependencies.Spring.dataCommons(::implementation)
 }

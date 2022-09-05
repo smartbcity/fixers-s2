@@ -6,5 +6,5 @@ plugins {
 
 dependencies {
 	commonMainApi(project(":s2-automate:s2-automate-core"))
-	commonMainApi(project(":s2-sourcing:s2-sourcing-dsl"))
+	commonMainApi(project(":s2-automate-sourcing:s2-automate-sourcing-dsl"))
 }

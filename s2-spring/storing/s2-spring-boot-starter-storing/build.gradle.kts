@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-	api(project(":s2-automate:s2-automate-storing"))
+	api(project(":s2-automate-storing:s2-automate-storing-executor"))
 
 	Dependencies.Spring.autoConfigure(::implementation, ::kapt)
 }
