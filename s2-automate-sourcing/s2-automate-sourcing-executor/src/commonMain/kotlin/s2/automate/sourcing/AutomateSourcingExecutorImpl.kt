@@ -1,7 +1,7 @@
 package s2.automate.sourcing
 
+import f2.dsl.cqrs.Message
 import kotlinx.coroutines.flow.flowOf
-import s2.automate.core.S2AutomateExecutor
 import s2.automate.core.appevent.AutomateInitTransitionEnded
 import s2.automate.core.appevent.AutomateInitTransitionStarted
 import s2.automate.core.appevent.AutomateSessionStarted
@@ -50,9 +50,7 @@ EVENT :  WithS2Id<ID> {
 			val event = decide()
 			val initTransitionContext = initTransitionContext(event)
 			guardExecutor.evaluateInit(initTransitionContext)
-			val entity = projectionBuilder.evolve(flowOf(event), null)
-				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
-			persist(command, entity, event)
+			val entity = persist(command, event)
 			sentEndCreateEvent(command, entity)
 			return event
 		} catch (e: AutomateException) {
@@ -68,7 +66,9 @@ EVENT :  WithS2Id<ID> {
 		}
 	}
 
-	private suspend fun persist(command: S2InitCommand, entity: ENTITY, event: EVENT) {
+	private suspend fun persist(command: S2InitCommand, event: EVENT): ENTITY {
+		val entity = projectionBuilder.evolve(flowOf(event), null)
+			?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 		val initTransitionPersistContext = InitTransitionAppliedContext(
 			automateContext = automateContext,
 			msg = command,
@@ -76,6 +76,7 @@ EVENT :  WithS2Id<ID> {
 		)
 		guardExecutor.verifyInitTransition(initTransitionPersistContext)
 		eventStore.persist(event)
+		return entity
 	}
 
 	@Suppress("ThrowsCount")
@@ -100,9 +101,8 @@ EVENT :  WithS2Id<ID> {
 				entity = entity,
 			)
 			guardExecutor.evaluateTransition(transitionContext)
-			val entityMutated = projectionBuilder.loadAndEvolve(command.id, flowOf(event))
-				?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
-			persist(entity.s2State(), command, entityMutated, event)
+
+			val entityMutated = persist(entity.s2State(), command, event)
 			sendEndDoTransitionEvent(entityMutated.s2State(), transitionContext.from, command, transitionContext.entity)
 			return event
 		} catch (e: AutomateException) {
@@ -118,7 +118,9 @@ EVENT :  WithS2Id<ID> {
 		}
 	}
 
-	private suspend fun persist(fromState: STATE, command: S2Command<ID>, entityMutated: ENTITY, event: EVENT) {
+	private suspend fun persist(fromState: STATE, command: S2Command<ID>, event: EVENT): ENTITY {
+		val entityMutated = projectionBuilder.loadAndEvolve(command.id, flowOf(event))
+			?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
 		val transitionPersistContext = TransitionAppliedContext(
 			automateContext = automateContext,
 			from = fromState,
@@ -128,10 +130,11 @@ EVENT :  WithS2Id<ID> {
 		guardExecutor.verifyTransition(transitionPersistContext)
 		eventStore.persist(event)
 //		persister.persist(transitionPersistContext)
+		return entityMutated
 	}
 
 	private fun initTransitionContext(
-		command: Evt,
+		command: Message,
 	): InitTransitionContext<S2Automate> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,

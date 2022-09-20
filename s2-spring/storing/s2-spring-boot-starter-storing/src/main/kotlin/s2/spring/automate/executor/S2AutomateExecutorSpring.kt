@@ -42,19 +42,19 @@ ENTITY : WithS2Id<ID> {
 		return domainEvent
 	}
 
-	override suspend fun <T> doTransition(
+	override suspend fun <EVENT> doTransition(
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, T>,
-	): T {
+		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT>,
+	): EVENT {
 		return doTransition(command.id, command, exec)
 	}
 
-	override suspend fun <T> doTransition(
+	override suspend fun <EVENT> doTransition(
 		id: ID,
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, T>,
-	): T {
-		val event: T = automateExecutor.doTransitionWithResult(command, exec)
+		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT>,
+	): EVENT {
+		val event: EVENT = automateExecutor.doTransitionWithResult(command, exec)
 		publisher.publish(event)
 		return event
 	}

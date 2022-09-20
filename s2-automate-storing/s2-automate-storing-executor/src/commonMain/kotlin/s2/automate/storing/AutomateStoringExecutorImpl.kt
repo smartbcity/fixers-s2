@@ -1,5 +1,6 @@
 package s2.automate.storing
 
+import f2.dsl.cqrs.Message
 import s2.automate.core.appevent.AutomateInitTransitionEnded
 import s2.automate.core.appevent.AutomateInitTransitionStarted
 import s2.automate.core.appevent.AutomateSessionStarted
@@ -32,14 +33,16 @@ open class AutomateStoringExecutorImpl<STATE, ID, ENTITY>(
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate>,
 	private val persister: AutomatePersister<STATE, ID, ENTITY, S2Automate>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
-) : AutomateStoringExecutor<STATE, ENTITY,  ID>
-		where STATE : S2State, ENTITY : WithS2State<STATE>, ENTITY : WithS2Id<ID> {
+) : AutomateStoringExecutor<STATE, ENTITY, ID> where
+STATE : S2State,
+ENTITY : WithS2State<STATE>,
+ENTITY : WithS2Id<ID> {
 
 	override suspend fun <EVENT_OUT : ENTITY> create(command: S2InitCommand, decide: suspend () -> EVENT_OUT): EVENT_OUT {
 		try {
+			val entity = decide()
 			val initTransitionContext = initTransitionContext(command)
 			guardExecutor.evaluateInit(initTransitionContext)
-			val entity = decide()
 			persist(command, entity)
 			sentEndCreateEvent(command, entity)
 			return entity
@@ -73,10 +76,10 @@ open class AutomateStoringExecutorImpl<STATE, ID, ENTITY>(
 		}
 	}
 
-	suspend fun <RESULT> doTransitionWithResult(
+	suspend fun <EVENT_OUT> doTransitionWithResult(
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, RESULT>,
-	): RESULT {
+		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>,
+	): EVENT_OUT {
 		try {
 			val (entity, transitionContext) = loadTransitionContext(command)
 			guardExecutor.evaluateTransition(transitionContext)
@@ -84,7 +87,6 @@ open class AutomateStoringExecutorImpl<STATE, ID, ENTITY>(
 			val (entityMutated, result) = exec(entity)
 			persist(fromState, command, entityMutated)
 			sendEndDoTransitionEvent(entityMutated.s2State(), transitionContext.from, command, entity)
-
 			return result
 		} catch (e: AutomateException) {
 			throw e
@@ -111,7 +113,7 @@ open class AutomateStoringExecutorImpl<STATE, ID, ENTITY>(
 	}
 
 	private fun initTransitionContext(
-		command: S2InitCommand,
+		command: Message,
 	): InitTransitionContext<S2Automate> {
 		val initTransitionContext = InitTransitionContext(
 			automateContext = automateContext,
