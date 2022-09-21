@@ -3,12 +3,15 @@ package s2.sample.multiautomate
 import f2.dsl.fnc.f2Function
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
-import s2.sample.multiautomate.endable.EndableCreateCommand
 import s2.sample.multiautomate.endable.EndableLoopState
-import s2.sample.multiautomate.endable.EndableStepCommand
 import s2.sample.multiautomate.infiniteloop.InfiniteLoopS2Aggregate
 import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopEntity
 import java.util.UUID
+import s2.sample.multiautomate.infiniteloop.InfiniteCreateCommand
+import s2.sample.multiautomate.infiniteloop.InfiniteCreatedEvent
+import s2.sample.multiautomate.infiniteloop.InfiniteLoopState
+import s2.sample.multiautomate.infiniteloop.InfiniteStepCommand
+import s2.sample.multiautomate.infiniteloop.InfiniteStepEvent
 
 @Service
 class InfiniteLoopService(
@@ -16,18 +19,20 @@ class InfiniteLoopService(
 ) {
 
 	@Bean
-	fun createInfinite() = f2Function<EndableCreateCommand, String> { command ->
+	fun createInfinite() = f2Function<InfiniteCreateCommand, InfiniteCreatedEvent> { command ->
 		aggregate.createWithEvent(command) {
 			val id = UUID.randomUUID().toString()
-			InfiniteLoopEntity(id, 0, EndableLoopState.Running.position) to id
+			InfiniteLoopEntity(id, 0, EndableLoopState.Running.position) to InfiniteCreatedEvent(
+				id = id,
+				type = InfiniteLoopState.Running,
+			)
 		}
 	}
 
 	@Bean
-	fun stepInfinite() = f2Function<EndableStepCommand, String> { command ->
+	fun stepInfinite() = f2Function<InfiniteStepCommand, InfiniteStepEvent> { command ->
 		aggregate.doTransition(command) {
-//            this.copy(step = this.step + 1) to "${this.step}"
-			this to "${this.step}"
+            this.copy(step = this.step + 1) to InfiniteStepEvent(id = command.id, type = this.s2State())
 		}
 	}
 }

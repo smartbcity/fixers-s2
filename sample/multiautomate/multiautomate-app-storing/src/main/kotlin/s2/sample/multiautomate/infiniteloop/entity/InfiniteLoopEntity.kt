@@ -9,7 +9,7 @@ import s2.sample.multiautomate.infiniteloop.InfiniteLoopState
 import java.util.UUID
 
 @Document
-class InfiniteLoopEntity(
+data class InfiniteLoopEntity(
 	@Id
 	val id: InfiniteLoopId = UUID.randomUUID().toString(),
 	val step: Int,

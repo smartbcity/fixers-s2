@@ -58,5 +58,21 @@ class EndableCreateCommand(
 	val tt: String,
 ) : EndableLoopInitCommand
 
+class EndableCreatedEvent(
+	override val id: EndableLoopId,
+	override val type: EndableLoopState,
+	val tt: String,
+) : EndableLoopEvent
+
 class EndableStepCommand(override val id: EndableLoopId) : EndableLoopCommand
+data class EndableStepEvent(
+	override val id: EndableLoopId,
+	override val type: EndableLoopState,
+) : EndableLoopEvent
+
+
 class EndableEndCommand(override val id: EndableLoopId) : EndableLoopCommand
+class EndableEndedEvent(
+	override val id: EndableLoopId,
+	override val type: EndableLoopState,
+) : EndableLoopEvent

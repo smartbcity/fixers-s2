@@ -45,6 +45,7 @@ class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate) : S2So
 	override fun signerAgent(): Agent {
 		return Agent.loadFromFile("ssm-admin","user/ssm-admin")
 	}
+
 }
 
 @Service
