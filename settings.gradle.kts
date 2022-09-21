@@ -49,6 +49,7 @@ include(
 	"sample:orderbook-sourcing",
 	"sample:orderbook-sourcing:orderbook-sourcing-app-mongodb",
 	"sample:orderbook-sourcing:orderbook-sourcing-app-ssm",
+	"sample:orderbook-sourcing:orderbook-sourcing-app-ssm-permissive",
 	"sample:orderbook-sourcing:orderbook-sourcing-domain"
 )
 

@@ -41,8 +41,7 @@ ENTITY : WithS2Id<ID> {
 	internal lateinit var entityType: Class<ENTITY>
 	internal lateinit var agentSigner: Agent
 	internal lateinit var objectMapper: ObjectMapper
-
-
+	internal var permisive: Boolean = false
 
 	override suspend fun persist(
 		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
@@ -52,7 +51,7 @@ ENTITY : WithS2Id<ID> {
 		val iteration = getIteration(transitionContext.automateContext, sessionName)
 		ssmTxInitFunction.invoke(SsmInitCommand(
 			signerName = agentSigner.name,
-			ssm = transitionContext.automateContext.automate.toSsm(),
+			ssm = transitionContext.automateContext.automate.toSsm(permisive),
 			agent = agentSigner,
 			chaincodeUri = chaincodeUri
 		))

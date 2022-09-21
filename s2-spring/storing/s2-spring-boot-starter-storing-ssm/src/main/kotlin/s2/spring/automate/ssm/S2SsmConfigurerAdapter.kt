@@ -50,10 +50,13 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 			it.entityType = entityType()
 			it.chaincodeUri = chaincodeUri()
 			it.agentSigner = signerAgent()
+			it.permisive = permisive
 		}
 	}
 
 	abstract fun entityType(): Class<ENTITY>
 	abstract fun chaincodeUri(): ChaincodeUri
 	abstract fun signerAgent(): Agent
+
+	open var permisive = false
 }
