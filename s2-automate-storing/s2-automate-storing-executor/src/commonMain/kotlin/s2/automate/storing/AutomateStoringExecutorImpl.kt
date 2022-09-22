@@ -69,14 +69,14 @@ ENTITY : WithS2Id<ID> {
 		persister.persist(initTransitionPersistContext)
 	}
 
-	override suspend fun <EVENT_OUT : ENTITY> doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> EVENT_OUT): EVENT_OUT {
-		return doTransitionWithResult(command) {
-			val entityMutated = this.exec()
-			Pair(entityMutated, entityMutated)
-		}
-	}
+//	override suspend fun <EVENT_OUT : ENTITY> doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> EVENT_OUT): EVENT_OUT {
+//		return doTransitionWithResult(command) {
+//			val entityMutated = this.exec()
+//			Pair(entityMutated, entityMutated)
+//		}
+//	}
 
-	suspend fun <EVENT_OUT> doTransitionWithResult(
+	override suspend fun <EVENT_OUT> doTransition(
 		command: S2Command<ID>,
 		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>,
 	): EVENT_OUT {

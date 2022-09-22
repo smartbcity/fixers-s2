@@ -54,7 +54,7 @@ ENTITY : WithS2Id<ID> {
 		command: S2Command<ID>,
 		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT>,
 	): EVENT {
-		val event: EVENT = automateExecutor.doTransitionWithResult(command, exec)
+		val event: EVENT = automateExecutor.doTransition(command, exec)
 		publisher.publish(event)
 		return event
 	}

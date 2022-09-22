@@ -14,5 +14,9 @@ where
 ENTITY : WithS2State<STATE>,
 STATE : S2State {
 	override suspend fun <ENTITY_OUT : ENTITY> create(command: S2InitCommand, decide: suspend () -> ENTITY_OUT): ENTITY_OUT
-	override suspend fun <ENTITY_OUT : ENTITY> doTransition(command: S2Command<ID>, exec: suspend (ENTITY) -> ENTITY_OUT): ENTITY_OUT
+//	override suspend fun <ENTITY_OUT : ENTITY> doTransition(command: S2Command<ID>, exec: suspend (ENTITY) -> ENTITY_OUT): ENTITY_OUT
+	suspend fun <EVENT_OUT> doTransition(
+		command: S2Command<ID>,
+		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>
+	): EVENT_OUT
 }

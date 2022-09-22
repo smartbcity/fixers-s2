@@ -16,5 +16,7 @@ interface S2AutomateStoringExecutor<STATE : S2State, ID, ENTITY : WithS2State<ST
 	suspend fun <EVENT> createWithEvent(command: S2InitCommand, build: suspend () -> Pair<ENTITY, EVENT>): EVENT
 
 	suspend fun <T> doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, T>): T
+
 	suspend fun <T> doTransition(id: ID, command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, T>): T
+
 }
