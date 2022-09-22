@@ -3,6 +3,7 @@ package s2.spring.automate.data
 import org.springframework.data.repository.CrudRepository
 import s2.automate.core.persist.AutomatePersister
 import s2.dsl.automate.S2Automate
+import s2.dsl.automate.S2Event
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State

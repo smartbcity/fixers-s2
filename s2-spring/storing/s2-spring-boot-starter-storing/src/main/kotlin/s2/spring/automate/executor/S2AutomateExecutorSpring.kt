@@ -2,60 +2,66 @@ package s2.spring.automate.executor
 
 import s2.automate.core.appevent.publisher.AppEventPublisher
 import s2.automate.storing.AutomateStoringExecutorImpl
+import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-open class S2AutomateExecutorSpring<STATE, ID, ENTITY> : S2AutomateStoringExecutor<STATE, ID, ENTITY> where
+open class S2AutomateExecutorSpring<STATE, ID, ENTITY> : S2AutomateStoringExecutor<STATE, ID, ENTITY, Evt> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	private lateinit var automateExecutor: AutomateStoringExecutorImpl<STATE, ID, ENTITY>
+	private lateinit var automateExecutor: AutomateStoringExecutorImpl<STATE, ID, ENTITY, Evt>
 	private lateinit var publisher: AppEventPublisher
 
-	fun withContext(automateExecutor: AutomateStoringExecutorImpl<STATE, ID, ENTITY>, publisher: AppEventPublisher) {
+	fun withContext(automateExecutor: AutomateStoringExecutorImpl<STATE, ID, ENTITY, Evt>, publisher: AppEventPublisher) {
 		this.automateExecutor = automateExecutor
 		this.publisher = publisher
 	}
 
-	override suspend fun <EVENT> createWithEvent(
+	override suspend fun <EVENT_OUT : Evt> createWithEvent(
 		command: S2InitCommand,
-		buildEvent: suspend ENTITY.() -> EVENT,
+		buildEvent: suspend ENTITY.() -> EVENT_OUT,
 		buildEntity: suspend () -> ENTITY,
-	): EVENT {
-		val entity = automateExecutor.create(command, buildEntity)
-		val event = buildEvent(entity)
+	): EVENT_OUT {
+		val (_, event) = automateExecutor.create(command) {
+			val entity = buildEntity()
+			val event = buildEvent(entity)
+			entity to event
+		}
+
 		publisher.publish(event)
 		return event
 	}
 
-	override suspend fun <EVENT> createWithEvent(
+	override suspend fun <EVENT_OUT : Evt> createWithEvent(
 		command: S2InitCommand,
-		build: suspend () -> Pair<ENTITY, EVENT>,
-	): EVENT {
+		build: suspend () -> Pair<ENTITY, EVENT_OUT>,
+	): EVENT_OUT {
 		val (entity, domainEvent) = build()
-		automateExecutor.create(command, { entity })
+		automateExecutor.create(command, build)
 		publisher.publish(domainEvent)
 		return domainEvent
 	}
 
-	override suspend fun <EVENT> doTransition(
+	override suspend fun <EVENT_OUT : Evt> doTransition(
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT>,
-	): EVENT {
+		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>,
+	): EVENT_OUT {
 		return doTransition(command.id, command, exec)
 	}
 
-	override suspend fun <EVENT> doTransition(
+	override suspend fun <EVENT_OUT : Evt> doTransition(
 		id: ID,
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT>,
-	): EVENT {
-		val event: EVENT = automateExecutor.doTransition(command, exec)
+		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>,
+	): EVENT_OUT {
+		val (_, event) = automateExecutor.doTransition(command, exec)
 		publisher.publish(event)
 		return event
 	}
+
 }

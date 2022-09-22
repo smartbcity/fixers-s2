@@ -8,15 +8,17 @@ import s2.dsl.automate.model.WithS2State
 import kotlin.js.JsName
 
 @JsName("AutomateSourcingExecutor")
-interface AutomateStoringExecutor<STATE, ENTITY, ID>
+interface AutomateStoringExecutor<STATE, ENTITY, ID, EVENT>
 	: S2AutomateExecutor<ENTITY, STATE, ID, ENTITY>
 where
 ENTITY : WithS2State<STATE>,
 STATE : S2State {
-	override suspend fun <ENTITY_OUT : ENTITY> create(command: S2InitCommand, decide: suspend () -> ENTITY_OUT): ENTITY_OUT
-//	override suspend fun <ENTITY_OUT : ENTITY> doTransition(command: S2Command<ID>, exec: suspend (ENTITY) -> ENTITY_OUT): ENTITY_OUT
-	suspend fun <EVENT_OUT> doTransition(
+	suspend fun <ENTITY_OUT: ENTITY, EVENT_OUT : EVENT> create(
+		command: S2InitCommand, decide: suspend () -> Pair<ENTITY_OUT, EVENT_OUT>
+	): Pair<ENTITY_OUT, EVENT_OUT>
+
+	suspend fun <ENTITY_OUT: ENTITY, EVENT_OUT : EVENT> doTransition(
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>
-	): EVENT_OUT
+		exec: suspend ENTITY.() -> Pair<ENTITY_OUT, EVENT_OUT>
+	): Pair<ENTITY_OUT, EVENT_OUT>
 }

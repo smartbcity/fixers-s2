@@ -13,6 +13,6 @@ interface AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>
 where
 ENTITY : WithS2State<STATE>,
 STATE : S2State {
-	override suspend fun <EVENT_OUT : EVENT> create(command: S2InitCommand, decide: suspend () -> EVENT_OUT): EVENT_OUT
+	suspend fun <EVENT_OUT : EVENT> create(command: S2InitCommand, decide: suspend () -> EVENT_OUT): EVENT_OUT
 	suspend fun <EVENT_OUT : EVENT> doTransition(command: S2Command<ID>, exec: suspend (ENTITY) -> EVENT_OUT): EVENT_OUT
 }

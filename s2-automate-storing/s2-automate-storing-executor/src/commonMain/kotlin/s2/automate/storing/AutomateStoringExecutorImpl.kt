@@ -28,24 +28,26 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-open class AutomateStoringExecutorImpl<STATE, ID, ENTITY>(
+open class AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT>(
 	private val automateContext: AutomateContext<S2Automate>,
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate>,
 	private val persister: AutomatePersister<STATE, ID, ENTITY, S2Automate>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
-) : AutomateStoringExecutor<STATE, ENTITY, ID> where
+) : AutomateStoringExecutor<STATE, ENTITY, ID, EVENT> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	override suspend fun <EVENT_OUT : ENTITY> create(command: S2InitCommand, decide: suspend () -> EVENT_OUT): EVENT_OUT {
+	override suspend fun <ENTITY_OUT : ENTITY, EVENT_OUT : EVENT> create(
+		command: S2InitCommand, decide: suspend () -> Pair<ENTITY_OUT, EVENT_OUT>,
+	):  Pair<ENTITY_OUT, EVENT_OUT> {
 		try {
-			val entity = decide()
+			val (entity, event) = decide()
 			val initTransitionContext = initTransitionContext(command)
 			guardExecutor.evaluateInit(initTransitionContext)
 			persist(command, entity)
 			sentEndCreateEvent(command, entity)
-			return entity
+			return entity to event
 		} catch (e: AutomateException) {
 			throw e
 		} catch (e: Exception) {
@@ -69,17 +71,10 @@ ENTITY : WithS2Id<ID> {
 		persister.persist(initTransitionPersistContext)
 	}
 
-//	override suspend fun <EVENT_OUT : ENTITY> doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> EVENT_OUT): EVENT_OUT {
-//		return doTransitionWithResult(command) {
-//			val entityMutated = this.exec()
-//			Pair(entityMutated, entityMutated)
-//		}
-//	}
-
-	override suspend fun <EVENT_OUT> doTransition(
+	override suspend fun <ENTITY_OUT : ENTITY, EVENT_OUT : EVENT> doTransition(
 		command: S2Command<ID>,
-		exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>,
-	): EVENT_OUT {
+		exec: suspend ENTITY.() -> Pair<ENTITY_OUT, EVENT_OUT>,
+	):  Pair<ENTITY_OUT, EVENT_OUT> {
 		try {
 			val (entity, transitionContext) = loadTransitionContext(command)
 			guardExecutor.evaluateTransition(transitionContext)
@@ -87,7 +82,7 @@ ENTITY : WithS2Id<ID> {
 			val (entityMutated, result) = exec(entity)
 			persist(fromState, command, entityMutated)
 			sendEndDoTransitionEvent(entityMutated.s2State(), transitionContext.from, command, entity)
-			return result
+			return entityMutated to result
 		} catch (e: AutomateException) {
 			throw e
 		} catch (e: Exception) {
@@ -196,4 +191,5 @@ ENTITY : WithS2Id<ID> {
 		)
 		return Pair(entity, transitionContext)
 	}
+
 }
