@@ -7,7 +7,7 @@ import s2.automate.core.context.AutomateContext
 import s2.automate.core.guard.GuardAdapter
 import s2.automate.core.guard.GuardExecutorImpl
 import s2.automate.core.persist.AutomatePersister
-import s2.automate.storing.AutomateStoringExecutorImpl
+import s2.automate.core.S2AutomateExecutorImpl
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
@@ -26,12 +26,12 @@ EXECUTER : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	@Autowired
 	private lateinit var eventPublisher: SpringEventPublisher
 
-	open fun aggregate(): AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT> {
+	open fun aggregate(): S2AutomateExecutorImpl<STATE, ID, ENTITY, EVENT> {
 		val automateContext = automateContext()
 		val publisher = automateAppEventPublisher(eventPublisher)
 		val guardExecutor = guardExecutor(publisher)
 		val persister = aggregateRepository()
-		return AutomateStoringExecutorImpl(automateContext, guardExecutor, persister, publisher)
+		return S2AutomateExecutorImpl(automateContext, guardExecutor, persister, publisher)
 	}
 
 	protected open fun automateContext() = AutomateContext(automate())

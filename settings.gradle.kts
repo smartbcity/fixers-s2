@@ -15,12 +15,7 @@ include(
 )
 
 include(
-	"s2-automate-storing:s2-automate-storing-executor"
-)
-
-include(
 	"s2-automate-sourcing:s2-automate-sourcing-dsl",
-	"s2-automate-sourcing:s2-automate-sourcing-executor"
 )
 
 include(

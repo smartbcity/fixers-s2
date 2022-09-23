@@ -20,7 +20,7 @@ import s2.sourcing.dsl.view.View
 import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
 import kotlin.reflect.KClass
-import s2.automate.storing.AutomateStoringExecutorImpl
+import s2.automate.core.S2AutomateExecutorImpl
 
 abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
 	val executor: EXECUTOR,
@@ -51,12 +51,12 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	open fun aggregate(
 		projectionBuilder: Loader<EVENT, ENTITY, ID>
-	): AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT> {
+	): S2AutomateExecutorImpl<STATE, ID, ENTITY, EVENT> {
 		val automateContext = automateContext()
 		val publisher = automateAppEventPublisher(eventPublisher)
 		val guardExecutor = guardExecutor(publisher)
 		val eventStore = eventStore()
-		return AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT>(
+		return S2AutomateExecutorImpl<STATE, ID, ENTITY, EVENT>(
 			automateContext = automateContext,
 			guardExecutor = guardExecutor,
 			persister = AutomateStoringPersister(

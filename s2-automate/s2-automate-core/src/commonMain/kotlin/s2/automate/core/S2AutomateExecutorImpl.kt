@@ -1,4 +1,4 @@
-package s2.automate.storing
+package s2.automate.core
 
 import f2.dsl.cqrs.Message
 import s2.automate.core.appevent.AutomateInitTransitionEnded
@@ -28,12 +28,12 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-open class AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT>(
+open class S2AutomateExecutorImpl<STATE, ID, ENTITY, EVENT>(
 	private val automateContext: AutomateContext<S2Automate>,
 	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, EVENT, S2Automate>,
 	private val persister: AutomatePersister<STATE, ID, ENTITY, EVENT, S2Automate>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
-) : AutomateStoringExecutor<STATE, ENTITY, ID, EVENT> where
+) : S2AutomateExecutor<STATE, ENTITY, ID, EVENT> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {

@@ -1,7 +1,7 @@
 package s2.spring.automate.executor
 
 import s2.automate.core.appevent.publisher.AppEventPublisher
-import s2.automate.storing.AutomateStoringExecutorImpl
+import s2.automate.core.S2AutomateExecutorImpl
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -14,10 +14,10 @@ STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	private lateinit var automateExecutor: AutomateStoringExecutorImpl<STATE, ID, ENTITY, Evt>
+	private lateinit var automateExecutor: S2AutomateExecutorImpl<STATE, ID, ENTITY, Evt>
 	private lateinit var publisher: AppEventPublisher
 
-	fun withContext(automateExecutor: AutomateStoringExecutorImpl<STATE, ID, ENTITY, Evt>, publisher: AppEventPublisher) {
+	fun withContext(automateExecutor: S2AutomateExecutorImpl<STATE, ID, ENTITY, Evt>, publisher: AppEventPublisher) {
 		this.automateExecutor = automateExecutor
 		this.publisher = publisher
 	}

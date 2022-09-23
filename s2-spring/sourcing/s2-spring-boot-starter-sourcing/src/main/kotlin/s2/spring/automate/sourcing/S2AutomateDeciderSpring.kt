@@ -3,7 +3,7 @@ package s2.spring.automate.sourcing
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import s2.automate.core.appevent.publisher.AppEventPublisher
-import s2.automate.storing.AutomateStoringExecutor
+import s2.automate.core.S2AutomateExecutor
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -20,12 +20,12 @@ EVENT : WithS2Id<ID>,
 ENTITY : WithS2Id<ID>,
 ENTITY : WithS2State<STATE> {
 
-	private lateinit var automateExecutor: AutomateStoringExecutor<STATE, ENTITY, ID, EVENT>
+	private lateinit var automateExecutor: S2AutomateExecutor<STATE, ENTITY, ID, EVENT>
 	private lateinit var publisher: AppEventPublisher
 	private lateinit var projectionLoader: Loader<EVENT, ENTITY, ID>
 
 	internal fun withContext(
-		automateExecutor: AutomateStoringExecutor<STATE, ENTITY, ID, EVENT>,
+		automateExecutor: S2AutomateExecutor<STATE, ENTITY, ID, EVENT>,
 		publisher: AppEventPublisher,
 		projectionLoader: Loader<EVENT, ENTITY, ID>
 	) {
