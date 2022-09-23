@@ -7,20 +7,22 @@ import s2.automate.core.context.AutomateContext
 import s2.automate.core.context.InitTransitionAppliedContext
 import s2.automate.core.context.TransitionAppliedContext
 import s2.automate.core.persist.AutomatePersister
+import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class SpringDataAutomateReactivePersister<STATE, ID, ENTITY>(
+class SpringDataAutomateReactivePersister<STATE, ID, ENTITY, EVENT>(
 	private val repository: ReactiveCrudRepository<ENTITY, ID>,
-) : AutomatePersister<STATE, ID, ENTITY, S2Automate> where
+) : AutomatePersister<STATE, ID, ENTITY, EVENT, S2Automate> where
+EVENT : Evt,
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
 	override suspend fun persist(
-		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>,
 	): ENTITY {
 		return repository.save(transitionContext.entity).awaitSingle()
 	}
@@ -29,7 +31,7 @@ ENTITY : WithS2Id<ID> {
 		return repository.findById(id).awaitFirstOrNull()
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>): ENTITY {
 		return repository.save(transitionContext.entity).awaitSingle()
 	}
 }

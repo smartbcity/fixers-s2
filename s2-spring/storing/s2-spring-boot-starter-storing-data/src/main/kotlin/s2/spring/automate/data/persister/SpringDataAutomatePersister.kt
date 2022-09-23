@@ -10,15 +10,15 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class SpringDataAutomatePersister<STATE, ID, ENTITY>(
+class SpringDataAutomatePersister<STATE, ID, ENTITY, EVENT>(
 	private val repository: CrudRepository<ENTITY, ID>,
-) : AutomatePersister<STATE, ID, ENTITY, S2Automate> where
+) : AutomatePersister<STATE, ID, ENTITY, EVENT, S2Automate> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
 	override suspend fun persist(
-		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>,
 	): ENTITY {
 		return repository.save(transitionContext.entity)
 	}
@@ -27,7 +27,7 @@ ENTITY : WithS2Id<ID> {
 		return repository.findById(id).orElse(null)
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>): ENTITY {
 		return repository.save(transitionContext.entity)
 	}
 }

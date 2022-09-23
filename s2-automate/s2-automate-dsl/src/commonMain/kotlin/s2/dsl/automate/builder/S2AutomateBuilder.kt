@@ -7,6 +7,7 @@ import s2.dsl.automate.S2SubMachine
 import s2.dsl.automate.S2Transition
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import s2.dsl.automate.Cmd
 
 class S2AutomateBuilder {
 	lateinit var name: String
@@ -24,7 +25,7 @@ class S2AutomateBuilder {
 		).let(transactions::add)
 	}
 
-	inline fun <reified CMD: Message> transaction(exec: S2TransitionBuilder.() -> Unit) {
+	inline fun <reified CMD: Cmd> transaction(exec: S2TransitionBuilder.() -> Unit) {
 		val builder = S2TransitionBuilder()
 		builder.exec()
 		S2Transition(
@@ -35,7 +36,7 @@ class S2AutomateBuilder {
 		).let(transactions::add)
 	}
 
-	inline fun <reified CMD: Message> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
+	inline fun <reified CMD: Cmd> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
 		val builder = S2SelfTransitionBuilder()
 		builder.exec()
 		builder.states.map { state ->

@@ -3,6 +3,7 @@ package s2.spring.automate.ssm
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import s2.automate.core.persist.AutomatePersister
+import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
@@ -18,7 +19,7 @@ import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
 abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> :
-	S2ConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>() where
+	S2ConfigurerAdapter<STATE, ID, ENTITY, Evt, AGGREGATE>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
@@ -40,8 +41,8 @@ AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 	lateinit var objectMapper: ObjectMapper
 
 //	@Bean
-	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, S2Automate> {
-		return SsmAutomatePersister<STATE, ID, ENTITY>().also {
+	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, Evt, S2Automate> {
+		return SsmAutomatePersister<STATE, ID, ENTITY, Evt>().also {
 			it.ssmTxInitFunction = ssmTxInitFunction
 			it.ssmSessionStartFunction = ssmSessionStartFunction
 			it.ssmSessionPerformActionFunction = ssmSessionPerformActionFunction

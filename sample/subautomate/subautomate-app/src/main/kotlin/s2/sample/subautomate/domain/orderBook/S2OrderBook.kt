@@ -18,25 +18,25 @@ enum class OrderBookState(override var position: Int): S2State {
 
 val orderBookAutomate = s2 {
     name = "S2OrderBook"
-    transaction<OrderBookCreatedEvent> {
+    transaction<OrderBookCreateCommand> {
         to = OrderBookState.Created
         role = Role
     }
-    selfTransaction<OrderBookUpdatedEvent> {
+    selfTransaction<OrderBookUpdateCommand> {
         states += OrderBookState.Created
         role = Role
     }
-    transaction<OrderBookPublishedEvent> {
+    transaction<OrderBookPublishCommand> {
         from = OrderBookState.Created
         to = OrderBookState.Published
         role = Role
     }
-    transaction<OrderBookClosedEvent> {
+    transaction<OrderBookCloseCommand> {
         from = OrderBookState.Created
         to = OrderBookState.Closed
         role = Role
     }
-    transaction<OrderBookClosedEvent> {
+    transaction<OrderBookCloseCommand> {
         from = OrderBookState.Published
         to = OrderBookState.Closed
         role = Role

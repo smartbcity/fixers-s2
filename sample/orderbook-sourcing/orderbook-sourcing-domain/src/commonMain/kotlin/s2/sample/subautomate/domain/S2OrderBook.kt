@@ -4,9 +4,13 @@ import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2
+import s2.sample.subautomate.domain.orderBook.OrderBookCloseCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookClosedEvent
+import s2.sample.subautomate.domain.orderBook.OrderBookCreateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookCreatedEvent
+import s2.sample.subautomate.domain.orderBook.OrderBookPublishCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
+import s2.sample.subautomate.domain.orderBook.OrderBookUpdateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 
 object Role: S2Role
@@ -20,25 +24,25 @@ enum class OrderBookState(override var position: Int): S2State {
 
 val orderBookAutomate = s2 {
     name = "S2OrderBook"
-    transaction<OrderBookCreatedEvent> {
+    transaction<OrderBookCreateCommand> {
         to = OrderBookState.Created
         role = Role
     }
-    selfTransaction<OrderBookUpdatedEvent> {
+    selfTransaction<OrderBookUpdateCommand> {
         states += OrderBookState.Created
         role = Role
     }
-    transaction<OrderBookPublishedEvent> {
+    transaction<OrderBookPublishCommand> {
         from = OrderBookState.Created
         to = OrderBookState.Published
         role = Role
     }
-    transaction<OrderBookClosedEvent> {
+    transaction<OrderBookCloseCommand> {
         from = OrderBookState.Created
         to = OrderBookState.Closed
         role = Role
     }
-    transaction<OrderBookClosedEvent> {
+    transaction<OrderBookCloseCommand> {
         from = OrderBookState.Published
         to = OrderBookState.Closed
         role = Role

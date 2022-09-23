@@ -7,8 +7,6 @@ import s2.automate.core.appevent.publisher.AutomateEventPublisher
 import s2.automate.core.context.AutomateContext
 import s2.automate.core.guard.Guard
 import s2.automate.core.guard.GuardExecutorImpl
-import s2.automate.sourcing.AutomateSourcingExecutor
-import s2.automate.sourcing.AutomateSourcingExecutorImpl
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2State
@@ -22,6 +20,7 @@ import s2.sourcing.dsl.view.View
 import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
 import kotlin.reflect.KClass
+import s2.automate.storing.AutomateStoringExecutorImpl
 
 abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
 	val executor: EXECUTOR,
@@ -52,16 +51,18 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	open fun aggregate(
 		projectionBuilder: Loader<EVENT, ENTITY, ID>
-	): AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID> {
+	): AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT> {
 		val automateContext = automateContext()
 		val publisher = automateAppEventPublisher(eventPublisher)
 		val guardExecutor = guardExecutor(publisher)
 		val eventStore = eventStore()
-		return AutomateSourcingExecutorImpl(
+		return AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT>(
 			automateContext = automateContext,
 			guardExecutor = guardExecutor,
-			projectionBuilder = projectionBuilder,
-			eventStore = eventStore,
+			persister = AutomateStoringPersister(
+				projectionLoader = projectionBuilder,
+				eventStore = eventStore,
+			),
 			publisher = publisher
 		).also {
 			executor.withContext(it, eventPublisher, projectionBuilder)
@@ -72,7 +73,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	protected open fun guardExecutor(
 		automateAppEventPublisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
-	): GuardExecutorImpl<STATE, ID, ENTITY, S2Automate> {
+	): GuardExecutorImpl<STATE, ID, ENTITY, EVENT, S2Automate> {
 		return GuardExecutorImpl(
 			guards = guards(),
 			publisher = automateAppEventPublisher
@@ -84,7 +85,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		return AutomateEventPublisher(eventPublisher)
 	}
 
-	protected open fun guards(): List<Guard<STATE, ID, ENTITY, S2Automate>> = listOf(
+	protected open fun guards(): List<Guard<STATE, ID, ENTITY, EVENT, S2Automate>> = listOf(
 		TransitionStateGuard()
 	)
 

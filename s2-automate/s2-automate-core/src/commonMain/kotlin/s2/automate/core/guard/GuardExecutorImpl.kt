@@ -13,10 +13,10 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
-	private val guards: List<Guard<STATE, ID, ENTITY, AUTOMATE>>,
+class GuardExecutorImpl<STATE, ID, ENTITY, EVENT, AUTOMATE>(
+	private val guards: List<Guard<STATE, ID, ENTITY, EVENT, AUTOMATE>>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, AUTOMATE>,
-): GuardExecutor<STATE, ID, ENTITY, AUTOMATE> where
+): GuardExecutor<STATE, ID, ENTITY, EVENT, AUTOMATE> where
 	STATE : S2State,
 	ENTITY : WithS2State<STATE>,
 	ENTITY : WithS2Id<ID> {
@@ -28,7 +28,7 @@ class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
 
 	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>) {
 		val result = guards.map { it.evaluateTransition(context) }.flatten()
-		handleResult(result, context.msg, context.from)
+		handleResult(result, context.command, context.from)
 	}
 
 	private fun List<GuardResult>.flatten(): GuardResult {
@@ -36,12 +36,12 @@ class GuardExecutorImpl<STATE, ID, ENTITY, AUTOMATE>(
 		return GuardResult.error(errors.toList())
 	}
 
-	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>) {
+	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>) {
 		val result = guards.map { it.verifyInitTransition(context) }.flatten()
 		handleResult(result, context.msg)
 	}
 
-	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>) {
+	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>) {
 		val result = guards.map { it.verifyTransition(context) }.flatten()
 		handleResult(result, context.msg, context.from)
 	}

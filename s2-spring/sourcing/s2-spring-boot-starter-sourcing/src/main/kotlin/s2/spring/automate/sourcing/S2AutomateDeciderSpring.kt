@@ -1,8 +1,9 @@
 package s2.spring.automate.sourcing
 
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import s2.automate.core.appevent.publisher.AppEventPublisher
-import s2.automate.sourcing.AutomateSourcingExecutor
+import s2.automate.storing.AutomateStoringExecutor
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -19,12 +20,12 @@ EVENT : WithS2Id<ID>,
 ENTITY : WithS2Id<ID>,
 ENTITY : WithS2State<STATE> {
 
-	private lateinit var automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>
+	private lateinit var automateExecutor: AutomateStoringExecutor<STATE, ENTITY, ID, EVENT>
 	private lateinit var publisher: AppEventPublisher
 	private lateinit var projectionLoader: Loader<EVENT, ENTITY, ID>
 
 	internal fun withContext(
-		automateExecutor: AutomateSourcingExecutor<STATE, EVENT, ENTITY, ID>,
+		automateExecutor: AutomateStoringExecutor<STATE, ENTITY, ID, EVENT>,
 		publisher: AppEventPublisher,
 		projectionLoader: Loader<EVENT, ENTITY, ID>
 	) {
@@ -34,12 +35,20 @@ ENTITY : WithS2State<STATE> {
 	}
 
 	override suspend fun <EVENT_OUT : EVENT> init(command: S2InitCommand, buildEvent: suspend () -> EVENT_OUT): EVENT_OUT {
-		return automateExecutor.create(command, buildEvent)
+		return automateExecutor.create(command, {
+			val event = buildEvent()
+			val entity = projectionLoader.evolve(flowOf(event))!!
+			entity to event
+		}).second
 			.also(publisher::publish)
 	}
 
 	override suspend fun <EVENT_OUT : EVENT> transition(command: S2Command<ID>, exec: suspend (ENTITY) -> EVENT_OUT): EVENT_OUT {
-		return automateExecutor.doTransition(command, exec)
+		return automateExecutor.doTransition(command) {
+			val event = exec(this)
+			val entity = projectionLoader.evolve(flowOf(event), this)!!
+			entity to event
+		}.second
 			.also(publisher::publish)
 	}
 

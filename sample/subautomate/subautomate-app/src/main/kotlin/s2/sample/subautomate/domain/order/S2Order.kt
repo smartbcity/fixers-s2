@@ -16,15 +16,15 @@ enum class OrderState(override var position: Int): S2State {
 
 val orderAutomate = s2 {
     name = "S2Order"
-    transaction<OrderBoughtEvent> {
+    transaction<OrderBuyCommand> {
         to = OrderState.Pending
         role = Role
     }
-    transaction<OrderSoldEvent> {
+    transaction<OrderSellCommand> {
         to = OrderState.Pending
         role = Role
     }
-    transaction<OrderBurnedEvent> {
+    transaction<OrderBurnCommand> {
         to = OrderState.Pending
         role = Role
     }

@@ -27,7 +27,7 @@ import ssm.tx.dsl.features.ssm.SsmTxInitFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
-class SsmAutomatePersister<STATE, ID, ENTITY> : AutomatePersister<STATE, ID, ENTITY, S2Automate> where
+class SsmAutomatePersister<STATE, ID, ENTITY, EVENT> : AutomatePersister<STATE, ID, ENTITY, EVENT, S2Automate> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
@@ -44,7 +44,7 @@ ENTITY : WithS2Id<ID> {
 	internal var permisive: Boolean = false
 
 	override suspend fun persist(
-		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, S2Automate>,
+		transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>,
 	): ENTITY {
 		val entity = transitionContext.entity
 		val sessionName = entity.s2Id().toString()
@@ -75,7 +75,7 @@ ENTITY : WithS2Id<ID> {
 		return objectMapper.readValue(session.state.details.public as String, entityType)
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, S2Automate>): ENTITY {
+	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>): ENTITY {
 		val entity = transitionContext.entity
 		val automate = transitionContext.automateContext.automate
 

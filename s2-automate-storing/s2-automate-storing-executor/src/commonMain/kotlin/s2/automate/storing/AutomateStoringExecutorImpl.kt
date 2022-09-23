@@ -30,8 +30,8 @@ import s2.dsl.automate.model.WithS2State
 
 open class AutomateStoringExecutorImpl<STATE, ID, ENTITY, EVENT>(
 	private val automateContext: AutomateContext<S2Automate>,
-	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, S2Automate>,
-	private val persister: AutomatePersister<STATE, ID, ENTITY, S2Automate>,
+	private val guardExecutor: GuardExecutorImpl<STATE, ID, ENTITY, EVENT, S2Automate>,
+	private val persister: AutomatePersister<STATE, ID, ENTITY, EVENT, S2Automate>,
 	private val publisher: AutomateEventPublisher<STATE, ID, ENTITY, S2Automate>,
 ) : AutomateStoringExecutor<STATE, ENTITY, ID, EVENT> where
 STATE : S2State,
@@ -45,7 +45,7 @@ ENTITY : WithS2Id<ID> {
 			val (entity, event) = decide()
 			val initTransitionContext = initTransitionContext(command)
 			guardExecutor.evaluateInit(initTransitionContext)
-			persist(command, entity)
+			persist(command, entity, event)
 			sentEndCreateEvent(command, entity)
 			return entity to event
 		} catch (e: AutomateException) {
@@ -61,10 +61,11 @@ ENTITY : WithS2Id<ID> {
 		}
 	}
 
-	private suspend fun persist(command: S2InitCommand, entity: ENTITY) {
+	private suspend fun persist(command: S2InitCommand, entity: ENTITY, event: EVENT) {
 		val initTransitionPersistContext = InitTransitionAppliedContext(
 			automateContext = automateContext,
 			msg = command,
+			event = event,
 			entity = entity
 		)
 		guardExecutor.verifyInitTransition(initTransitionPersistContext)
@@ -80,7 +81,7 @@ ENTITY : WithS2Id<ID> {
 			guardExecutor.evaluateTransition(transitionContext)
 			val fromState = entity.s2State()
 			val (entityMutated, result) = exec(entity)
-			persist(fromState, command, entityMutated)
+			persist(fromState, command, entityMutated, result)
 			sendEndDoTransitionEvent(entityMutated.s2State(), transitionContext.from, command, entity)
 			return entityMutated to result
 		} catch (e: AutomateException) {
@@ -96,11 +97,12 @@ ENTITY : WithS2Id<ID> {
 		}
 	}
 
-	private suspend fun persist(fromState: STATE, command: S2Command<ID>, entityMutated: ENTITY) {
+	private suspend fun persist(fromState: STATE, command: S2Command<ID>, entityMutated: ENTITY, event: EVENT) {
 		val transitionPersistContext = TransitionAppliedContext(
 			automateContext = automateContext,
 			from = fromState,
 			msg = command,
+			event = event,
 			entity = entityMutated
 		)
 		guardExecutor.verifyTransition(transitionPersistContext)
@@ -180,7 +182,7 @@ ENTITY : WithS2Id<ID> {
 		val transitionContext = TransitionContext(
 			automateContext = automateContext,
 			from = entity.s2State(),
-			msg = command,
+			command = command,
 			entity = entity,
 		)
 		publisher.automateTransitionStarted(

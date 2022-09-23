@@ -8,7 +8,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-interface Guard<STATE, ID, ENTITY, AUTOMATE> where
+interface Guard<STATE, ID, ENTITY, EVENT, AUTOMATE> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
@@ -35,7 +35,7 @@ ENTITY : WithS2Id<ID> {
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.
 	 */
-	suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
+	suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>): GuardResult
 
 	/**
 	 * Verify a guard condition after init transition has been applied.
@@ -43,5 +43,5 @@ ENTITY : WithS2Id<ID> {
 	 * @param context the state context init
 	 * @return true, if guard evaluation is successful, false otherwise.
 	 */
-	suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult
+	suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>): GuardResult
 }
