@@ -1,7 +1,7 @@
 package s2.sample.did.domain
 
-import s2.dsl.automate.model.WithS2IdAndStatus
 import kotlinx.serialization.Serializable
+import s2.dsl.automate.model.WithS2IdAndStatus
 
 @Serializable
 data class DidModel(

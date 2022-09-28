@@ -5,8 +5,6 @@ plugins {
 }
 
 dependencies {
-	api(project(":s2-automate:s2-automate-core"))
-	api(project(":s2-automate-sourcing:s2-automate-sourcing-dsl"))
 	api(project(":s2-spring:storing:s2-spring-boot-starter-storing"))
 
 	Dependencies.Spring.autoConfigure(::implementation, ::kapt)

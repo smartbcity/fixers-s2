@@ -6,11 +6,8 @@ plugins {
 
 dependencies {
 	api(project(":sample:did-sample:did-domain"))
-
-	api(project(":s2-spring:automate:s2-spring-boot-starter-automate-ssm"))
-
-//	api("city.smartb.f2:f2-spring-data-mongodb:${Versions.f2}")
-//	api("city.smartb.f2:f2-spring-boot-starter-function:${Versions.f2}")
+	api(project(":s2-spring:storing:s2-spring-boot-starter-storing-ssm"))
+	Dependencies.dataMongo(::implementation)
 
 //	api("city.smartb.f2:f2-feature-version:${Versions.f2}")
 //	api("city.smartb.f2:f2-feature-catalog:${Versions.f2}")

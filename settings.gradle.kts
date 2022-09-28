@@ -15,7 +15,7 @@ include(
 )
 
 include(
-	"s2-automate-sourcing:s2-automate-sourcing-dsl",
+	"s2-event-sourcing:s2-event-sourcing-dsl",
 )
 
 include(
@@ -52,11 +52,11 @@ include(
 	"sample:subautomate:subautomate-app"
 )
 
-//include(
-//	"sample:did-sample",
-//	"sample:did-sample:did-app",
-//	"sample:did-sample:did-http:did-http-app",
-//	"sample:did-sample:did-rsocket:did-rsocket-app",
-//	"sample:did-sample:did-domain",
-//	"sample:did-sample:did-ui"
-//)
+include(
+	"sample:did-sample",
+	"sample:did-sample:did-app",
+	"sample:did-sample:did-http:did-http-app",
+	"sample:did-sample:did-rsocket:did-rsocket-app",
+	"sample:did-sample:did-domain",
+	"sample:did-sample:did-ui"
+)

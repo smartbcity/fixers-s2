@@ -20,36 +20,26 @@ typealias DidId = String
 @JsExport
 @JsName("didS2")
 fun didS2(): S2Automate {
-	return s2<DidId, DidState> {
+	return s2 {
 		name = "DidS2"
-		init<DidInitCommand> {
+		init<DidCreateCommand> {
 			to = DidState.Created()
 			role = DidRole.Admin()
-			cmd = DidCreateCommand::class
 		}
-		transaction<DidCommand> {
+		transaction<DidAddPublicKeyCommand> {
 			from = DidState.Created()
 			to = DidState.Actived()
 			role = DidRole.Owner()
-			cmd = DidAddPublicKeyCommand::class
 		}
-		transaction<DidCommand> {
+		transaction<DidRevokeCommand> {
 			from = DidState.Actived()
 			to = DidState.Actived()
 			role = DidRole.Owner()
-			cmd = DidAddPublicKeyCommand::class
 		}
-		transaction<DidCommand> {
-			from = DidState.Actived()
-			to = DidState.Actived()
-			role = DidRole.Owner()
-			cmd = DidRevokeCommand::class
-		}
-		transaction<DidCommand> {
+		transaction<DidRevokePublicKeyCommand> {
 			from = DidState.Actived()
 			to = DidState.Revoked()
 			role = DidRole.Owner()
-			cmd = DidRevokePublicKeyCommand::class
 		}
 	}
 }

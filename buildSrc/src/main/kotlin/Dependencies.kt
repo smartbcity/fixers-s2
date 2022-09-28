@@ -50,6 +50,10 @@ object Dependencies {
 		"io.lettuce:lettuce-core:6.1.6.RELEASE"
 	)
 
+	fun dataMongo(scope: Scope) = scope.add(
+		"org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Versions.springBoot}"
+	)
+
 	fun testcontainersMongo(scope: Scope) = scope.add(
 		"org.testcontainers:junit-jupiter:${Versions.testcontainers}",
 		"org.testcontainers:mongodb:${Versions.testcontainers}",
