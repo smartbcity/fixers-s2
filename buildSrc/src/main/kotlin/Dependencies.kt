@@ -21,6 +21,8 @@ object Versions {
 
 	val ssm = FixersPluginVersions.fixers
 	val f2 = FixersPluginVersions.fixers
+	val coroutines = FixersVersions.Kotlin.coroutines
+	val slf4j = FixersVersions.Logging.slf4j
 }
 
 object Dependencies {

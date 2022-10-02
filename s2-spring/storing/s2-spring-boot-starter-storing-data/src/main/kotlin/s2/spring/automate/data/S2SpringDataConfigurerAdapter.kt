@@ -14,7 +14,7 @@ import s2.spring.automate.executor.S2AutomateExecutorSpring
 
 abstract class S2SpringDataConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>(
 	private val aggregateRepository: CrudRepository<ENTITY, ID>,
-) : S2ConfigurerAdapter<STATE, ID, ENTITY, Evt, AGGREGATE>() where
+) : S2ConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,

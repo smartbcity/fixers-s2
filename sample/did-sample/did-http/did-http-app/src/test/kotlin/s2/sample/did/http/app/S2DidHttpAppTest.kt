@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.cloud.function.context.FunctionCatalog
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import s2.sample.did.http.app.config.MongoContainerInitializer
 import java.util.UUID
 import java.util.function.Function
 import java.util.function.Supplier
@@ -20,7 +18,6 @@ import java.util.function.Supplier
 @TestInstance(PER_CLASS)
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(initializers = [MongoContainerInitializer::class] )
 class S2DidHttpAppTest {
 
 	@LocalServerPort

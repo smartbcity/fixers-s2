@@ -1,6 +1,3 @@
-import city.smartb.gradle.dependencies.FixersVersions
-import city.smartb.gradle.dependencies.FixersDependencies
-
 plugins {
 	id("io.spring.dependency-management")
 	kotlin("plugin.spring")
@@ -15,9 +12,10 @@ springBoot {
 dependencies {
 	implementation(project(":sample:did-sample:did-app"))
 
-	Dependencies.dataMongo(::implementation)
+	implementation("city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}")
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	// TODO Fix dependencies conflict with spring cloud function
+	api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${Versions.coroutines}")
 
-	testImplementation("org.testcontainers:junit-jupiter:${Versions.testcontainers}")
+	Dependencies.springTest(::testImplementation)
 }

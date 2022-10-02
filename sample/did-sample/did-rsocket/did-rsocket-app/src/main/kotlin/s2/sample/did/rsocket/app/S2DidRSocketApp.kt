@@ -1,17 +1,11 @@
 package s2.sample.did.rsocket.app
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories
 
-const val PACKAGE = "s2.sample.did"
-
-@EntityScan(PACKAGE)
-@EnableReactiveMongoRepositories(PACKAGE)
-@SpringBootApplication(scanBasePackages = [PACKAGE])
+@SpringBootApplication(scanBasePackages = [ "s2.sample.did"])
 class S2DidRSocketApp
 
 fun main(args: Array<String>) {

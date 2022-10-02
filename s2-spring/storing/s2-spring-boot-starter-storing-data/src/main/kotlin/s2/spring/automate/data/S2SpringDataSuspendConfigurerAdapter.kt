@@ -13,14 +13,14 @@ import s2.spring.automate.executor.S2AutomateExecutorSpring
 
 abstract class S2SpringDataSuspendConfigurerAdapter<STATE, ID, ENTITY, EVENT, AGGREGATE>(
 	private val aggregateRepository: CoroutineCrudRepository<ENTITY, ID>
-) : S2ConfigurerAdapter<STATE, ID, ENTITY, EVENT, AGGREGATE>() where
+) : S2ConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>() where
 EVENT : Evt,
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
 AGGREGATE : S2AutomateExecutorSpring<STATE, ID, ENTITY> {
 
-	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, EVENT, S2Automate> {
+	override fun aggregateRepository(): AutomatePersister<STATE, ID, ENTITY, Evt, S2Automate> {
 		return SpringDataAutomateCoroutinePersister(
 			aggregateRepository
 		)

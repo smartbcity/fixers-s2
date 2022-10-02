@@ -19,7 +19,7 @@ import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
 
 abstract class S2SsmConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE> :
-	S2ConfigurerAdapter<STATE, ID, ENTITY, Evt, AGGREGATE>() where
+	S2ConfigurerAdapter<STATE, ID, ENTITY, AGGREGATE>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,

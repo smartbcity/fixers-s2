@@ -14,7 +14,7 @@ STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID> {
 
-	private lateinit var automateExecutor: S2AutomateExecutorImpl<STATE, ID, ENTITY, Evt>
+	protected lateinit var automateExecutor: S2AutomateExecutorImpl<STATE, ID, ENTITY, Evt>
 	private lateinit var publisher: AppEventPublisher
 
 	fun withContext(automateExecutor: S2AutomateExecutorImpl<STATE, ID, ENTITY, Evt>, publisher: AppEventPublisher) {
