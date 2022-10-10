@@ -1,5 +1,4 @@
 plugins {
-//    id("io.spring.dependency-management") version PluginVersions.springPom apply false
 	id("org.springframework.boot") version PluginVersions.springBoot apply false
 
 }

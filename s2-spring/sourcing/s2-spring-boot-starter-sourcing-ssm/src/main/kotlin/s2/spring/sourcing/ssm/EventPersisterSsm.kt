@@ -65,12 +65,13 @@ EVENT: WithS2Id<ID>
 	override suspend fun persist(event: EVENT): EVENT {
 		val sessionName = event.s2Id().toString()
 		val iteration = getIteration(sessionName)
+		val action = event::class.simpleName!!
 		if(iteration == null) {
 			init(event)
 		} else {
 			@OptIn(InternalSerializationApi::class)
 			val context = SsmSessionPerformActionCommand(
-				action = event::class.simpleName!!,
+				action = action,
 				context = SsmContext(
 					session = sessionName,
 					public = json.encodeToString(eventType.serializer(), event),

@@ -15,11 +15,11 @@ class S2Automate(
 	}
 
 	override fun isAvailableTransition(currentState: S2State, msg: Msg): Boolean {
-		return getAvailableTransitions(currentState).any { it.msg.isInstance(msg) }
+		return getAvailableTransitions(currentState).any { it.cmd.isInstance(msg) }
 	}
 
 	override fun isAvailableInitTransition(command: Msg): Boolean {
-		return transitions.any { it.from == null && it.msg.isInstance(command) }
+		return transitions.any { it.from == null && it.cmd.isInstance(command) }
 	}
 
 	override fun isFinalState(state: S2State): Boolean {

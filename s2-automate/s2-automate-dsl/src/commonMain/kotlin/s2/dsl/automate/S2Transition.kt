@@ -12,16 +12,17 @@ import kotlin.reflect.KClass
 open class S2InitTransition(
 	open val to: S2State,
 	open val role: S2Role,
-	open val command: KClass<out S2InitCommand>,
+	open val cmd: KClass<out S2InitCommand>,
 )
 
 @JsExport
 @JsName("S2Transition")
 open class S2Transition(
-	open val from: S2State?,
-	open val to: S2State,
-	open val role: S2Role,
-	open val msg: KClass<out Msg>,
+    open val from: S2State?,
+    open val to: S2State,
+    open val role: S2Role,
+    open val cmd: KClass<out Cmd>,
+    open val evt: KClass<out Evt>?,
 )
 
 @JsExport

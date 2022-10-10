@@ -15,6 +15,6 @@ dependencies {
 	Dependencies.kserializationJson (::implementation)
 	Dependencies.springRedis(::api)
 
-	Dependencies.testcontainersMongo(::testImplementation)
+	Dependencies.testcontainers(::testImplementation)
 	Dependencies.springTest(::testImplementation)
 }

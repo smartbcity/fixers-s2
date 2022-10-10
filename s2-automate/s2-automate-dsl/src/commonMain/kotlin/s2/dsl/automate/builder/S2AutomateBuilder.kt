@@ -1,6 +1,5 @@
 package s2.dsl.automate.builder
 
-import f2.dsl.cqrs.Message
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2SubMachine
@@ -20,8 +19,9 @@ class S2AutomateBuilder {
 		S2Transition(
 			to = builder.to,
 			role = builder.role,
-			msg = CMD::class,
-			from = null
+			cmd = CMD::class,
+			from = null,
+			evt = builder.evt
 		).let(transactions::add)
 	}
 
@@ -32,7 +32,8 @@ class S2AutomateBuilder {
 			from = builder.from,
 			to = builder.to,
 			role = builder.role,
-			msg = CMD::class,
+			cmd = CMD::class,
+			evt = builder.evt,
 		).let(transactions::add)
 	}
 
@@ -44,7 +45,8 @@ class S2AutomateBuilder {
 				from = state,
 				to = state,
 				role = builder.role,
-				msg = CMD::class,
+				cmd = CMD::class,
+				evt = builder.evt
 			)
 		}.forEach(transactions::add)
 	}
@@ -53,19 +55,6 @@ class S2AutomateBuilder {
 		val builder = S2NodeBuilder()
 		builder.exec()
 		transactions.addAll(builder.transactions)
-	}
-
-	fun submachine(exec: S2SubMachineBuilder.() -> Unit) {
-		val builder = S2SubMachineBuilder()
-		builder.exec()
-		S2SubMachine(
-			automate = builder.automate,
-			startsOn = builder.startsOn,
-			endsOn = builder.endsOn,
-			autostart = builder.autostart,
-			blocking = builder.blocking,
-			singleton = builder.singleton
-		).let(subMachines::add)
 	}
 }
 

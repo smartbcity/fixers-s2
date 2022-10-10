@@ -27,24 +27,29 @@ val orderBookAutomate = s2 {
     transaction<OrderBookCreateCommand> {
         to = OrderBookState.Created
         role = Role
+        evt = OrderBookCreatedEvent::class
     }
     selfTransaction<OrderBookUpdateCommand> {
         states += OrderBookState.Created
         role = Role
+        evt = OrderBookUpdatedEvent::class
     }
     transaction<OrderBookPublishCommand> {
         from = OrderBookState.Created
         to = OrderBookState.Published
         role = Role
+        evt = OrderBookPublishedEvent::class
     }
     transaction<OrderBookCloseCommand> {
         from = OrderBookState.Created
         to = OrderBookState.Closed
         role = Role
+        evt = OrderBookClosedEvent::class
     }
     transaction<OrderBookCloseCommand> {
         from = OrderBookState.Published
         to = OrderBookState.Closed
         role = Role
+        evt = OrderBookClosedEvent::class
     }
 }

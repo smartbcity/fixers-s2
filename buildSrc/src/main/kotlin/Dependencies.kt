@@ -56,7 +56,7 @@ object Dependencies {
 		"org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Versions.springBoot}"
 	)
 
-	fun testcontainersMongo(scope: Scope) = scope.add(
+	fun testcontainers(scope: Scope) = scope.add(
 		"org.testcontainers:junit-jupiter:${Versions.testcontainers}",
 		"org.testcontainers:mongodb:${Versions.testcontainers}",
 	)

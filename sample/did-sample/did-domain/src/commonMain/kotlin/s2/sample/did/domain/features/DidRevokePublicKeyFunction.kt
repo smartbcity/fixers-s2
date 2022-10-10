@@ -11,14 +11,14 @@ import kotlin.js.JsName
 
 typealias DidRevokePublicKeyCommandFunction = F2Function<DidRevokePublicKeyCommand, DidRevokedPublicKeyEvent>
 
-// @JsExport
+@JsExport
 @JsName("DidRevokePublicKeyCommandPayload")
 interface DidRevokePublicKeyCommandPayload {
 	val id: DidId
 }
 
 @Serializable
-// @JsExport
+@JsExport
 @JsName("DidRevokePublicKeyCommand")
 class DidRevokePublicKeyCommand(
 	override val id: DidId,

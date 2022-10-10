@@ -18,5 +18,7 @@ dependencies {
 	Dependencies.kserializationJson (::implementation)
 	Dependencies.arrow (::implementation, ::ksp)
 
+	Dependencies.testcontainers(::testImplementation)
+
 	Dependencies.springTest(::testImplementation)
 }
