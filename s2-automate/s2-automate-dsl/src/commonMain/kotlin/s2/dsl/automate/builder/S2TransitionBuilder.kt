@@ -1,7 +1,5 @@
 package s2.dsl.automate.builder
 
-import s2.dsl.automate.S2Command
-import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import kotlin.reflect.KClass

@@ -8,7 +8,6 @@ import kotlin.js.JsName
 class S2Automate(
 	val name: String,
 	val transitions: Array<S2Transition>,
-	val subMachines: Array<S2SubMachine>
 ):Automate {
 	override fun getAvailableTransitions(state: S2State): Array<S2Transition> {
 		return transitions.filter { isSameState(it.from, state) }.toTypedArray()
