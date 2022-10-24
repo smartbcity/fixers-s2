@@ -1,5 +1,6 @@
 package s2.spring.automate.sourcing
 
+import java.util.UUID
 import kotlin.reflect.KClass
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -96,8 +97,9 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		val snapLoader = snapLoader(viewLoader)
 
 		val beanFactory = (applicationContext as GenericApplicationContext).beanFactory
-		beanFactory.registerSingleton("eventRepository", store)
-		beanFactory.registerSingleton("snapLoader", snapLoader)
+
+		beanFactory.registerSingleton(store.toString(), store)
+		beanFactory.registerSingleton("snapLoader-${UUID.randomUUID()}", snapLoader)
 
 		aggregate(snapLoader, store)
 	}

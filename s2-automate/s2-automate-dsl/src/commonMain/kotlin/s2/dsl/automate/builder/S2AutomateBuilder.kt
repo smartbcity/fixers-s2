@@ -26,13 +26,16 @@ class S2AutomateBuilder {
 	inline fun <reified CMD: Cmd> transaction(exec: S2TransitionBuilder.() -> Unit) {
 		val builder = S2TransitionBuilder()
 		builder.exec()
-		S2Transition(
-			from = builder.from,
-			to = builder.to,
-			role = builder.role,
-			cmd = CMD::class,
-			evt = builder.evt,
-		).let(transactions::add)
+		builder.from?.let(builder.froms::add)
+		builder.froms.map { from ->
+			S2Transition(
+				from = from,
+				to = builder.to,
+				role = builder.role,
+				cmd = CMD::class,
+				evt = builder.evt,
+			).let(transactions::add)
+		}
 	}
 
 	inline fun <reified CMD: Cmd> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {

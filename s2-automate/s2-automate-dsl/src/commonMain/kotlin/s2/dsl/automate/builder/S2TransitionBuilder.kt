@@ -7,6 +7,7 @@ import s2.dsl.automate.Evt
 
 class S2TransitionBuilder {
     var from: S2State? = null
+    var froms = mutableListOf<S2State>()
 	lateinit var to: S2State
 	lateinit var role: S2Role
 	var evt: KClass<out Evt>? = null
