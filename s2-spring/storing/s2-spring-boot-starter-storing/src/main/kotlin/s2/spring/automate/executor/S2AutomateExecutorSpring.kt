@@ -41,8 +41,7 @@ ENTITY : WithS2Id<ID> {
 		command: S2InitCommand,
 		build: suspend () -> Pair<ENTITY, EVENT_OUT>,
 	): EVENT_OUT {
-		val (entity, domainEvent) = build()
-		automateExecutor.create(command, build)
+		val (_, domainEvent) = automateExecutor.create(command, build)
 		publisher.publish(domainEvent)
 		return domainEvent
 	}
