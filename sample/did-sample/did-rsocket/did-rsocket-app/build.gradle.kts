@@ -15,8 +15,6 @@ dependencies {
 
 	implementation("city.smartb.f2:f2-spring-boot-starter-function-rsocket:${Versions.f2}")
 
-	api("city.smartb.f2:f2-spring-data-mongodb-test:${Versions.f2}")
-
 	api("city.smartb.f2:f2-client-ktor:${Versions.f2}")
 	api("city.smartb.f2:f2-client-ktor-rsocket:${Versions.f2}")
 

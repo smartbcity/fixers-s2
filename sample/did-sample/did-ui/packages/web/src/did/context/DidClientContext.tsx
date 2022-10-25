@@ -1,8 +1,8 @@
 import React from "react";
-import {DidAggregateJsClient} from "fixers-did-domain";
+import {DIDFunctionClient} from "s2-did-domain";
 
 export type DidClientContextType = {
-    client?: DidAggregateJsClient;
+    client?: DIDFunctionClient;
     initialized: Boolean;
 };
 

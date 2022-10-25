@@ -5,9 +5,7 @@ plugins {
 }
 
 dependencies {
-	api(project(":s2-sourcing:s2-sourcing-automate"))
-	//TODO REMOVE dependency to :s2-spring:automate:s2-spring-boot-starter-automate
-	api(project(":s2-spring:automate:s2-spring-boot-starter-automate"))
+	api(project(":s2-spring:storing:s2-spring-boot-starter-storing"))
 
 	Dependencies.Spring.autoConfigure(::implementation, ::kapt)
 }

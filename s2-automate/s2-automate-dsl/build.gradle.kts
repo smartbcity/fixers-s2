@@ -1,4 +1,3 @@
-import city.smartb.gradle.dependencies.FixersVersions
 
 plugins {
 	id("city.smartb.fixers.gradle.kotlin.mpp")
@@ -8,6 +7,6 @@ plugins {
 }
 
 dependencies {
-    jsApi("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${FixersVersions.Kotlin.coroutines}")
+    jsApi("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.coroutines}")
     commonMainApi("city.smartb.ssm:ssm-chaincode-dsl:${Versions.ssm}")
 }

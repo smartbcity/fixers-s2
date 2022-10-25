@@ -1,17 +1,15 @@
 package s2.dsl.automate.builder
 
-import f2.dsl.cqrs.Message
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2InitCommand
-import s2.dsl.automate.S2SubMachine
 import s2.dsl.automate.S2Transition
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import s2.dsl.automate.Cmd
 
 class S2AutomateBuilder {
 	lateinit var name: String
 	val transactions = mutableListOf<S2Transition>()
-	val subMachines = mutableListOf<S2SubMachine>()
 
 	inline fun <reified CMD: S2InitCommand> init(exec: S2InitTransitionBuilder.() -> Unit) {
 		val builder = S2InitTransitionBuilder()
@@ -19,23 +17,28 @@ class S2AutomateBuilder {
 		S2Transition(
 			to = builder.to,
 			role = builder.role,
-			msg = CMD::class,
-			from = null
+			cmd = CMD::class,
+			from = null,
+			evt = builder.evt
 		).let(transactions::add)
 	}
 
-	inline fun <reified CMD: Message> transaction(exec: S2TransitionBuilder.() -> Unit) {
+	inline fun <reified CMD: Cmd> transaction(exec: S2TransitionBuilder.() -> Unit) {
 		val builder = S2TransitionBuilder()
 		builder.exec()
-		S2Transition(
-			from = builder.from,
-			to = builder.to,
-			role = builder.role,
-			msg = CMD::class,
-		).let(transactions::add)
+		builder.from?.let(builder.froms::add)
+		builder.froms.map { from ->
+			S2Transition(
+				from = from,
+				to = builder.to,
+				role = builder.role,
+				cmd = CMD::class,
+				evt = builder.evt,
+			).let(transactions::add)
+		}
 	}
 
-	inline fun <reified CMD: Message> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
+	inline fun <reified CMD: Cmd> selfTransaction(exec: S2SelfTransitionBuilder.() -> Unit) {
 		val builder = S2SelfTransitionBuilder()
 		builder.exec()
 		builder.states.map { state ->
@@ -43,7 +46,8 @@ class S2AutomateBuilder {
 				from = state,
 				to = state,
 				role = builder.role,
-				msg = CMD::class,
+				cmd = CMD::class,
+				evt = builder.evt
 			)
 		}.forEach(transactions::add)
 	}
@@ -52,19 +56,6 @@ class S2AutomateBuilder {
 		val builder = S2NodeBuilder()
 		builder.exec()
 		transactions.addAll(builder.transactions)
-	}
-
-	fun submachine(exec: S2SubMachineBuilder.() -> Unit) {
-		val builder = S2SubMachineBuilder()
-		builder.exec()
-		S2SubMachine(
-			automate = builder.automate,
-			startsOn = builder.startsOn,
-			endsOn = builder.endsOn,
-			autostart = builder.autostart,
-			blocking = builder.blocking,
-			singleton = builder.singleton
-		).let(subMachines::add)
 	}
 }
 
@@ -75,7 +66,6 @@ fun s2(exec: S2AutomateBuilder.() -> Unit): S2Automate {
 	builder.exec()
 	return S2Automate(
 		name = builder.name,
-		transitions = builder.transactions.toTypedArray(),
-		subMachines = builder.subMachines.toTypedArray()
+		transitions = builder.transactions.toTypedArray()
 	)
 }

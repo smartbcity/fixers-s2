@@ -49,4 +49,12 @@ interface InfiniteLoopCommand : S2Command<InfiniteLoopId>
 interface InfiniteLoopEvent : S2Event<InfiniteLoopState, InfiniteLoopId>
 
 class InfiniteCreateCommand : InfiniteLoopInitCommand
+class InfiniteCreatedEvent(
+	override val id: InfiniteLoopId,
+	override val type: InfiniteLoopState
+) : InfiniteLoopEvent
 class InfiniteStepCommand(override val id: InfiniteLoopId) : InfiniteLoopCommand
+class InfiniteStepEvent(
+	override val id: InfiniteLoopId,
+	override val type: InfiniteLoopState
+) : InfiniteLoopEvent

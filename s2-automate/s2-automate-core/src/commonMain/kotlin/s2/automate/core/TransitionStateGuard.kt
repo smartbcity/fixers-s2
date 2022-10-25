@@ -9,7 +9,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-class TransitionStateGuard<STATE, ID, ENTITY, AUTOMATE> : GuardAdapter<STATE, ID, ENTITY, AUTOMATE>() where
+class TransitionStateGuard<STATE, ID, ENTITY, EVENT, AUTOMATE> : GuardAdapter<STATE, ID, ENTITY, EVENT, AUTOMATE>() where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
 ENTITY : WithS2Id<ID>,
@@ -17,13 +17,13 @@ AUTOMATE : Automate {
 
 	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>): GuardResult {
 		val state = context.entity.s2State()
-		val msg = context.msg
-		val isValid = context.automateContext.automate.isAvailableTransition(state, msg)
-		return if (isValid) {
+		val cmd = context.command
+		val isCmdValid = context.automateContext.automate.isAvailableTransition(state, cmd)
+		return if (isCmdValid) {
 			GuardResult.valid()
 		} else {
 			GuardResult.error(
-				ERROR_INVALID_TRANSITION(state.toString(), msg.toString())
+				ERROR_INVALID_TRANSITION(state.toString(), "$cmd")
 			)
 		}
 	}

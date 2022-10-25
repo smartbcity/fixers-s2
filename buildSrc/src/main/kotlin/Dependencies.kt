@@ -21,6 +21,8 @@ object Versions {
 
 	val ssm = FixersPluginVersions.fixers
 	val f2 = FixersPluginVersions.fixers
+	val coroutines = FixersVersions.Kotlin.coroutines
+	val slf4j = FixersVersions.Logging.slf4j
 }
 
 object Dependencies {
@@ -50,7 +52,11 @@ object Dependencies {
 		"io.lettuce:lettuce-core:6.1.6.RELEASE"
 	)
 
-	fun testcontainersMongo(scope: Scope) = scope.add(
+	fun dataMongo(scope: Scope) = scope.add(
+		"org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Versions.springBoot}"
+	)
+
+	fun testcontainers(scope: Scope) = scope.add(
 		"org.testcontainers:junit-jupiter:${Versions.testcontainers}",
 		"org.testcontainers:mongodb:${Versions.testcontainers}",
 	)

@@ -54,9 +54,6 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	@Autowired
 	lateinit var dataSsmSessionLogFunction: DataSsmSessionLogListQueryFunction
 
-
-//	@OptIn(InternalSerializationApi::class)
-//	@Bean
 	override fun eventStore(): EventRepository<EVENT, ID> = runBlocking {
 		val automate = automate()
 		EventPersisterSsm(automate, entityType()).also { ee ->
@@ -71,7 +68,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 			ssmTxInitFunction.invoke(
 				SsmInitCommand(
 					signerName = signerAgent().name,
-					ssm = automate.toSsm(),
+					ssm = automate.toSsm(permisive),
 					agent = ee.agentSigner,
 					chaincodeUri = chaincodeUri()
 				)
@@ -83,4 +80,5 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	abstract fun chaincodeUri(): ChaincodeUri
 	abstract fun signerAgent(): Agent
+	open var permisive = false
 }

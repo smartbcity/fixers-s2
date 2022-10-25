@@ -5,6 +5,6 @@ plugins {
 }
 
 dependencies {
+	commonMainApi(project(":s2-automate:s2-automate-dsl"))
 	Dependencies.arrow (::commonMainApi, ::ksp)
-	commonMainApi(project(":s2-sourcing:s2-sourcing-automate"))
 }
