@@ -7,6 +7,7 @@ import kotlin.js.JsName
 @JsName("S2Automate")
 class S2Automate(
 	val name: String,
+	val version: String?,
 	val transitions: Array<S2Transition>,
 ):Automate {
 	override fun getAvailableTransitions(state: S2State): Array<S2Transition> {

@@ -12,6 +12,7 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.sourcing.dsl.Decide
 import s2.sourcing.dsl.Loader
+import s2.sourcing.dsl.event.EventRepository
 
 open class S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> : S2AutomateDecider<ENTITY, STATE, EVENT, ID> where
 STATE : S2State,
@@ -23,23 +24,26 @@ ENTITY : WithS2State<STATE> {
 	private lateinit var automateExecutor: S2AutomateExecutor<STATE, ENTITY, ID, EVENT>
 	private lateinit var publisher: AppEventPublisher
 	private lateinit var projectionLoader: Loader<EVENT, ENTITY, ID>
+	private lateinit var eventStore: EventRepository<EVENT, ID>
 
 	internal fun withContext(
 		automateExecutor: S2AutomateExecutor<STATE, ENTITY, ID, EVENT>,
 		publisher: AppEventPublisher,
-		projectionLoader: Loader<EVENT, ENTITY, ID>
+		projectionLoader: Loader<EVENT, ENTITY, ID>,
+		eventStore: EventRepository<EVENT, ID>
 	) {
 		this.automateExecutor = automateExecutor
 		this.publisher = publisher
 		this.projectionLoader = projectionLoader
+		this.eventStore = eventStore
 	}
 
 	override suspend fun <EVENT_OUT : EVENT> init(command: S2InitCommand, buildEvent: suspend () -> EVENT_OUT): EVENT_OUT {
-		return automateExecutor.create(command, {
+		return automateExecutor.create(command) {
 			val event = buildEvent()
 			val entity = projectionLoader.evolve(flowOf(event))!!
 			entity to event
-		}).second
+		}.second
 			.also(publisher::publish)
 	}
 
@@ -69,6 +73,9 @@ ENTITY : WithS2State<STATE> {
 			}
 		}
 	}
+
+	suspend fun loadAll() = eventStore.loadAll()
+	suspend fun load(id: ID) = eventStore.load(id)
 
 	override suspend fun replayHistory() {
 		projectionLoader.reloadHistory()

@@ -64,7 +64,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 			),
 			publisher = publisher
 		).also {
-			executor.withContext(it, eventPublisher, projectionBuilder)
+			executor.withContext(it, eventPublisher, projectionBuilder, eventStore)
 		}
 	}
 
@@ -97,7 +97,6 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		val snapLoader = snapLoader(viewLoader)
 
 		val beanFactory = (applicationContext as GenericApplicationContext).beanFactory
-
 		beanFactory.registerSingleton(store.toString(), store)
 		beanFactory.registerSingleton("snapLoader-${UUID.randomUUID()}", snapLoader)
 

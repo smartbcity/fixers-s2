@@ -10,6 +10,7 @@ import s2.dsl.automate.Evt
 
 class S2SourcingAutomateBuilder {
 	lateinit var name: String
+	val version: String? = null
 	val transactions = mutableListOf<S2Transition>()
 
 	inline fun <reified CMD: S2InitCommand, reified EVT: Evt> init(exec: S2InitTransitionBuilder.() -> Unit) {
@@ -64,6 +65,7 @@ fun s2Sourcing(exec: S2SourcingAutomateBuilder.() -> Unit): S2Automate {
 	builder.exec()
 	return S2Automate(
 		name = builder.name,
+		version = builder.version,
 		transitions = builder.transactions.toTypedArray(),
 	)
 }

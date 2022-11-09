@@ -48,6 +48,7 @@ EVENT: WithS2Id<ID>
 	internal lateinit var chaincodeUri: ChaincodeUri
 	internal lateinit var agentSigner: Agent
 	internal lateinit var json: Json
+	internal var versioning: Boolean = false
 
 	override suspend fun load(id: ID): Flow<EVENT> {
 		return getSessionLog(id.toString())
@@ -63,7 +64,7 @@ EVENT: WithS2Id<ID>
 	}
 
 	override suspend fun persist(event: EVENT): EVENT {
-		val sessionName = event.s2Id().toString()
+		val sessionName = buildSessionName(event)
 		val iteration = getIteration(sessionName)
 		val action = event::class.simpleName!!
 		if(iteration == null) {
@@ -92,7 +93,7 @@ EVENT: WithS2Id<ID>
 		val ssmStart = SsmSessionStartCommand(
 			session = SsmSession(
 				ssm = s2Automate.name,
-				session = event.s2Id().toString(),
+				session = buildSessionName(event),
 				roles = mapOf(agentSigner.name to s2Automate.transitions.get(0).role::class.simpleName!!),
 				public = json.encodeToString(eventType.serializer(), event),
 				private = mapOf()
@@ -102,6 +103,14 @@ EVENT: WithS2Id<ID>
 		)
 		ssmSessionStartFunction.invoke(ssmStart)
 		return event
+	}
+
+	private fun buildSessionName(event: EVENT): String {
+		return if(versioning) {
+			return "${s2Automate.name}-${event.s2Id().toString()}"
+		} else {
+			event.s2Id().toString()
+		}
 	}
 
 	private suspend fun getIteration(sessionId: SessionName): Int? {

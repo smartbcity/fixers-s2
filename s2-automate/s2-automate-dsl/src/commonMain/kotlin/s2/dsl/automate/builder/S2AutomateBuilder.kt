@@ -9,6 +9,7 @@ import s2.dsl.automate.Cmd
 
 class S2AutomateBuilder {
 	lateinit var name: String
+	var version: String? = null
 	val transactions = mutableListOf<S2Transition>()
 
 	inline fun <reified CMD: S2InitCommand> init(exec: S2InitTransitionBuilder.() -> Unit) {
@@ -66,6 +67,7 @@ fun s2(exec: S2AutomateBuilder.() -> Unit): S2Automate {
 	builder.exec()
 	return S2Automate(
 		name = builder.name,
+		version = builder.version,
 		transitions = builder.transactions.toTypedArray()
 	)
 }

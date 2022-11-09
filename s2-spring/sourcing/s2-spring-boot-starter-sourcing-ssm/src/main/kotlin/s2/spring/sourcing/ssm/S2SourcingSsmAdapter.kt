@@ -65,6 +65,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 			ee.chaincodeUri = chaincodeUri()
 			ee.agentSigner = signerAgent()
 			ee.json = json()
+			ee.versioning = versioning
 			ssmTxInitFunction.invoke(
 				SsmInitCommand(
 					signerName = signerAgent().name,
@@ -81,4 +82,5 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	abstract fun chaincodeUri(): ChaincodeUri
 	abstract fun signerAgent(): Agent
 	open var permisive = false
+	open var versioning = false
 }
