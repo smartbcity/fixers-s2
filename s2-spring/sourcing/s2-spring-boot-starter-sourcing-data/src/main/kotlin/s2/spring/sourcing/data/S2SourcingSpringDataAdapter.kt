@@ -1,7 +1,6 @@
 package s2.spring.sourcing.data
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.core.support.ReactiveRepositoryFactorySupport
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State

@@ -1,10 +1,5 @@
 package s2.spring.sourcing.data.event
 
-import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedBy
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.annotation.Version
 import java.util.Date
 import javax.persistence.Entity
 import javax.persistence.EntityListeners
@@ -12,6 +7,11 @@ import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 import javax.persistence.Temporal
 import javax.persistence.TemporalType
+import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.annotation.Version
 
 @Entity
 @MappedSuperclass

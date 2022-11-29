@@ -1,7 +1,7 @@
 package s2.spring.automate.executor
 
-import s2.automate.core.appevent.publisher.AppEventPublisher
 import s2.automate.core.S2AutomateExecutorImpl
+import s2.automate.core.appevent.publisher.AppEventPublisher
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand

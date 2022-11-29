@@ -2,6 +2,7 @@ package s2.spring.sourcing.ssm
 
 import f2.dsl.fnc.invoke
 import f2.dsl.fnc.invokeWith
+import kotlin.reflect.KClass
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.serialization.InternalSerializationApi
@@ -29,7 +30,6 @@ import ssm.tx.dsl.features.ssm.SsmSessionPerformActionCommand
 import ssm.tx.dsl.features.ssm.SsmSessionStartCommand
 import ssm.tx.dsl.features.ssm.SsmTxSessionPerformActionFunction
 import ssm.tx.dsl.features.ssm.SsmTxSessionStartFunction
-import kotlin.reflect.KClass
 
 class EventPersisterSsm<EVENT, ID>(
 	private val s2Automate: S2Automate,

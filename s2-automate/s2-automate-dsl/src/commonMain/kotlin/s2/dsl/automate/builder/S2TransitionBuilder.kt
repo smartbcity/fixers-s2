@@ -1,9 +1,9 @@
 package s2.dsl.automate.builder
 
-import s2.dsl.automate.S2Role
-import s2.dsl.automate.S2State
 import kotlin.reflect.KClass
 import s2.dsl.automate.Evt
+import s2.dsl.automate.S2Role
+import s2.dsl.automate.S2State
 
 class S2TransitionBuilder {
     var from: S2State? = null

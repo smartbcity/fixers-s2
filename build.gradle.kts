@@ -29,16 +29,6 @@ allprojects {
 
 
 subprojects {
-	plugins.withType(city.smartb.fixers.gradle.config.ConfigPlugin::class.java).whenPluginAdded {
-		fixers {
-			bundle {
-				id = "s2"
-				name = "S2"
-				description = "Wrapper around SSM"
-				url = "https://gitlab.smartb.city/fixers/s2"
-			}
-		}
-	}
 	plugins.withType(dev.petuska.npm.publish.NpmPublishPlugin::class.java).whenPluginAdded {
 		the<dev.petuska.npm.publish.extension.NpmPublishExtension>().apply {
 			organization.set("smartb")
@@ -67,5 +57,11 @@ tasks {
 fixers {
 	d2 {
 		outputDirectory = file("storybook/d2/")
+	}
+	bundle {
+		id = "s2"
+		name = "S2"
+		description = "Wrapper around SSM"
+		url = "https://gitlab.smartb.city/fixers/s2"
 	}
 }

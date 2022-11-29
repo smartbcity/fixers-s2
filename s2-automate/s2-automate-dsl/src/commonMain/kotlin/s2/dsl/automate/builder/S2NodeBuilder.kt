@@ -1,7 +1,6 @@
 package s2.dsl.automate.builder
 
 import s2.dsl.automate.Cmd
-import s2.dsl.automate.Msg
 import s2.dsl.automate.S2State
 import s2.dsl.automate.S2Transition
 

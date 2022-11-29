@@ -1,6 +1,5 @@
 package s2.automate.core.context
 
-import s2.dsl.automate.Msg
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id

@@ -1,10 +1,10 @@
 package s2.automate.core
 
+import kotlin.js.JsName
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2State
-import kotlin.js.JsName
 
 @JsName("AutomateSourcingExecutor")
 interface S2AutomateExecutor<STATE, ENTITY, ID, EVENT> where

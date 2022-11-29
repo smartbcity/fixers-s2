@@ -1,12 +1,12 @@
 package s2.dsl.automate.builder
 
-import s2.dsl.automate.S2Automate
-import s2.dsl.automate.S2InitCommand
-import s2.dsl.automate.S2Transition
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import s2.dsl.automate.Cmd
 import s2.dsl.automate.Evt
+import s2.dsl.automate.S2Automate
+import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.S2Transition
 
 class S2SourcingAutomateBuilder {
 	lateinit var name: String
