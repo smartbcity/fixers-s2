@@ -2,13 +2,13 @@ package s2.sample.orderbook.sourcing.app.mongodb
 
 import com.redis.lettucemod.api.StatefulRedisModulesConnection
 import com.redis.lettucemod.search.Field
+import jakarta.annotation.PostConstruct
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Component
 import s2.sample.orderbook.sourcing.app.mongodb.redis.RedisIndexField
 import s2.sample.orderbook.sourcing.app.mongodb.redis.RedisSnapView
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sourcing.dsl.snap.SnapRepository
-import jakarta.annotation.PostConstruct
 
 @Component
 class OrderBookSnapView(

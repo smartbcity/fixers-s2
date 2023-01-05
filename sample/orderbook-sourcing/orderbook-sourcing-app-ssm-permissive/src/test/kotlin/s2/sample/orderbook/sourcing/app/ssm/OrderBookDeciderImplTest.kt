@@ -1,6 +1,7 @@
 package s2.sample.orderbook.sourcing.app.ssm
 
 import f2.dsl.fnc.invoke
+import java.util.UUID
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
@@ -27,7 +28,6 @@ import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
 import s2.sourcing.dsl.Loader
 import s2.sourcing.dsl.event.EventRepository
 import s2.spring.sourcing.ssm.PolymorphicEnumSerializer
-import java.util.UUID
 
 internal class OrderBookDeciderImplTest: SpringTestBase() {
 

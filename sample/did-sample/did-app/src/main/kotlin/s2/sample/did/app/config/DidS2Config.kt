@@ -1,6 +1,5 @@
 package s2.sample.did.app.config
 
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.dsl.automate.S2Automate

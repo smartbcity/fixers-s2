@@ -1,18 +1,18 @@
 package s2.sample.multiautomate
 
 import f2.dsl.fnc.f2Function
+import java.util.UUID
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.endable.EndableCreateCommand
+import s2.sample.multiautomate.endable.EndableCreatedEvent
 import s2.sample.multiautomate.endable.EndableEndCommand
+import s2.sample.multiautomate.endable.EndableEndedEvent
 import s2.sample.multiautomate.endable.EndableLoopS2Aggregate
 import s2.sample.multiautomate.endable.EndableLoopState
 import s2.sample.multiautomate.endable.EndableStepCommand
-import s2.sample.multiautomate.endable.entity.EndableLoopEntity
-import java.util.UUID
-import s2.sample.multiautomate.endable.EndableCreatedEvent
-import s2.sample.multiautomate.endable.EndableEndedEvent
 import s2.sample.multiautomate.endable.EndableStepEvent
+import s2.sample.multiautomate.endable.entity.EndableLoopEntity
 
 @Service
 class EndableLoopService(

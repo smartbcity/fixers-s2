@@ -1,17 +1,17 @@
 package s2.sample.multiautomate
 
 import f2.dsl.fnc.f2Function
+import java.util.UUID
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import s2.sample.multiautomate.endable.EndableLoopState
-import s2.sample.multiautomate.infiniteloop.InfiniteLoopS2Aggregate
-import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopEntity
-import java.util.UUID
 import s2.sample.multiautomate.infiniteloop.InfiniteCreateCommand
 import s2.sample.multiautomate.infiniteloop.InfiniteCreatedEvent
+import s2.sample.multiautomate.infiniteloop.InfiniteLoopS2Aggregate
 import s2.sample.multiautomate.infiniteloop.InfiniteLoopState
 import s2.sample.multiautomate.infiniteloop.InfiniteStepCommand
 import s2.sample.multiautomate.infiniteloop.InfiniteStepEvent
+import s2.sample.multiautomate.infiniteloop.entity.InfiniteLoopEntity
 
 @Service
 class InfiniteLoopService(

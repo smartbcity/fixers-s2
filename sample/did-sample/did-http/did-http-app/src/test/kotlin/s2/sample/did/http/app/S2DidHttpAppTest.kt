@@ -2,7 +2,14 @@ package s2.sample.did.http.app
 
 import f2.client.function
 import f2.client.ktor.http.httpClientBuilder
+import java.util.UUID
+import java.util.function.Function
+import java.util.function.Supplier
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
@@ -12,13 +19,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.function.context.FunctionCatalog
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.util.UUID
-import java.util.function.Function
-import java.util.function.Supplier
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import org.assertj.core.api.Assertions
 import s2.sample.did.domain.features.DidCreateCommand
 import s2.sample.did.domain.features.DidCreatedEvent
 

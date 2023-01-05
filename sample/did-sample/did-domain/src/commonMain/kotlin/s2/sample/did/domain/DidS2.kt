@@ -1,19 +1,19 @@
 package s2.sample.did.domain
 
-import s2.dsl.automate.builder.s2
-import s2.sample.did.domain.features.DidAddPublicKeyCommand
-import s2.sample.did.domain.features.DidCreateCommand
-import s2.sample.did.domain.features.DidRevokeCommand
-import s2.sample.did.domain.features.DidRevokePublicKeyCommand
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2Event
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
+import s2.dsl.automate.builder.s2
+import s2.sample.did.domain.features.DidAddPublicKeyCommand
+import s2.sample.did.domain.features.DidCreateCommand
+import s2.sample.did.domain.features.DidRevokeCommand
+import s2.sample.did.domain.features.DidRevokePublicKeyCommand
 
 typealias DidId = String
 

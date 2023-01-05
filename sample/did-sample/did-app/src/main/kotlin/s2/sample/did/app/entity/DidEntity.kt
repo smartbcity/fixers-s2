@@ -1,9 +1,9 @@
 package s2.sample.did.app.entity
 
-import s2.sample.did.domain.DidId
-import s2.sample.did.domain.DidState
 import java.util.UUID
 import s2.dsl.automate.model.WithS2IdAndStatus
+import s2.sample.did.domain.DidId
+import s2.sample.did.domain.DidState
 
 data class DidEntity(
 	val id: DidId = UUID.randomUUID().toString(),

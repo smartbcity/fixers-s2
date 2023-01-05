@@ -1,5 +1,6 @@
 package s2.sample.orderbook.sourcing.app.mongodb
 
+import java.util.UUID
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import s2.sample.orderbook.sourcing.app.mongodb.config.OrderBookS2Aggregate
@@ -14,7 +15,6 @@ import s2.sample.subautomate.domain.orderBook.OrderBookPublishCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookPublishedEvent
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdateCommand
 import s2.sample.subautomate.domain.orderBook.OrderBookUpdatedEvent
-import java.util.UUID
 
 @Service
 class OrderBookDeciderImpl(

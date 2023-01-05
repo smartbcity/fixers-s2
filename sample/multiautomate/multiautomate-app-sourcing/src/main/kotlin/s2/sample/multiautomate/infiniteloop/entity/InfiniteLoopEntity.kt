@@ -1,10 +1,10 @@
 package s2.sample.multiautomate.infiniteloop.entity
 
+import java.util.UUID
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import s2.sample.multiautomate.infiniteloop.InfiniteLoopId
 import s2.sample.multiautomate.infiniteloop.InfiniteLoopState
-import java.util.UUID
 import s2.spring.utils.data.S2Entity
 
 @Document

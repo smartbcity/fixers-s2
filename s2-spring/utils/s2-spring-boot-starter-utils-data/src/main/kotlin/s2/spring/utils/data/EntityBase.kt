@@ -1,10 +1,10 @@
 package s2.spring.utils.data
 
-import java.util.Date
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.MappedSuperclass
 import jakarta.persistence.Temporal
 import jakarta.persistence.TemporalType
+import java.util.Date
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
