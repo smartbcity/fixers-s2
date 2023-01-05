@@ -1,4 +1,4 @@
-package s2.spring.sourcing.data.entity
+package s2.spring.utils.data
 
 import java.util.Date
 import jakarta.persistence.EntityListeners
