@@ -48,8 +48,8 @@ object Dependencies {
 
 	fun springRedis(scope: Scope) = scope.add(
 		"org.springframework.boot:spring-boot-starter-data-redis-reactive:${Versions.springBoot}",
-		"com.redis:spring-lettucemod:2.15.5",
-		"io.lettuce:lettuce-core:6.1.6.RELEASE"
+		"com.redis:spring-lettucemod:3.2.0",
+		"io.lettuce:lettuce-core:6.2.2.RELEASE"
 	)
 
 	fun dataMongo(scope: Scope) = scope.add(

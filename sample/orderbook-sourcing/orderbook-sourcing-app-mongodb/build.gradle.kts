@@ -8,8 +8,7 @@ plugins {
 dependencies {
 	api(project(":sample:orderbook-sourcing:orderbook-sourcing-domain"))
 
-	api(project(":s2-spring:sourcing:s2-spring-boot-starter-sourcing-data"))
-	implementation("city.smartb.f2:f2-spring-data-mongodb:${Versions.f2}")
+	api(project(":s2-spring:sourcing:s2-spring-boot-starter-sourcing-data-mongodb"))
 
 	Dependencies.f2Http (::implementation)
 	Dependencies.kserializationJson (::implementation)

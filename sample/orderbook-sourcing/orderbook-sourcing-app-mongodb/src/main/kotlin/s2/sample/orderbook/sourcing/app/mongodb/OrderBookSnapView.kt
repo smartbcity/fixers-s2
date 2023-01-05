@@ -8,7 +8,7 @@ import s2.sample.orderbook.sourcing.app.mongodb.redis.RedisIndexField
 import s2.sample.orderbook.sourcing.app.mongodb.redis.RedisSnapView
 import s2.sample.subautomate.domain.model.OrderBook
 import s2.sourcing.dsl.snap.SnapRepository
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 
 @Component
 class OrderBookSnapView(
@@ -33,7 +33,7 @@ class OrderBookSnapView(
     }
 
     override suspend fun remove(id: String): Boolean {
-        return redisSnapView.remove<OrderBook>(id)
+        return redisSnapView.delete<OrderBook>(id)
     }
 }
 

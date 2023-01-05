@@ -1,5 +1,6 @@
 package s2.sample.did.http.app
 
+import f2.client.function
 import f2.client.ktor.http.httpClientBuilder
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
@@ -7,30 +8,36 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.cloud.function.context.FunctionCatalog
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.UUID
 import java.util.function.Function
 import java.util.function.Supplier
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import org.assertj.core.api.Assertions
+import s2.sample.did.domain.features.DidCreateCommand
+import s2.sample.did.domain.features.DidCreatedEvent
 
 @TestInstance(PER_CLASS)
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class S2DidHttpAppTest {
 
-	@LocalServerPort
+	@Value("\${local.server.port}")
 	protected var port: Int = 8080
 
 	@Test
 	fun testBasicAggregateFnc() = runBlocking<Unit> {
 		val id = UUID.randomUUID().toString()
 		val client = httpClientBuilder().build("http://localhost:${port}")
-//		val result: List<DidCreatedEvent> = client.function("createDid").invoke(DidCreateCommand(
-//			id = id
-//		))
-//		assertThat(result.first().id).isEqualTo(id)
+		val result: Flow<DidCreatedEvent> = client.function<DidCreateCommand, DidCreatedEvent>("createDid").invoke(flowOf( DidCreateCommand(
+			id = id
+		)))
+		Assertions.assertThat(result.first().id).isEqualTo(id)
 	}
 
 

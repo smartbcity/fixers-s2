@@ -18,10 +18,7 @@ expect fun didClient(protocol: Protocol, host: String, port: Int, path: String? 
 @JsExport
 open class DIDFunctionClient constructor(private val client: F2Client) : DidAggregate {
 	override fun createDid(): DidCreateCommandFunction = client.function("createDid")
-
 	override fun addPublicKey(): DidAddPublicKeyCommandFunction = client.function("addPublicKey")
-
 	override fun revokePublicKey(): DidRevokeCommandFunction = client.function("revokePublicKey")
-
 	override fun revoke(): DidRevokePublicKeyCommandFunction = client.function("revoke")
 }

@@ -1,13 +1,10 @@
 plugins {
-	id("io.spring.dependency-management")
 	id("city.smartb.fixers.gradle.kotlin.jvm")
-
-	kotlin("plugin.spring")
+	id("city.smartb.fixers.gradle.publish")
+	kotlin("kapt")
 }
 
 dependencies {
 	api(project(":s2-spring:sourcing:s2-spring-boot-starter-sourcing-data"))
-
-	Dependencies.f2Http(::implementation)
 	Dependencies.dataMongo(::api)
 }

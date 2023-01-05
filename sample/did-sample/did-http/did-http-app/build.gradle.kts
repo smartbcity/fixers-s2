@@ -11,11 +11,9 @@ springBoot {
 
 dependencies {
 	implementation(project(":sample:did-sample:did-app"))
+	//TODO THis should not be needed
+	implementation ("com.google.code.gson:gson:2.8.9")
 
-	implementation("city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}")
-
-	// TODO Fix dependencies conflict with spring cloud function
-	api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${Versions.coroutines}")
-
+	Dependencies.f2Http(::implementation)
 	Dependencies.springTest(::testImplementation)
 }

@@ -27,10 +27,12 @@ include(
 include(
 	"s2-spring:sourcing:s2-spring-boot-starter-sourcing",
 	"s2-spring:sourcing:s2-spring-boot-starter-sourcing-data",
+	"s2-spring:sourcing:s2-spring-boot-starter-sourcing-data-mongodb",
 	"s2-spring:sourcing:s2-spring-boot-starter-sourcing-ssm",
 )
 
 include(
+	"s2-spring:utils:s2-spring-boot-starter-utils-data",
 	"s2-spring:utils:s2-spring-boot-starter-utils-logger"
 )
 

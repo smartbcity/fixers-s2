@@ -3,4 +3,8 @@ spring:
     mongodb:
       uri: mongodb://admin:admin@localhost/admin
       auto-index-creation: true
+    redis:
+      password: redis-stack
+      client-type: lettuce
 
+debug: true
