@@ -6,6 +6,6 @@ plugins {
 }
 
 dependencies {
-    jsApi("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.coroutines}")
+//    jsApi("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.coroutines}")
 	commonMainApi(project(":s2-automate:s2-automate-dsl"))
 }
