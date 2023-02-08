@@ -13,8 +13,8 @@ WORKDIR /app/storybook
 
 RUN yarn install
 ENV PATH /app/storybook/node_modules/.bin:$PATH
-RUN yarn build-storybook
-RUN npx sb extract
+RUN export SET NODE_OPTIONS=--openssl-legacy-provider && yarn build-storybook
+RUN export SET NODE_OPTIONS=--openssl-legacy-provider && npx sb extract
 
 FROM nginx:1.17.0-alpine
 
