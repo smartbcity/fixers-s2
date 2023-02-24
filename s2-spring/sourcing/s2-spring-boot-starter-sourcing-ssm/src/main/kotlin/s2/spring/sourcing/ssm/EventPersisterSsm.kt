@@ -94,7 +94,7 @@ EVENT: WithS2Id<ID>
 			session = SsmSession(
 				ssm = s2Automate.name,
 				session = buildSessionName(event),
-				roles = mapOf(agentSigner.name to s2Automate.transitions.get(0).role::class.simpleName!!),
+				roles = mapOf(agentSigner.name to s2Automate.transitions[0].role.name),
 				public = json.encodeToString(eventType.serializer(), event),
 				private = mapOf()
 			),

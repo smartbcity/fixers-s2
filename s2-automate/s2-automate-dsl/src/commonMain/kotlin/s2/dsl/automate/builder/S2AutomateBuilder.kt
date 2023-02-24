@@ -6,6 +6,7 @@ import s2.dsl.automate.Cmd
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Transition
+import s2.dsl.automate.toValue
 
 class S2AutomateBuilder {
 	lateinit var name: String
@@ -16,11 +17,11 @@ class S2AutomateBuilder {
 		val builder = S2InitTransitionBuilder()
 		builder.exec()
 		S2Transition(
-			to = builder.to,
-			role = builder.role,
-			cmd = CMD::class,
+			to = builder.to.toValue(),
+			role = builder.role.toValue(),
+			action = CMD::class.toValue(),
 			from = null,
-			evt = builder.evt
+			result = builder.evt?.toValue()
 		).let(transactions::add)
 	}
 
@@ -30,11 +31,11 @@ class S2AutomateBuilder {
 		builder.from?.let(builder.froms::add)
 		builder.froms.map { from ->
 			S2Transition(
-				from = from,
-				to = builder.to,
-				role = builder.role,
-				cmd = CMD::class,
-				evt = builder.evt,
+				from = from.toValue(),
+				to = builder.to.toValue(),
+				role = builder.role.toValue(),
+				action = CMD::class.toValue(),
+				result = builder.evt?.toValue(),
 			).let(transactions::add)
 		}
 	}
@@ -44,11 +45,11 @@ class S2AutomateBuilder {
 		builder.exec()
 		builder.states.map { state ->
 			S2Transition(
-				from = state,
-				to = state,
-				role = builder.role,
-				cmd = CMD::class,
-				evt = builder.evt
+				from = state.toValue(),
+				to = state.toValue(),
+				role = builder.role.toValue(),
+				action = CMD::class.toValue(),
+				result = builder.evt?.toValue()
 			)
 		}.forEach(transactions::add)
 	}

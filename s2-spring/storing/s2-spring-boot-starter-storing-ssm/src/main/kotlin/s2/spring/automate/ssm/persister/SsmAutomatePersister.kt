@@ -83,7 +83,7 @@ ENTITY : WithS2Id<ID> {
 			session = SsmSession(
 				ssm = automate.name,
 				session = entity.s2Id().toString(),
-				roles = mapOf(agentSigner.name to automate.transitions.get(0).role::class.simpleName!!),
+				roles = mapOf(agentSigner.name to automate.transitions[0].role.name!!),
 				public = objectMapper.writeValueAsString(entity),
 				private = mapOf()
 			),

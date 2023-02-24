@@ -18,5 +18,5 @@ fun S2Automate.isAvailableTransition(state: WithS2State<out S2State>?, type: Str
 }
 
 fun S2Automate.isAvailableTransition(currentState: S2State, type: String): Boolean {
-    return getAvailableTransitions(currentState).any { it.evt?.simpleName == type || it.cmd.simpleName == type }
+    return getAvailableTransitions(currentState).any { it.result?.name == type || it.action.name == type }
 }

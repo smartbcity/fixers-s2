@@ -14,14 +14,10 @@ kotlin {
 				api("city.smartb.f2:f2-client-ktor:${Versions.f2}")
 			}
 		}
-		jsMain {
-			dependencies {
-			}
-		}
-		jvmMain {
-			dependencies {
 
-			}
-		}
 	}
+}
+
+tasks.withType<Test>().configureEach {
+	useJUnitPlatform()
 }

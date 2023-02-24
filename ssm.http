@@ -1,0 +1,15 @@
+GET http://localhost:9090/?args=session&cmd=query&fcn=list
+
+###
+GET http://localhost:9090/?args=ssm&cmd=query&fcn=list
+
+
+###
+GET http://localhost:9090/?args=S2OrderBook&cmd=query&fcn=ssm
+
+
+###
+GET http://localhost:9090/?args=session&cmd=query&fcn=list
+
+###
+GET http://localhost:9090/?args=9dc2ba38-9106-4309-9412-542255af5978&cmd=query&fcn=session
