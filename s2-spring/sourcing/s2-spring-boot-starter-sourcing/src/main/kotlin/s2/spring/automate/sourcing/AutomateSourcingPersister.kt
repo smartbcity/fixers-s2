@@ -14,10 +14,12 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import s2.sourcing.dsl.Loader
 import s2.sourcing.dsl.event.EventRepository
+import s2.sourcing.dsl.snap.SnapRepository
 
-class AutomateStoringPersister<STATE, ID, ENTITY, EVENT>(
+class AutomateSourcingPersister<STATE, ID, ENTITY, EVENT>(
     private val projectionLoader: Loader<EVENT, ENTITY, ID>,
-    private val eventStore: EventRepository<EVENT, ID>
+    private val eventStore: EventRepository<EVENT, ID>,
+    private val snapRepository: SnapRepository<ENTITY, ID>?
 ) : AutomatePersister<STATE, ID, ENTITY, EVENT, S2Automate> where
 STATE : S2State,
 ENTITY : WithS2State<STATE>,
@@ -41,6 +43,7 @@ EVENT: WithS2Id<ID> {
     private suspend fun persist(id: ID, event: EVENT): ENTITY {
         val entityMutated = projectionLoader.loadAndEvolve(id, flowOf(event))
             ?: throw ERROR_ENTITY_NOT_FOUND(event.s2Id().toString()).asException()
+        snapRepository?.save(entityMutated)
         eventStore.persist(event)
         return entityMutated
     }

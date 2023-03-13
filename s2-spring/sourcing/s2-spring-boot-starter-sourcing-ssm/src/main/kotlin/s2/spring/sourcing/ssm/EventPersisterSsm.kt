@@ -87,7 +87,6 @@ EVENT: WithS2Id<ID>
 		return event
 	}
 
-
 	suspend fun init(event: EVENT): EVENT {
 		@OptIn(InternalSerializationApi::class)
 		val ssmStart = SsmSessionStartCommand(

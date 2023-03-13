@@ -58,9 +58,10 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 		return S2AutomateExecutorImpl(
 			automateContext = automateContext,
 			guardExecutor = guardExecutor,
-			persister = AutomateStoringPersister(
+			persister = AutomateSourcingPersister(
 				projectionLoader = projectionBuilder,
 				eventStore = eventStore,
+				snapRepository = snapRepository,
 			),
 			publisher = publisher
 		).also {

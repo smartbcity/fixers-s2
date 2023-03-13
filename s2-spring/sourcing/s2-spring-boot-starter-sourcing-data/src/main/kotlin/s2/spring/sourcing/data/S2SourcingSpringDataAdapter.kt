@@ -24,6 +24,7 @@ ENTITY: WithS2Id<ID>,
 EVENT: Evt,
 EVENT: WithS2Id<ID>,
 EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
+
 	@Autowired
 	lateinit var repositoryFactorySupport: ReactiveRepositoryFactorySupport
 

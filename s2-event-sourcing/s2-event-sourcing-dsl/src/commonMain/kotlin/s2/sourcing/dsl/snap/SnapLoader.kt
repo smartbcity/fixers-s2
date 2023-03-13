@@ -21,8 +21,6 @@ ENTITY: WithS2Id<ID> {
 	override suspend fun loadAndEvolve(id: ID, news: Flow<EVENT>): ENTITY? {
 		return load(id).let { entity ->
 			viewLoader.evolve(news, entity)
-		}?.let { entity ->
-			snapRepository.save(entity)
 		}
 	}
 
@@ -31,9 +29,7 @@ ENTITY: WithS2Id<ID> {
 	}
 
 	override suspend fun evolve(events: Flow<EVENT>, entity: ENTITY?): ENTITY? {
-		return viewLoader.evolve(events, entity)?.let { updated ->
-			snapRepository.save(updated)
-		}
+		return viewLoader.evolve(events, entity)
 	}
 
 	override suspend fun reloadHistory(): List<ENTITY> {
