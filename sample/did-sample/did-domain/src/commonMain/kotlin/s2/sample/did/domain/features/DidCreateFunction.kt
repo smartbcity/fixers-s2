@@ -15,14 +15,14 @@ typealias DidCreateCommandFunction = F2Function<DidCreateCommand, DidCreatedEven
 @Serializable
 @JsExport
 @JsName("DidCreateCommand")
-open class DidCreateCommand(
+data class DidCreateCommand(
 	val id: DidId,
 ) : DidInitCommand
 
 @Serializable
 @JsExport
 @JsName("DidCreatedEvent")
-class DidCreatedEvent(
+data class DidCreatedEvent(
 	override val id: String,
 	override val type: DidState,
 ) : DidEvent

@@ -19,7 +19,7 @@ class DidS2Config(
 	private val didS2Aggregate: DidS2Aggregate
 ) : S2SsmConfigurerAdapter<DidState, String, DidEntity, DidS2Aggregate>() {
 
-	override fun automate(): S2Automate = didS2()
+	override fun automate(): S2Automate = didS2
 	override fun entityType(): Class<DidEntity> = DidEntity::class.java
 
 	override fun executor(): DidS2Aggregate = didS2Aggregate
@@ -32,7 +32,7 @@ class DidS2Config(
 	}
 
 	override fun signerAgent(): Agent {
-		return loadFromFile("ssm-admin","user/ssm-admin")
+		return Agent.loadFromFile("ssm-admin","user/ssm-admin")
 	}
 
 }

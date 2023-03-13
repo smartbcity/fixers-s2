@@ -6,16 +6,11 @@ plugins {
 //	id("dev.petuska.npm.publish")
 }
 
-kotlin {
-	sourceSets {
-		commonMain {
-			dependencies {
-				implementation(project(":s2-automate:s2-automate-dsl"))
-				api("city.smartb.f2:f2-client-ktor:${Versions.f2}")
-			}
-		}
+dependencies {
+	commonMainImplementation(project(":s2-automate:s2-automate-dsl"))
+	commonMainApi("city.smartb.f2:f2-client-ktor:${Versions.f2}")
 
-	}
+	jvmTestImplementation(project(":s2-automate:s2-automate-documenter"))
 }
 
 tasks.withType<Test>().configureEach {

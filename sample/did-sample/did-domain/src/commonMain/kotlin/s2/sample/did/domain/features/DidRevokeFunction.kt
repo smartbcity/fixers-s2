@@ -11,23 +11,17 @@ import s2.sample.did.domain.DidState
 
 typealias DidRevokeCommandFunction = F2Function<DidRevokeCommand, DidRevokedEvent>
 
-@JsExport
-@JsName("DidRevokeCommandPayload")
-interface DidRevokeCommandPayload {
-	val id: DidId
-}
-
 @Serializable
 @JsExport
 @JsName("DidRevokeCommand")
-class DidRevokeCommand(
+data class DidRevokeCommand(
 	override val id: DidId,
-) : DidCommand, DidRevokeCommandPayload
+) : DidCommand
 
 @Serializable
 @JsExport
 @JsName("DidRevokedEvent")
-class DidRevokedEvent(
+data class DidRevokedEvent(
 	override val id: DidId,
 	override val type: DidState,
 ) : DidEvent

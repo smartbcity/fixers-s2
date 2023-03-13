@@ -19,28 +19,26 @@ typealias DidId = String
 
 @JsExport
 @JsName("didS2")
-fun didS2(): S2Automate {
-	return s2 {
-		name = "DidS2"
-		init<DidCreateCommand> {
-			to = DidState.Created()
-			role = DidRole.Admin()
-		}
-		transaction<DidAddPublicKeyCommand> {
-			from = DidState.Created()
-			to = DidState.Actived()
-			role = DidRole.Owner()
-		}
-		transaction<DidRevokeCommand> {
-			from = DidState.Actived()
-			to = DidState.Actived()
-			role = DidRole.Owner()
-		}
-		transaction<DidRevokePublicKeyCommand> {
-			from = DidState.Actived()
-			to = DidState.Revoked()
-			role = DidRole.Owner()
-		}
+val didS2 = s2 {
+	name = "DidS2"
+	init<DidCreateCommand> {
+		to = DidState.Created()
+		role = DidRole.Admin()
+	}
+	transaction<DidAddPublicKeyCommand> {
+		from = DidState.Created()
+		to = DidState.Activated()
+		role = DidRole.Owner()
+	}
+	transaction<DidRevokeCommand> {
+		from = DidState.Activated()
+		to = DidState.Activated()
+		role = DidRole.Owner()
+	}
+	transaction<DidRevokePublicKeyCommand> {
+		from = DidState.Activated()
+		to = DidState.Revoked()
+		role = DidRole.Owner()
 	}
 }
 
@@ -63,17 +61,13 @@ open class DidState(
 	override val position: Int,
 ) : S2State {
 	@Serializable
-	open class Created : DidState(0)
+	class Created : DidState(0)
 
 	@Serializable
-	open class Actived : DidState(1)
+	class Activated : DidState(1)
 
 	@Serializable
-	open class Revoked : DidState(2)
-
-	override fun toString(): String {
-		return this::class.simpleName!!
-	}
+	class Revoked : DidState(2)
 }
 
 @JsExport

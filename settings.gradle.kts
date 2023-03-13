@@ -11,6 +11,7 @@ rootProject.name = "s2"
 
 include(
 	"s2-automate:s2-automate-core",
+	"s2-automate:s2-automate-documenter",
 	"s2-automate:s2-automate-dsl"
 )
 

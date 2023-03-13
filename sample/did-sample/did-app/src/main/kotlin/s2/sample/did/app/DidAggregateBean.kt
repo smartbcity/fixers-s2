@@ -47,7 +47,7 @@ class DidAggregateBean(
 
 	suspend fun addPublicKey(cmd: DidAddPublicKeyCommand): DidAddPublicKeyEvent = didS2Aggregate.doTransition(cmd) {
 		this.publicKeys.add(cmd.publicKey)
-		this.state = DidState.Actived().position
+		this.state = DidState.Activated().position
 		this to DidAddPublicKeyEvent(
 			id = cmd.id,
 			type = DidState(this.state)
