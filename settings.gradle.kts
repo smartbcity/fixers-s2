@@ -18,6 +18,9 @@ include(
 include(
 	"s2-event-sourcing:s2-event-sourcing-dsl",
 )
+include(
+	"s2-test:s2-test-bdd",
+)
 
 include(
 	"s2-spring:storing:s2-spring-boot-starter-storing",

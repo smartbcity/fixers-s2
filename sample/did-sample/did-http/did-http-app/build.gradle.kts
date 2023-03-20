@@ -14,6 +14,6 @@ dependencies {
 	//TODO THis should not be needed
 	implementation ("com.google.code.gson:gson:2.8.9")
 
-	Dependencies.f2Http(::implementation)
+	Dependencies.Fixers.f2Http(::implementation)
 	Dependencies.springTest(::testImplementation)
 }

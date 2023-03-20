@@ -8,6 +8,6 @@ plugins {
 dependencies {
 	api(project(":s2-spring:storing:s2-spring-boot-starter-storing-data"))
 
-	Dependencies.f2Http(::implementation)
-	Dependencies.dataMongo(::api)
+	Dependencies.Fixers.f2Http(::implementation)
+	Dependencies.Spring.mongo(::api)
 }

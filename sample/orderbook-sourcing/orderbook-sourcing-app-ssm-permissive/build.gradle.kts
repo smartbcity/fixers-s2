@@ -14,7 +14,7 @@ dependencies {
 
 	implementation("io.lettuce:lettuce-core:6.1.6.RELEASE")
 
-	Dependencies.f2Http (::implementation)
+	Dependencies.Fixers.f2Http (::implementation)
 	Dependencies.kserializationJson (::implementation)
 	Dependencies.arrow (::implementation, ::ksp)
 

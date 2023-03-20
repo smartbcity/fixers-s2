@@ -10,9 +10,9 @@ dependencies {
 
 	api(project(":s2-spring:sourcing:s2-spring-boot-starter-sourcing-data-mongodb"))
 
-	Dependencies.f2Http (::implementation)
+	Dependencies.Fixers.f2Http (::implementation)
 	Dependencies.kserializationJson (::implementation)
-	Dependencies.springRedis(::api)
+	Dependencies.Spring.redis(::api)
 
 	Dependencies.testcontainers(::testImplementation)
 	Dependencies.springTest(::testImplementation)
