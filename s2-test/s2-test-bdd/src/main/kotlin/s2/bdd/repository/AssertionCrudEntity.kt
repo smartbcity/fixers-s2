@@ -4,15 +4,21 @@ import kotlinx.coroutines.reactor.awaitSingle
 import org.assertj.core.api.Assertions
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 
-abstract class AssertionCrudEntity<Entity, ID: Any, Asserter> {
-    protected abstract val repository: ReactiveCrudRepository<Entity, ID>
+abstract class AssertionCrudEntity<ENTITY, ID: Any, ASSERTER>: AssertionEntity<ENTITY, ID, ASSERTER> {
+    protected abstract val repository: ReactiveCrudRepository<ENTITY, ID>
 
-    suspend fun exists(id: ID) {
+    override suspend fun exists(id: ID) {
         val entity = existsById(id)
         Assertions.assertThat(entity).isTrue
     }
 
-    suspend fun notExists(id: ID) {
+    override suspend fun assertThatId(id: ID): ASSERTER {
+        exists(id)
+        val entity = repository.findById(id).awaitSingle()
+        return assertThat(entity)
+    }
+
+    override suspend fun notExists(id: ID) {
         Assertions.assertThat(existsById(id)).isFalse
     }
 
@@ -20,11 +26,5 @@ abstract class AssertionCrudEntity<Entity, ID: Any, Asserter> {
         return repository.existsById(id).awaitSingle()
     }
 
-    suspend fun assertThatId(id: ID): Asserter {
-        exists(id)
-        val entity = repository.findById(id).awaitSingle()
-        return assertThat(entity)
-    }
-
-    abstract suspend fun assertThat(entity: Entity): Asserter
+    abstract override suspend fun assertThat(entity: ENTITY): ASSERTER
 }
