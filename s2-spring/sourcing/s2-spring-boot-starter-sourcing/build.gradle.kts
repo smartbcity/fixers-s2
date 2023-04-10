@@ -7,5 +7,6 @@ plugins {
 dependencies {
 	api(project(":s2-spring:storing:s2-spring-boot-starter-storing"))
 
+	Dependencies.Spring.tx(::implementation)
 	Dependencies.Spring.autoConfigure(::implementation, ::kapt)
 }

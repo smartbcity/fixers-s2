@@ -62,6 +62,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 				projectionLoader = projectionBuilder,
 				eventStore = eventStore,
 				snapRepository = snapRepository,
+				preventOptimisticLocking= preventOptimisticLocking()
 			),
 			publisher = publisher
 		).also {
@@ -92,6 +93,8 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	abstract fun automate(): S2Automate
 	abstract fun eventStore(): EventRepository<EVENT, ID>
 	abstract fun entityType(): KClass<EVENT>
+	open fun preventOptimisticLocking(): Boolean = false
+
 	override fun afterPropertiesSet() {
 		val store = eventStore()
 		val viewLoader = viewLoader(store)

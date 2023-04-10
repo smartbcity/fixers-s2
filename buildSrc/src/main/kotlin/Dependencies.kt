@@ -17,6 +17,7 @@ object Versions {
 	const val arrow = "1.0.2-alpha.42"
 
 	const val springBoot = FixersVersions.Spring.boot
+	const val springframework = FixersVersions.Spring.framework
 	const val testcontainers = FixersVersions.Test.testcontainers
 
 	val ssm = FixersPluginVersions.fixers
@@ -61,6 +62,10 @@ object Dependencies {
 
 		fun mongo(scope: Scope) = scope.add(
 			"org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Versions.springBoot}"
+		)
+
+		fun tx(scope: Scope) = scope.add(
+			"org.springframework:spring-tx:${Versions.springframework}"
 		)
 	}
 
