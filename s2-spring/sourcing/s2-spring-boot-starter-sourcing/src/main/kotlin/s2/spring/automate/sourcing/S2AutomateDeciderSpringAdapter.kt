@@ -26,7 +26,6 @@ import s2.sourcing.dsl.view.View
 import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.persister.SpringEventPublisher
 
-
 abstract class S2AutomateDeciderSpringAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
 	val executor: EXECUTOR,
 	val view: View<EVENT, ENTITY>,
@@ -43,6 +42,9 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 
 	@Autowired
 	lateinit var eventPublisher: SpringEventPublisher
+
+	@Autowired
+	lateinit var automateSourcingPersisterSnapChannel: AutomateSourcingPersisterSnapChannel
 
 	override fun setApplicationContext(applicationContext: ApplicationContext) {
 		this.applicationContext = applicationContext
@@ -62,7 +64,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 				projectionLoader = projectionBuilder,
 				eventStore = eventStore,
 				snapRepository = snapRepository,
-				preventOptimisticLocking= preventOptimisticLocking()
+				automateSourcingPersisterSnapChannel = automateSourcingPersisterSnapChannel.takeIf { preventOptimisticLocking() }
 			),
 			publisher = publisher
 		).also {
