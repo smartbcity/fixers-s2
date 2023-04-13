@@ -1,45 +1,27 @@
 package s2.bdd.data
 
-import s2.bdd.auth.AuthedUser
 import f2.dsl.cqrs.Event
-import org.springframework.stereotype.Component
+import s2.bdd.auth.AuthedUser
 
 typealias TestContextKey = String
 
-interface BddContext {
-    fun reset()
-    fun resetEnv()
-    fun <K: Any, V> testEntities(name: String): TestEntities<K, V>
+abstract class TestContext {
+    val entityLists = mutableMapOf<String, TestEntities<*, *>>()
 
-    fun authedUser(): AuthedUser?
-    fun errors(): ExceptionList
-    fun events(): MutableList<Event>
-}
+    var authedUser: AuthedUser? = null
 
-@Component
-open class TestContext: BddContext {
-    protected val entityLists = mutableMapOf<String, TestEntities<*, *>>()
+    val errors = ExceptionList()
+    val events = mutableListOf<Event>()
 
-    protected var authedUser: AuthedUser? = null
+    open fun <K: Any, V> testEntities(name: String): TestEntities<K, V> = TestEntities<K, V>(name)
+        .also { entityLists[name] to it }
 
-    protected val errors = ExceptionList()
-    protected val events = mutableListOf<Event>()
-
-    override fun <K: Any, V> testEntities(name: String): TestEntities<K, V> = TestEntities<K, V>(name)
-        .also {
-            entityLists[name] to it
-        }
-
-    override fun authedUser() = authedUser
-    override fun errors() = errors
-    override fun events() = events
-
-    override fun reset() {
+    open fun reset() {
         resetEnv()
         entityLists.values.forEach(TestEntities<*, *>::reset)
         errors.reset()
         events.clear()
     }
 
-    override fun resetEnv() = Unit
+    abstract fun resetEnv()
 }

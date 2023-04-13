@@ -2,8 +2,6 @@ package s2.bdd
 
 import city.smartb.i2.spring.boot.auth.config.WebSecurityConfig
 import f2.dsl.cqrs.exception.F2Exception
-import s2.bdd.data.BddContext
-import s2.bdd.data.TestContext
 import io.cucumber.core.backend.CucumberInvocationTargetException
 import io.cucumber.datatable.CucumberDataTableException
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -12,6 +10,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.newCoroutineContext
 import kotlinx.coroutines.reactor.ReactorContext
 import kotlinx.coroutines.runBlocking
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextImpl
@@ -20,11 +19,13 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import reactor.core.publisher.Mono
 import reactor.util.context.Context
 import s2.automate.core.error.AutomateException
+import s2.bdd.data.TestContext
 import java.util.UUID
 
 open class CucumberStepsDefinition {
 
-    protected open val context: BddContext = TestContext()
+    @Autowired
+    protected open lateinit var context: TestContext
 
     protected fun String?.orRandom() = this ?: UUID.randomUUID().toString()
 
@@ -64,7 +65,7 @@ open class CucumberStepsDefinition {
                 throw actualException
             } catch (e: Exception) {
                 e.printStackTrace()
-                context.errors().add(e)
+                context.errors.add(e)
                 if (propagateException(e)) {
                     throw e
                 }
@@ -73,7 +74,7 @@ open class CucumberStepsDefinition {
     }
 
     protected open fun authedContext(): ReactorContext {
-        val authedUser = context.authedUser()
+        val authedUser = context.authedUser
             ?: return ReactorContext(Context.of(SecurityContext::class.java, Mono.empty<SecurityContext>()))
 
         val securityContext = mapOf(

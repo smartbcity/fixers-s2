@@ -1,9 +1,9 @@
 package s2.bdd
 
 import f2.dsl.cqrs.Event
-import s2.bdd.data.TestContext
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Service
+import s2.bdd.data.TestContext
 
 @Service
 class TestApplicationEventListener(
@@ -12,6 +12,6 @@ class TestApplicationEventListener(
 
     @EventListener
     fun onApplicationEvent(event: Event) {
-        testContext.events().add(event)
+        testContext.events.add(event)
     }
 }

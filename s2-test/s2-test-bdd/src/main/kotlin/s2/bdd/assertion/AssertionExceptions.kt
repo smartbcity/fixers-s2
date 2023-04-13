@@ -1,17 +1,16 @@
 package s2.bdd.assertion
 
-import s2.bdd.data.BddContext
-import s2.bdd.data.TestContext
 import org.assertj.core.api.Assertions
+import s2.bdd.data.TestContext
 import kotlin.reflect.KClass
 
-fun AssertionBdd.exceptions(testContext: BddContext) = AssertionExceptions(testContext)
+fun AssertionBdd.exceptions(testContext: TestContext) = AssertionExceptions(testContext)
 
 class AssertionExceptions(
-    private val context: BddContext
+    private val context: TestContext
 ) {
     fun <E: Exception> assertThat(exceptionClass: KClass<E>) = ExceptionAssert(
-        exceptions = context.errors().filterIsInstance(exceptionClass)
+        exceptions = context.errors.filterIsInstance(exceptionClass)
     )
 
     inner class ExceptionAssert<E: Exception>(

@@ -1,7 +1,7 @@
 package s2.bdd.assertion
 
-import s2.bdd.data.TestContext
 import org.assertj.core.api.Assertions
+import s2.bdd.data.TestContext
 import kotlin.reflect.KClass
 
 fun AssertionBdd.events(testContext: TestContext) = AssertionApplicationEvents(testContext)
@@ -15,7 +15,7 @@ class AssertionApplicationEvents(
     inner class ApplicationEventAssert<Event: Any>(
         eventClass: KClass<Event>
     ) {
-        private val events = context.events().filterIsInstance(eventClass.java)
+        private val events = context.events.filterIsInstance(eventClass.java)
 
         fun hasNotBeenSent(matcher: (Event) -> Boolean = { true }) {
             hasBeenSent(0, matcher)
