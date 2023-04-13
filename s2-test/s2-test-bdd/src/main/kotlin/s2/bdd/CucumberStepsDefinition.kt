@@ -10,7 +10,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.newCoroutineContext
 import kotlinx.coroutines.reactor.ReactorContext
 import kotlinx.coroutines.runBlocking
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextImpl
@@ -24,8 +23,7 @@ import java.util.UUID
 
 open class CucumberStepsDefinition {
 
-    @Autowired
-    protected open lateinit var context: TestContext
+    protected open val context: TestContext = TestContext()
 
     protected fun String?.orRandom() = this ?: UUID.randomUUID().toString()
 

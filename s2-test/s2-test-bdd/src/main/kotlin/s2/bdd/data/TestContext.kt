@@ -5,7 +5,7 @@ import s2.bdd.auth.AuthedUser
 
 typealias TestContextKey = String
 
-abstract class TestContext {
+open class TestContext {
     val entityLists = mutableMapOf<String, TestEntities<*, *>>()
 
     var authedUser: AuthedUser? = null
@@ -23,5 +23,5 @@ abstract class TestContext {
         events.clear()
     }
 
-    abstract fun resetEnv()
+    open fun resetEnv() {}
 }
