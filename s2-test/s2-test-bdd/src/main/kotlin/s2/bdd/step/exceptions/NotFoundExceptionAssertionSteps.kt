@@ -2,13 +2,13 @@ package s2.bdd.step.exceptions
 
 import f2.spring.exception.NotFoundException
 import io.cucumber.java8.En
-import s2.bdd.CucumberStepsDefinition
+import s2.bdd.S2CucumberStepsDefinition
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.assertion.exceptions
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.safeExtract
 
-class NotFoundExceptionAssertionSteps: En, CucumberStepsDefinition() {
+class NotFoundExceptionAssertionSteps: En, S2CucumberStepsDefinition() {
     init {
         DataTableType(::notFoundParams)
 

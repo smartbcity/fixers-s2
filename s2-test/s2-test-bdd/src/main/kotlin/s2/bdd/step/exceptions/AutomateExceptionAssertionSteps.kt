@@ -1,12 +1,12 @@
 package s2.bdd.step.exceptions
 
-import s2.bdd.CucumberStepsDefinition
-import s2.bdd.assertion.AssertionBdd
-import s2.bdd.assertion.exceptions
 import io.cucumber.java8.En
 import s2.automate.core.error.AutomateException
+import s2.bdd.S2CucumberStepsDefinition
+import s2.bdd.assertion.AssertionBdd
+import s2.bdd.assertion.exceptions
 
-class AutomateExceptionAssertionSteps: En, s2.bdd.CucumberStepsDefinition() {
+class AutomateExceptionAssertionSteps: En, S2CucumberStepsDefinition() {
     init {
         DataTableType(::exceptionAssertionParams)
 

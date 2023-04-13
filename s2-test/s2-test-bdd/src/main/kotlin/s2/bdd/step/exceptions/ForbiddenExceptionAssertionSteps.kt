@@ -1,12 +1,12 @@
 package s2.bdd.step.exceptions
 
 import f2.spring.exception.ForbiddenAccessException
-import s2.bdd.CucumberStepsDefinition
+import io.cucumber.java8.En
+import s2.bdd.S2CucumberStepsDefinition
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.assertion.exceptions
-import io.cucumber.java8.En
 
-class ForbiddenExceptionAssertionSteps: En, s2.bdd.CucumberStepsDefinition() {
+class ForbiddenExceptionAssertionSteps: En, S2CucumberStepsDefinition() {
     init {
         Then("I should be forbidden to do so") {
             step {

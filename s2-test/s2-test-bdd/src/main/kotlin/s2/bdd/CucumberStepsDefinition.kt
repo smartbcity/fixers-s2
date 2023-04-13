@@ -21,9 +21,8 @@ import s2.automate.core.error.AutomateException
 import s2.bdd.data.TestContext
 import java.util.UUID
 
-open class CucumberStepsDefinition {
-
-    protected open val context: TestContext = TestContext()
+abstract class CucumberStepsDefinition {
+    protected abstract val context: TestContext
 
     protected fun String?.orRandom() = this ?: UUID.randomUUID().toString()
 

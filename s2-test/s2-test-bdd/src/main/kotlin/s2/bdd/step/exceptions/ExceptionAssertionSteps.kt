@@ -4,13 +4,13 @@ import f2.spring.exception.ConflictException
 import f2.spring.exception.ForbiddenAccessException
 import f2.spring.exception.MessageConverterException
 import f2.spring.exception.NotFoundException
-import s2.bdd.CucumberStepsDefinition
+import io.cucumber.java8.En
+import s2.bdd.S2CucumberStepsDefinition
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.assertion.exceptions
 import s2.bdd.data.parser.safeExtract
-import io.cucumber.java8.En
 
-class ExceptionAssertionSteps: En, s2.bdd.CucumberStepsDefinition()  {
+class ExceptionAssertionSteps: En, S2CucumberStepsDefinition()  {
     init {
         DataTableType(::exceptionAssertionParams)
 
