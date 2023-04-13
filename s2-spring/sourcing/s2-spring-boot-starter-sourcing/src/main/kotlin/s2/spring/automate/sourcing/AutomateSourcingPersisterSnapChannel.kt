@@ -18,7 +18,6 @@ data class PersistTask<ID, ENTITY, EVENT>(
     val persist: suspend (ID, EVENT) -> ENTITY
 )
 
-@Component
 class AutomateSourcingPersisterSnapChannel(
     private val maxAttempts: Int = 5,
     private val delayMillis: Long = 1000,
