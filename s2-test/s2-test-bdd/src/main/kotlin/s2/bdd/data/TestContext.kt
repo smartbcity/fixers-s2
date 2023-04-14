@@ -13,7 +13,7 @@ open class TestContext {
     val errors = ExceptionList()
     val events = mutableListOf<Event>()
 
-    open fun <K: Any, V> testEntities(name: String): TestEntities<K, V> = TestEntities<K, V>(name)
+    fun <K: Any, V> testEntities(name: String): TestEntities<K, V> = TestEntities<K, V>(name)
         .also { entityLists[name] to it }
 
     open fun reset() {
