@@ -14,7 +14,7 @@ open class TestContext {
     val events = mutableListOf<Event>()
 
     fun <K: Any, V> testEntities(name: String): TestEntities<K, V> = TestEntities<K, V>(name)
-        .also { entityLists[name] to it }
+        .also { entityLists[name] = it }
 
     open fun reset() {
         resetEnv()
