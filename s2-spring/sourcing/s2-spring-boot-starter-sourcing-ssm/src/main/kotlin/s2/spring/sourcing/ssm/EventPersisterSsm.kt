@@ -59,7 +59,11 @@ EVENT: WithS2Id<ID>
 	override suspend fun loadAll(): Flow<EVENT> {
 		return listSessions()
 			.items
-			.map(DataSsmSessionDTO::state)
+				.flatMap { session ->
+					getSessionLog(session.sessionName).items
+				}.sortedBy {
+					it.transaction?.timestamp
+				}
 			.toEvents()
 	}
 
