@@ -18,7 +18,8 @@ object Versions {
 
 	const val springBoot = FixersVersions.Spring.boot
 	const val springframework = FixersVersions.Spring.framework
-	const val testcontainers = FixersVersions.Test.testcontainers
+	const val testcontainers = "1.18.3"
+//	const val testcontainers = FixersVersions.Test.testcontainers
 
 	val ssm = FixersPluginVersions.fixers
 	val f2 = FixersPluginVersions.fixers
