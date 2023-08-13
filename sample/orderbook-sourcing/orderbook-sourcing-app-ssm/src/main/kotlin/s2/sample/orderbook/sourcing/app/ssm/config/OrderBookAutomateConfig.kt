@@ -21,8 +21,14 @@ import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
 
 @Configuration
-class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate) : S2SourcingSsmAdapter<
-		OrderBook, OrderBookState, OrderBookEvent, OrderBookId, OrderBookS2Aggregate>(orderBookS2Aggregate, OrderBookModelView()) {
+class OrderBookAutomateConfig(orderBookS2Aggregate: OrderBookS2Aggregate)
+	: S2SourcingSsmAdapter<
+		OrderBook,
+		OrderBookState,
+		OrderBookEvent,
+		OrderBookId,
+		OrderBookS2Aggregate
+	>(orderBookS2Aggregate, OrderBookModelView()) {
 	override fun automate() = orderBookAutomate
 
 	override fun entityType(): KClass<OrderBookEvent> {

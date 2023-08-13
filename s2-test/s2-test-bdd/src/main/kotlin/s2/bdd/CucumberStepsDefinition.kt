@@ -82,7 +82,9 @@ abstract class CucumberStepsDefinition {
             "sub" to authedUser.id
         ).let { claims -> Jwt("fake", null, null, mapOf("header" to "fake"), claims) }
             .let { jwt ->
-                JwtAuthenticationToken(jwt, authedUser.roles.map { SimpleGrantedAuthority("${WebSecurityConfig.ROLE_PREFIX}$it") })
+                JwtAuthenticationToken(jwt, authedUser.roles.map {
+                    SimpleGrantedAuthority("${WebSecurityConfig.ROLE_PREFIX}$it")
+                })
             }
             .let(::SecurityContextImpl)
         return ReactorContext(Context.of(SecurityContext::class.java, Mono.just(securityContext)))

@@ -18,8 +18,14 @@ AUTOMATE : Automate
 
 	override suspend fun evaluateInit(context: InitTransitionContext<AUTOMATE>) = GuardResult.valid()
 
-	override suspend fun evaluateTransition(context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>) = GuardResult.valid()
+	override suspend fun evaluateTransition(
+		context: TransitionContext<STATE, ID, ENTITY, AUTOMATE>
+	) = GuardResult.valid()
 
-	override suspend fun verifyInitTransition(context: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>) = GuardResult.valid()
-	override suspend fun verifyTransition(context: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>) = GuardResult.valid()
+	override suspend fun verifyInitTransition(
+		context: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>
+	) = GuardResult.valid()
+	override suspend fun verifyTransition(
+		context: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, AUTOMATE>
+	) = GuardResult.valid()
 }

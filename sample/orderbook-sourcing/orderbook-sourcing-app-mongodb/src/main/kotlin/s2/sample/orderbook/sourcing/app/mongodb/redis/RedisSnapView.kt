@@ -63,7 +63,7 @@ class RedisSnapView(
 			searchConnection.reactive().ftCreate(indexName).awaitFirstOrNull()
 			searchConnection.reactive().ftDropindex(indexName).awaitFirstOrNull()
 		} catch (e: Exception) {
-			logger.debug("Index[${indexName}] nothing to drop")
+			logger.debug("Index[${indexName}] nothing to drop", e)
 		}
 	}
 
@@ -72,6 +72,7 @@ class RedisSnapView(
 		try {
 			searchConnection.reactive().ftInfo(indexName).awaitFirstOrNull()
 		} catch (e: Exception) {
+			logger.debug("Index[${indexName}] Error during the creation", e)
 			val opt = CreateOptions.builder<String, String>()
 				.on(CreateOptions.DataType.JSON)
 				.prefix(indexName)

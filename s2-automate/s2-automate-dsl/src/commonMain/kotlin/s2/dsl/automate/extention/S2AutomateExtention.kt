@@ -6,7 +6,9 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2State
 
 
-inline fun <reified C: Cmd> S2Automate.canExecuteTransitionAnd(model: WithS2State<out S2State>, hasAccess: () -> Boolean): Boolean {
+inline fun <reified C: Cmd> S2Automate.canExecuteTransitionAnd(
+    model: WithS2State<out S2State>, hasAccess: () -> Boolean
+): Boolean {
     return isAvailableTransition(model, C::class.simpleName!!) && hasAccess()
 }
 

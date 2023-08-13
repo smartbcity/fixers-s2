@@ -28,13 +28,17 @@ ENTITY : WithS2Id<ID>,
 EVENT: Evt,
 EVENT: WithS2Id<ID> {
 
-    override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>): ENTITY {
+    override suspend fun persist(
+        transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>
+    ): ENTITY {
         val event = transitionContext.event
         val id = transitionContext.entity.s2Id()
         return persist(id, event)
     }
 
-    override suspend fun persist(transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>): ENTITY {
+    override suspend fun persist(
+        transitionContext: TransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>
+    ): ENTITY {
         val event = transitionContext.event
         val id = transitionContext.entity.s2Id()
         return persist(id, event)
@@ -54,7 +58,7 @@ EVENT: WithS2Id<ID> {
         return snapRepository?.save(entityMutated) ?: entityMutated
     }
 
-    override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID): ENTITY? {
+    override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID & Any): ENTITY? {
         return projectionLoader.load(id)
     }
 }

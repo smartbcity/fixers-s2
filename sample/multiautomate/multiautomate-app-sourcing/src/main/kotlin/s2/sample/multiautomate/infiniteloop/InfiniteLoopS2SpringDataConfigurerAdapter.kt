@@ -20,7 +20,8 @@ class ApplicationS2SpringDataConfigurerAdapter(
 }
 
 @Service
-class InfiniteLoopS2Aggregate : S2AutomateDeciderSpring<InfiniteLoopEntity, InfiniteLoopState, InfiniteLoopEvent, InfiniteLoopId>()
+class InfiniteLoopS2Aggregate
+	: S2AutomateDeciderSpring<InfiniteLoopEntity, InfiniteLoopState, InfiniteLoopEvent, InfiniteLoopId>()
 
 @Service
 class InfiniteLoopS2View : View<InfiniteLoopEvent, InfiniteLoopEntity> {

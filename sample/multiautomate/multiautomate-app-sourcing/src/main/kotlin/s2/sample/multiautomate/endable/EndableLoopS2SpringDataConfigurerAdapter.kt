@@ -20,7 +20,8 @@ class EndableLoopS2SpringDataConfigurerAdapter(
 }
 
 @Service
-class EndableLoopS2Aggregate : S2AutomateDeciderSpring<EndableLoopEntity, EndableLoopState, EndableLoopEvent, EndableLoopId>()
+class EndableLoopS2Aggregate
+	: S2AutomateDeciderSpring<EndableLoopEntity, EndableLoopState, EndableLoopEvent, EndableLoopId>()
 
 @Service
 class EndableLoopS2View : View<EndableLoopEvent, EndableLoopEntity> {

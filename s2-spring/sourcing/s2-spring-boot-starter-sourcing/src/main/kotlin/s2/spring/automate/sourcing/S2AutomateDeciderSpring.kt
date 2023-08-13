@@ -47,7 +47,9 @@ ENTITY : WithS2State<STATE> {
 			.also(publisher::publish)
 	}
 
-	override suspend fun <EVENT_OUT : EVENT> transition(command: S2Command<ID>, exec: suspend (ENTITY) -> EVENT_OUT): EVENT_OUT {
+	override suspend fun <EVENT_OUT : EVENT> transition(
+		command: S2Command<ID>, exec: suspend (ENTITY) -> EVENT_OUT
+	): EVENT_OUT {
 		return automateExecutor.doTransition(command) {
 			val event = exec(this)
 			val entity = projectionLoader.evolve(flowOf(event), this)!!
@@ -56,7 +58,9 @@ ENTITY : WithS2State<STATE> {
 			.also(publisher::publish)
 	}
 
-	fun <EVENT_OUT : EVENT, COMMAND: S2InitCommand> init(fnc: suspend (t: COMMAND) -> EVENT_OUT): Decide<COMMAND, EVENT_OUT> =
+	fun <EVENT_OUT : EVENT, COMMAND: S2InitCommand> init(
+		fnc: suspend (t: COMMAND) -> EVENT_OUT
+	): Decide<COMMAND, EVENT_OUT> =
 		Decide { msg ->
 			msg.map { cmd ->
 				init(cmd) {

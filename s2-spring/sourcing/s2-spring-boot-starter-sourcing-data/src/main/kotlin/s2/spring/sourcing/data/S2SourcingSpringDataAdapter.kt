@@ -34,7 +34,8 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID> {
 	}
 
 	open fun springDataEventRepository(): SpringDataEventRepository<EVENT, ID> {
-		return repositoryFactorySupport.getRepository(SpringDataEventRepository::class.java) as SpringDataEventRepository<EVENT, ID>
+		return repositoryFactorySupport.getRepository(SpringDataEventRepository::class.java)
+				as SpringDataEventRepository<EVENT, ID>
 	}
 
 }

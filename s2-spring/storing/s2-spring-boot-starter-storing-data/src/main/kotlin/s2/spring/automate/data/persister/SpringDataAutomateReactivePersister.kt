@@ -27,11 +27,13 @@ ENTITY : WithS2Id<ID> {
 		return repository.save(transitionContext.entity).awaitSingle()
 	}
 
-	override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID): ENTITY? {
+	override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID & Any): ENTITY? {
 		return repository.findById(id).awaitFirstOrNull()
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>): ENTITY {
+	override suspend fun persist(
+		transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>
+	): ENTITY {
 		return repository.save(transitionContext.entity).awaitSingle()
 	}
 }

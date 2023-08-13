@@ -14,10 +14,16 @@ interface S2AutomateStoringExecutor<STATE : S2State, ID, ENTITY : WithS2State<ST
 		buildEntity: suspend () -> ENTITY,
 	): EVENT_OUT
 
-	suspend fun <EVENT_OUT: EVENT> createWithEvent(command: S2InitCommand, build: suspend () -> Pair<ENTITY, EVENT_OUT>): EVENT_OUT
+	suspend fun <EVENT_OUT: EVENT> createWithEvent(
+		command: S2InitCommand, build: suspend () -> Pair<ENTITY, EVENT_OUT>
+	): EVENT_OUT
 
-	suspend fun <EVENT_OUT: EVENT> doTransition(command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>): EVENT_OUT
+	suspend fun <EVENT_OUT: EVENT> doTransition(
+		command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>
+	): EVENT_OUT
 
-	suspend fun <EVENT_OUT: EVENT> doTransition(id: ID, command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>): EVENT_OUT
+	suspend fun <EVENT_OUT: EVENT> doTransition(
+		id: ID, command: S2Command<ID>, exec: suspend ENTITY.() -> Pair<ENTITY, EVENT_OUT>
+	): EVENT_OUT
 
 }

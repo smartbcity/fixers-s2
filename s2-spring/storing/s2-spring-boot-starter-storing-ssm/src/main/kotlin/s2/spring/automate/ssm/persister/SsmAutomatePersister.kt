@@ -70,12 +70,14 @@ ENTITY : WithS2Id<ID> {
 		return entity
 	}
 
-	override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID): ENTITY? {
+	override suspend fun load(automateContext: AutomateContext<S2Automate>, id: ID & Any): ENTITY? {
 		val session = getSession( id.toString(), automateContext).item ?: return null
 		return objectMapper.readValue(session.state.details.public as String, entityType)
 	}
 
-	override suspend fun persist(transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>): ENTITY {
+	override suspend fun persist(
+		transitionContext: InitTransitionAppliedContext<STATE, ID, ENTITY, EVENT, S2Automate>
+	): ENTITY {
 		val entity = transitionContext.entity
 		val automate = transitionContext.automateContext.automate
 

@@ -50,7 +50,9 @@ class AutomateSourcingPersisterSnapChannel(
         }
     }
 
-    suspend fun <ID, ENTITY, EVENT> addToPersistQueue(id: ID, event: EVENT, persist: suspend (ID, EVENT) -> ENTITY): ENTITY {
+    suspend fun <ID, ENTITY, EVENT> addToPersistQueue(
+        id: ID, event: EVENT, persist: suspend (ID, EVENT) -> ENTITY
+    ): ENTITY {
         val resultDeferred = CompletableDeferred<Pair<ENTITY?, Throwable?>>()
         val task = PersistTask(id, event, resultDeferred, persist) as PersistTask<Any, Any, Any>
         persistChannel.send(task)
