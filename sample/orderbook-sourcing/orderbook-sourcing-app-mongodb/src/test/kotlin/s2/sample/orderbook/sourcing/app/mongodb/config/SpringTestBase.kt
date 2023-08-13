@@ -35,8 +35,8 @@ abstract class SpringTestBase {
 			mongoContainer.start()
 			TestPropertyValues.of(
 				"spring.data.mongodb.uri=${mongoContainer.replicaSetUrl}",
-				"spring.redis.host=${redisContainer.host}",
-				"spring.redis.port=${redisContainer.firstMappedPort}"
+				"spring.data.redis.host=${redisContainer.host}",
+				"spring.data.redis.port=${redisContainer.firstMappedPort}"
 			).applyTo(configurableApplicationContext.environment)
 		}
 

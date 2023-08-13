@@ -12,3 +12,7 @@ package-kotlin:
 package-storybook:
 	@docker build --no-cache --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
 	@docker push ${STORYBOOK_IMG}
+
+
+## DEV ENVIRONMENT
+include infra/docker-compose/dev-compose.mk
